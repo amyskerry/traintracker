@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Sample document</title>
+  <link rel="stylesheet" href="basics.css">
+  </head>
+  <body>
+{% csrf_token %}
+<div>
+	<p>Welcome, {{userid}}</p>
+	{{workout.WONAME}}
+	{{workout.WOREPS}}
+	{{workoutui.WOREPS}}
+<form name="choiceform" action="{% url 'trainapp.views.updated' userid %}" method="post">
+{% if workout.INDOUT != '[]' %}
+{{workout.INDOUT}}<input type=checkbox name="INDOUT" value=0>
+{%endif%}
+{% if workout.WOTIME != '[]' %}
+{% if WOTIME_FORM == 'select' %}
+{{workout.WOTIME}}<select>
+{%for time in workouttimes %}
+<option value="{{time}}">{{time}}</option>
+{%endfor%}
+</select>
+{%else%}
+{%endif%}{%endif%}
+
+{% if workout.WOREPS != '[]'  %}
+<p>{{workout.WOREPS}}</p>{%endif%}
+{% if workout.WOCYCLES != '[]' %}
+<p>{{workout.WOCYCLES}}</p>{%endif%}
+{% if workout.MAXAVG != '[]' %}
+<p>{{workout.MAXAVG}}</p>{%endif%}
+{% if workout.CLEANS != '[]' %}
+<p>{{workout.CLEANS}}</p>{%endif%}
+{% if workout.COMMENTS != '[]' %}
+<p>{{workout.COMMENTS}}</p>{%endif%}
+{% if workout.OTHER1 != '[]' %}
+<p>{{workout.OTHER1}}</p>{%endif%}
+{% if workout.OTHER2 != '[]' %}
+<p>{{workout.OTHER2}}</p>{%endif%}
+{% if workout.OTHER3 != '[]' %}
+<p>{{workout.OTHER3}}</p>{%endif%}
+{% if workout.OTHER4 != '[]' %}
+<p>{{workout.OTHER4}}</p>{%endif%}
+</form>
+<form name="choiceform" action="{% url 'trainapp.views.dataentry' userid %}" method="post">
+ 	<select name="wochoice">
+  {% for wooption in wooptions%}
+      <option value="{{wooption}}">{{wooption}}</option>
+  {% endfor %}
+	</select>
+ 	<input type="hidden" name="userid" value={{userid}}><br>
+  <input type="submit" name="select" value="select" />
+</form>
+<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">
+	<input type="submit" name="logout" value="logout" />
+</form>
+</body>
+</html>

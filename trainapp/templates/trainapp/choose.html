@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Sample document</title>
+  <link rel="stylesheet" href="basics.css">
+  </head>
+  <body>
+<div>
+	<p>Welcome, {{userid}} </p>
+	 <form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">
+ 	{% csrf_token %}
+ 	<a id="choice" name="choice" href="{% url 'trainapp.views.chooseworkout' userid %}">enter workout<br>
+ 	<a id="choice" name="choice" href="{% url 'trainapp.views.metrics' userid %}">climb report<br>
+ 	<input type="hidden" name="userid" value={{userid}}><br>
+	<input type="submit" name="logout" value="logout" />
+</form>
+</body>
+</html>

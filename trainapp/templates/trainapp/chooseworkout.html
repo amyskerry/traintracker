@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Sample document</title>
+  <link rel="stylesheet" href="basics.css">
+  </head>
+  <body>
+<div>
+	<p>Welcome, {{userid}}</p>
+
+	 <form name="choiceform" action="{% url 'trainapp.views.dataentry' userid %}" method="post">
+ 	{% csrf_token %}
+ 	<select name="wochoice">
+  {% for wooption in wooptions%}
+      <option value="{{wooption}}">{{wooption}}</option>
+  {% endfor %}
+	</select>
+ 	<input type="hidden" name="userid" value={{userid}}><br>
+  <input type="submit" name="select" value="select" />
+</form>
+<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">
+	<input type="submit" name="logout" value="logout" />
+</form>
+</body>
+</html>

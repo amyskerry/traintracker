@@ -1,0 +1,86 @@
+from django.db import models
+
+othermax=30
+
+# Create your models here.
+
+class TempVals(models.Model):
+    USERID = models.CharField(max_length=30)
+    DATE = models.DateTimeField()
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.USERID
+
+class Metrics(models.Model):
+    METRIC = models.CharField(max_length=30)
+    GRADE = models.CharField(max_length=15)
+    USERID=  models.CharField(max_length=30)
+    DATE=models.DateTimeField()
+    OUTDOOR = models.BooleanField()
+    COMMENTS= models.TextField()
+    
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.METRIC
+
+class WorkoutEntries(models.Model):
+    WONAME = models.CharField(max_length=30)
+    USERID=  models.CharField(max_length=30)
+    INDOUT = models.CharField(max_length=20)
+    WOTIME = models.FloatField()
+    WOREPS=  models.IntegerField()
+    WOCYCLES=  models.IntegerField()
+    WOMAXAVG = models.CharField(max_length=5)
+    CLEANS=  models.IntegerField()
+    COMMENTs= models.TextField()
+    OTHER1= models.CharField(max_length=othermax)
+    OTHER2= models.CharField(max_length=othermax)
+    OTHER3= models.CharField(max_length=othermax)
+    OTHER4= models.CharField(max_length=othermax)
+    METRIC = models.CharField(max_length=30)
+    DATE=models.DateTimeField()
+    METRIC_RELATIONAL = models.ForeignKey(Metrics)
+    
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.WONAME
+        
+class Workouts(models.Model):
+    WONAME = models.CharField(max_length=30)
+    INDOUT = models.CharField(max_length=30)
+    WOTIME = models.CharField(max_length=30)
+    WOREPS=  models.CharField(max_length=30)
+    WOCYCLES=  models.CharField(max_length=30)
+    WOMAXAVG = models.CharField(max_length=30)
+    CLEANS=  models.CharField(max_length=30)
+    COMMENTS= models.CharField(max_length=30)
+    OTHER1= models.CharField(max_length=30)
+    OTHER2= models.CharField(max_length=30)
+    OTHER3= models.CharField(max_length=30)
+    OTHER4= models.CharField(max_length=30)
+    METRIC = models.CharField(max_length=30)
+    METRIC_RELATIONAL = models.CharField(max_length=30)
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.WONAME
+    
+#    WOs.append({'WONAME':'boulder', 'INDOUT':'outdoor?', 'WOTIME':'time', 'WOREPS': 'reps at max', 'WOCYCLES': [], 'WOMAXAVGRANGE': 'max grade', 'CLEANS':'clean at max', 'METRIC':'boulder (send)', 'OTHER1':[], 'OTHER2':[], 'OTHER3':[], 'OTHER4':[], 'COMMENTS': 'comments'})
+#wo2=Workouts(WONAME='boulder', INDOUT='outdoor?',WOTIME='time', WOREPS= 'reps at max', WOCYCLES= [], WOMAXAVG= 'max grade', CLEANS='clean at max', METRIC='boulder (clean)', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= 'comments')
+    
+class WorkoutUIs(models.Model): 
+    WONAME = models.CharField(max_length=30)
+    INDOUT = models.CharField(max_length=30)
+    WOTIME = models.CharField(max_length=30)
+    WOREPS=  models.CharField(max_length=30)
+    WOCYCLES=  models.CharField(max_length=30)
+    WOMAXAVG = models.CharField(max_length=30)
+    CLEANS=  models.CharField(max_length=30)
+    COMMENTS= models.CharField(max_length=30)
+    OTHER1= models.CharField(max_length=30)
+    OTHER2= models.CharField(max_length=30)
+    OTHER3= models.CharField(max_length=30)
+    OTHER4= models.CharField(max_length=30)
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.WONAME
+
+    
+#defaultUIs={'WONAME':[], 'INDOUT':['radio',['indoor', 'outdoor']], 'WOTIME':['scroll',timerange], 'WOREPS': ['scroll', reprange], 'WOCYCLES': ['scroll', cyclerange], 'WOMAXAVGRANGE': ['textfield'], 'CLEANS':['textfield'], 'OTHER1':[], 'OTHER2':[], 'OTHER3':[], 'OTHER4':[], 'COMMENTS': ['textbox']}
+#wui2=WorkoutUIs(WONAME='TR', INDOUT=['radio',['indoor', 'outdoor']], WOTIME=['select',timerange], WOREPS= ['select', reprange], WOCYCLES= ['select', cyclerange], WOMAXAVG= ['textfield'], CLEANS=['textfield'], OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= ['textbox'])    
+    
+    

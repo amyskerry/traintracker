@@ -1,0 +1,13 @@
+{% if metricreports %}
+	<p> {{user2}} </p>
+    <p> these are the {{metricreports}}</p>
+    <ul>
+    {% for metricentry in metricreports %}
+    <p> this is one {{metricentry}}</p>
+    <p> this is one {{metricentry.USERID}}</p>
+        <li>{{metricentry.GRADE }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No metrics are available.</p>
+{% endif %}
