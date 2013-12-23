@@ -20,7 +20,7 @@ class Metrics(models.Model):
     METRIC = models.CharField(max_length=30)
     GRADE = models.CharField(max_length=15)
     USERID=  models.CharField(max_length=30)
-    DATE=models.DateTimeField()
+    DATE=models.CharField(max_length=30)
     OUTDOOR = models.BooleanField()
     COMMENTS= models.TextField()
     
@@ -41,7 +41,7 @@ class WorkoutEntries(models.Model):
     OTHER2= models.CharField(max_length=othermax)
     OTHER3= models.CharField(max_length=othermax)
     OTHER4= models.CharField(max_length=othermax)
-    DATE=models.DateTimeField()
+    DATE=models.CharField(max_length=30)
     
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.WONAME

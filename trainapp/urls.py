@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     # ex: /polls/5/results/
     url(r'^(?P<username>\w+)/metrics/$', views.metrics, name='metrics'),
     # ex: /polls/5/vote/
+    url(r'^(?P<username>\w+)/choosedata/$', views.choosedata, name='choosedata'),
     url(r'^(?P<username>\w+)/viewdata/$', views.viewdata, name='viewdata'),
     url(r'^(?P<username>\w+)/updated$', views.updated, name='updated'),
     url(r'^(?P<username>\w+)/report$', views.report, name='report'),

@@ -40,6 +40,10 @@ INSTALLED_APPS = (
     'trainapp',
 )
 
+'''TEMPLATE_LOADERS = (
+    'django.template.loaders.app_directories.load_template_source',
+)'''
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

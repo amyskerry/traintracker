@@ -2,9 +2,10 @@ from django.template import RequestContext, loader
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-import datetime
+import datetime, time
 
 from trainapp.models import Metrics, WorkoutEntries, Usernames, Workouts, WorkoutUIs, PossMetrics
+from trainapp.analyzefunctions import *
 
 global routerange, boulderrange
 routerange=[]
@@ -36,17 +37,15 @@ def loggedin(request):
 def homepage(request, username):           
     metricreports = Metrics.objects.order_by('USERID')[:5]
     template = loader.get_template('trainapp/choose.html')
-    context = RequestContext(request, {
-        'metricreports': metricreports, 'userid':username
-    })
-    return HttpResponse(template.render(context))
+    context ={'metricreports': metricreports, 'userid':username}
+    #return HttpResponse(template.render(context))
+    return render(request, 'trainapp/choose.html', context)
     
 def chooseworkout(request, username):
     context={'userid': username}
     # get wo possibilities
     workouts=Workouts.objects.all()
     context['wooptions']=[workout.WONAME for workout in workouts]
-    print context['wooptions']
     return render(request, 'trainapp/chooseworkout.html', context)
 def choosemetric(request, username):
     context={'userid': username}
@@ -132,8 +131,8 @@ def updated(request, username):
         entry.OTHER4=request.POST['OTHER4'].encode('ascii','ignore')
     except:
         pass
-    datevar=datetime.datetime.now()
-    entry.DATE=datevar.strftime("%Y-%m-%d %H:%M")
+    datevar=time.strftime("%Y-%m-%d")
+    entry.DATE=datevar
     workout = get_object_or_404(Workouts, WONAME=wk)
     propobjs=workout._meta.fields
     propnames=[prop.name for prop in propobjs]
@@ -142,7 +141,7 @@ def updated(request, username):
     metric=workout.METRIC
     if metric:
         for x in range(entry.CLEANS):
-            m=Metrics(METRIC=metric, GRADE=entry.WOMAXAVG, DATE=datevar.strftime("%Y-%m-%d %H:%M"), USERID=username, OUTDOOR=entry.INDOUT)
+            m=Metrics(METRIC=metric, GRADE=entry.WOMAXAVG, DATE=datevar.strftime("%Y-%m-%d"), USERID=username, OUTDOOR=entry.INDOUT)
             m.save()
     #should add optional metric save here as well
     return render(request, 'trainapp/updated.html', context)
@@ -161,8 +160,8 @@ def report(request,username):
     metric=request.POST['METRIC'].encode('ascii','ignore')
     print metric
     mentry=Metrics(METRIC=metric)
-    datevar=datetime.datetime.now()
-    mentry.DATE=datevar.strftime("%Y-%m-%d %H:%M")
+    datevar=time.strftime("%Y-%m-%d")
+    mentry.DATE=datevar
     mentry.USERID=username
     mentry.GRADE=''
     try:
@@ -184,5 +183,27 @@ def report(request,username):
     metricnames=[mval.name for mval in metricvals]
     context={'userid': username, 'fieldnames':metricnames, 'mentry':mentry}
     return render(request, 'trainapp/report.html', context)
+def choosedata(request, username):
+    pms=PossMetrics.objects.all()
+    pmnames=[pm.METRIC for pm in pms]
+    wos=Workouts.objects.all()
+    wonames=[wo.WONAME for wo in wos]
+    allnames=wonames+pmnames
+    context={'userid': username, 'pmnames':pmnames, 'wonames':wonames, 'allnames': allnames}
+    return render(request, 'trainapp/choosedata.html', context)
 def viewdata(request, username):
-    return HttpResponse("see your data")
+    datachoices=request.POST.getlist('data')
+    allchoices=sortdata(datachoices)
+    #temp hack until can flexibly deal with multiple metrics
+    bins=[]
+    binneddata=[]
+    counts=[]    
+    if allchoices:
+        print allchoices[0].name
+        bins=allchoices[0].bins
+        binneddata=allchoices[0].binneddata
+        counts=allchoices[0].counts
+    print bins
+    context={'userid': username,'datachoices':datachoices, 'bins':bins, 'binneddata': binneddata, 'counts':counts}
+    return render(request, 'trainapp/viewdata.html', context)
+        

@@ -1,22 +1,68 @@
-
 <!DOCTYPE html>
 <html>
   <head>
   <meta charset="UTF-8">
   <title>Sample document</title>
-  <link rel="stylesheet" href="basics.css">
+  {% load trainapptags %}
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
   </head>
   <body>
- <p> Welcom to {{pagetitle}}</p>
- <form name="loginform" action="{% url 'trainapp.views.loggedin' %}" method="post">{% csrf_token %}
- <select name="username" onchange=myFunction()>
-  	<option value="none">new user</option>
-  	{% for username in usernames%}
-      <option value="{{username}}">{{username}}</option>
-  	{% endfor %}
- </select>
- <label for="newuser" >new user: </label><input type="text" name="newuser" size=30>
- <input type="submit" value="login" />
-</form>
-</body>
-</html>
+   <header>
+  	<div id="logoimgL">
+	<img class="logoimgL" src="{% static "trainapp/harvard.jpeg" %}" alt="my image"/>
+  	<div class="logodiv">
+	<p class="logo">TrainTracker</p>
+	<p class="logo">strong for thailand</p>
+	</div>
+	</div>
+  </header>
+  <div class="pagecontainer">
+<div class="rightpage">
+	rightpage
+	<div class="navbar">
+	<div class="navdiv"><a class="navlinks" href=""> Enter Workout </a></div>
+	<div class="navdiv"><a class="navlinks" href=""> Report Climb </a></div>
+	<div class="navdiv"><a class="navlinks" href=""> View Data </a></div>
+	<div class="navdiv"><a class="navlinks" href=""> Add Workout</a></div>
+	</div>
+	<!-- this is the only content that really varies across pages-->
+	<div class="maincontent">
+	<p class="heading1"> my heading </p>
+	<form name="loginform" action="{% url 'trainapp.views.loggedin' %}" method="post">{% csrf_token %}
+ 	<div>
+ 		<select name="username" id="username" onchange=myFunction()>
+  			<option value="none">new user</option>
+  			{% for username in usernames%}
+      		<option value="{{username}}">{{username}}</option>
+  			{% endfor %}
+ 		</select>
+ 	</div>
+ 	<div>
+ 		<label for="newuser" >new user: </label><input type="text" name="newuser" size=20>
+ 	</div>
+	<div>
+ 		<input id="loggin" type="submit" value="login" />
+	</div>
+ 	</form>
+	<br>
+	</div>
+	<!-- end main content-->
+	</div>	
+	<div class="sidebar">
+	<div id="imgsection"><img id="mainimg" src="{% static "trainapp/profile.jpg" %}" alt="">
+	<div class="infosection">
+		<div id="infobackground"></div>
+		<div id="infoforeground">
+		<p class="heading1" id="maintitle"> <b>WELCOME</b> </p>
+		<p class="heading2"> please login</p>
+	    </div>
+	</div>
+    </div>
+</div>
+  </div>
+    <footer>
+	<p>climb rocks</p>
+  </footer>
+  </body>
+  </html>

@@ -1,0 +1,186 @@
+/*boxes keep things size appropriately regardless of borders, etc*/
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/*main organization*/
+body {
+  background-color: orange;
+}
+
+.pagecontainer {
+  position: relative;
+  background-color: orange;
+  height: 43em;
+  max-width:60em;
+  margin: 1em auto;
+  font: .75em sans-serif;
+  border: groove;
+}
+.rightpage {
+  position: absolute;
+  background-color: yellow;
+  width: 75%;
+  height: 100%;
+  right:0em;
+}
+.sidebar {
+  position: absolute;
+  background-color: darkgray;
+  width:25%;
+  height: 100%;
+  left:0em;
+  background-color:green;
+}
+.maincontent {
+  position: absolute;
+  background-color: lightgray;
+  padding: 1em;
+  bottom:0em;
+  margin:0em;
+  height: 92%;
+  width:100%;
+}
+.navbar {
+  position: absolute;
+  background-color: darkgray;
+  top:0em;
+  height:4em;
+  width:100%;
+  padding: 1em;
+  text-align: justify;
+  vertical-align: center;
+  border-bottom: .5em groove;
+}
+
+footer {
+  position: fixed;
+  background-color: gray;
+  bottom:0em;
+  width:100%;
+  left: 0em;
+  height: 1em;
+  font: px sans-serif;
+}
+header {
+  position: relative;
+  background-color: gray;
+  top:0em;
+  height:4em;
+  width:100%;
+  min-width:58em;
+}
+
+/* suborg specs */
+#mainimg {
+  width:100%;
+  position: relative;
+  top:0em;
+}
+#namebar {
+position:relative;
+top:0px;
+height:7em;
+background-color:red;
+}
+#imgsection{
+position:absolute; 
+background-color:blue;
+}
+.infosection {
+  position:absolute;
+  bottom: 5em; 
+  left: 0; 
+  width: 100%;
+}
+#infobackground {
+  position:absolute; 
+  left: 0; 
+  width: 100%;
+  height:100%;
+  background-color: black;
+  opacity:.5;
+}
+#infoforeground {
+  position:relative; 
+  left: 0; 
+  width: 100%;
+  height:100%;
+}
+#name {
+  position: absolute; 
+  top: 0px; 
+  left: 0; 
+  width: 100%; 
+}
+#logoimgL{
+height: 100%;
+width: 32%;
+position: absolute;
+left: 0em;
+}
+#logoimgR {
+height: 100%;
+width: 32%;
+position: absolute;
+right: 0em;
+}
+.logoimgL {
+height: 4em;
+float: left;
+padding-left: .5em;
+}
+.logoimgR {
+height: 3.5em; 
+float: right;
+padding-top: .5em;
+padding-right: .5em;
+}
+.logodiv{
+position: relative;
+width:90%;
+}
+/* this ":after" pseudo element is an annoying hack. It is required because of the justification specification: the last line in paragraphs is not justified. In our case that last line would be the line with the divs. So we need to create a fake last line with :after pseudo element so the previous one (with divs) will get justified.*/
+.navbar:after {
+  content: "";
+  width: 100%;
+  display: inline-block;
+    }
+.navdiv {position: relative; display:inline-block; padding-left: .3em; padding-right: .3em; min-width:6em; background-color: #345; text-align:center;}
+#faceimg {
+  height:60%;
+  float: right;
+  position: relative;
+  top:0em;
+}
+/* font specs*/
+
+#maintitle {
+text-align: center;
+font: 2em/.01em sans-serif; 
+color: white;
+}
+
+.heading2 {
+text-align: center;
+font: 1.3em/.5em sans-serif; 
+color:white;
+}
+.heading1 {
+text-align: left;
+font: 1.3em sans-serif;  
+}
+.navlinks {
+  color: white;
+  font: 1.3em "Arial Black";
+  text-decoration: none;
+}
+.logo {
+text-align: center;
+font: 1em/.5em sans-serif; 
+color: white;
+padding:em; 
+}
+.p {font: italic 75%/125% "Comic Sans MS", cursive;}

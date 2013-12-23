@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Sample document</title>
+  {% load trainapptags %}
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
+  </head>
+  <body>
+   <header>
+    <div id="logoimgL">
+  <img class="logoimgL" src="{% static "trainapp/harvard.jpeg" %}" alt="my image"/>
+    <div class="logodiv">
+  <p class="logo">TrainTracker</p>
+  <p class="logo">strong for thailand</p>
+  </div>
+  </div>
+  </header>
+  <div class="pagecontainer">
+<div class="rightpage">
+  rightpage
+  <div class="navbar">
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> View Data </a></div>
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.index' %}"> Add Workout</a></div>
+  </div>
+  <div class="maincontent">
+  <!-- this is the only content that really varies across pages-->
+<form name="viewdata" id="viewdata" action="{% url 'trainapp.views.viewdata' userid %}" method="post">{% csrf_token %}
+<!--  <select multiple name="data" onchange="myFunction()"> -->
+<select name="data" onchange="myFunction()">
+  {% for datatype in allnames%}
+      <option value="{{datatype}}">{{datatype|displayformat}}</option>
+  {% endfor %}
+  </select>
+  <input type="submit" name="view" value="view" />
+</form>
+<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">{% csrf_token %}
+  <input type="submit" name="logout" value="logout" />
+</form>
+  <!-- end main content-->
+  </div>
+  </div>  
+  <div class="sidebar">
+  <div id="imgsection"><img id="mainimg" src="{% static "trainapp/profile.jpg" %}" alt="">
+  <div class="infosection">
+    <div id="infobackground"></div>
+    <div id="infoforeground">
+    <p class="heading1" id="maintitle"> <b>WELCOME</b> </p>
+    <p class="heading2"> please login</p>
+      </div>
+  </div>
+    </div>
+</div>
+  </div>
+    <footer>
+  <p>climb rocks</p>
+  </footer>
+  </body>
+  </html>
