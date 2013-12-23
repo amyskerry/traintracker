@@ -4,12 +4,18 @@ othermax=30
 
 # Create your models here.
 
-class TempVals(models.Model):
+class Usernames(models.Model):
     USERID = models.CharField(max_length=30)
-    DATE = models.DateTimeField()
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.USERID
 
+class PossMetrics(models.Model):
+    METRIC = models.CharField(max_length=30)
+    GRADERANGE=models.CharField(max_length=300)
+    
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.METRIC
+        
 class Metrics(models.Model):
     METRIC = models.CharField(max_length=30)
     GRADE = models.CharField(max_length=15)
@@ -25,7 +31,7 @@ class WorkoutEntries(models.Model):
     WONAME = models.CharField(max_length=30)
     USERID=  models.CharField(max_length=30)
     INDOUT = models.CharField(max_length=20)
-    WOTIME = models.FloatField()
+    WOTIME = models.IntegerField()
     WOREPS=  models.IntegerField()
     WOCYCLES=  models.IntegerField()
     WOMAXAVG = models.CharField(max_length=5)
@@ -35,9 +41,7 @@ class WorkoutEntries(models.Model):
     OTHER2= models.CharField(max_length=othermax)
     OTHER3= models.CharField(max_length=othermax)
     OTHER4= models.CharField(max_length=othermax)
-    METRIC = models.CharField(max_length=30)
     DATE=models.DateTimeField()
-    METRIC_RELATIONAL = models.ForeignKey(Metrics)
     
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.WONAME
@@ -56,7 +60,6 @@ class Workouts(models.Model):
     OTHER3= models.CharField(max_length=30)
     OTHER4= models.CharField(max_length=30)
     METRIC = models.CharField(max_length=30)
-    METRIC_RELATIONAL = models.CharField(max_length=30)
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.WONAME
     

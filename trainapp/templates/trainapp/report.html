@@ -1,0 +1,31 @@
+	<p>Welcome, {{userid}}</p>
+    <br>
+    Report: 
+    {{mentry.METRIC}}
+    <br>
+    Date:
+    {{mentry.DATE}}
+    <br>
+    Location:
+    {%if mentry.OUTDOOR%}
+    Outdoor
+    {%else%}
+    Indoor
+    {%endif%}
+    <br>
+    Grade:
+    {{mentry.GRADE}}
+    <br>
+    Comments:
+    {{mentry.COMMENTS}}
+    <br>
+    updated!
+    <br>
+    <form name="staticform" action="{% url 'trainapp.views.homepage' userid %}" method="post">{% csrf_token %}
+    <input type="submit" value="continue">
+    </form>
+	<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">{% csrf_token %}
+	<input type="submit" name="logout" value="logout" />
+</form>
+</body>
+</html>

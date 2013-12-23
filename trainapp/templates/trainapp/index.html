@@ -5,13 +5,17 @@
   <meta charset="UTF-8">
   <title>Sample document</title>
   <link rel="stylesheet" href="basics.css">
-  <link rel="script" href="trainjs.js">
   </head>
   <body>
  <p> Welcom to {{pagetitle}}</p>
- <form name="loginform" action="{% url 'trainapp.views.homepage' %}" method="post">
- 	{% csrf_token %}
- <label for="green" >user name: </label><input type="text" name="green" size=30>
+ <form name="loginform" action="{% url 'trainapp.views.loggedin' %}" method="post">{% csrf_token %}
+ <select name="username" onchange=myFunction()>
+  	<option value="none">new user</option>
+  	{% for username in usernames%}
+      <option value="{{username}}">{{username}}</option>
+  	{% endfor %}
+ </select>
+ <label for="newuser" >new user: </label><input type="text" name="newuser" size=30>
  <input type="submit" value="login" />
 </form>
 </body>

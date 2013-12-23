@@ -1,0 +1,68 @@
+	<p>Welcome, {{userid}}</p>
+    <br>
+    workout: 
+    {{entry.WONAME}}
+    <br>
+    {% if workout.WOTIME != '[]' %}
+    {{workout.WOTIME}}:
+    {{entry.WOTIME}}
+    {%endif%}
+    <br>
+    {% if workout.WOREPS != '[]' %}
+    {{workout.WOREPS}}:
+    {{entry.WOREPS}}
+    {%endif%}
+    <br>
+    {% if workout.WOCYCLES != '[]' %}
+     {{workout.WOCYCLES}}:
+     {{entry.WOCYCLES}}
+     {%endif%}
+    <br>
+    {% if workout.WOMAXAVG != '[]' %}
+     {{workout.WOMAXAVG}}:
+     {{entry.WOMAXAVG}}
+     {%endif%}
+    <br>
+    {% if workout.CLEANS != '[]' %}
+     {{workout.CLEANS}}:
+     {{entry.CLEANS}}
+     {%endif%}
+    <br>
+    {% if workout.OTHER1 != '[]' %}
+    {{workout.OTHER1}}:
+    {{entry.OTHER1}}
+    {%endif%}
+    <br>
+    {% if workout.OTHER2 != '[]' %}
+    {{workout.OTHER2}}:
+    {{entry.OTHER2}}
+    {%endif%}
+    <br>
+    {% if workout.OTHER3 != '[]' %}
+    {{workout.OTHER3}}:
+    {{entry.OTHER3}}
+    {%endif%}
+    <br>
+    {% if workout.OTHER4 != '[]' %}
+    {{workout.OTHER4}}:
+    {{entry.OTHER4}}
+    {%endif%}
+    <br>
+    {% if workout.COMMENTS != '[]' %}
+    {{workout.COMMENTS}}:
+    {{entry.COMMENTS}}
+    {%endif%}
+    <br>
+    updated!
+    <br>
+    <form name="staticform" action="{% url 'trainapp.views.homepage' userid %}" method="post">{% csrf_token %}
+    <input type="submit" value="continue">
+    </form>
+	<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">{% csrf_token %}
+	<input type="submit" name="logout" value="logout" />
+</form>
+</body>
+</html>
+
+ 
+ 

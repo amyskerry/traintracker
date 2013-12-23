@@ -15,11 +15,11 @@ document.getElementById("choiceform").submit();
 <div>
 	<p>Welcome, {{userid}}</p>
   <p id="demo"></p>
-	 <form name="choiceform" id="choiceform" action="{% url 'trainapp.views.dataentry' userid %}" method="post">{% csrf_token %}
- 	<select name="wochoice" onchange="myFunction()">
+	 <form name="choiceform" id="choiceform" action="{% url 'trainapp.views.metrics' userid %}" method="post">{% csrf_token %}
+ 	<select name="METRIC" onchange="myFunction()">
   <option value="none">choose a workout</option>
-  {% for wooption in wooptions%}
-      <option value="{{wooption}}">{{wooption}}</option>
+  {% for metricoption in metricoptions%}
+      <option value="{{metricoption}}">{{metricoption}}</option>
   {% endfor %}
 	</select>
 </form>

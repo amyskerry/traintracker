@@ -13,12 +13,15 @@ urlpatterns = patterns('',
     # ex: /polls/
     url(r'^$', views.index, name='index'),
     # ex: /polls/5/
-    url(r'^home$', views.homepage, name='homepage'),
+    url(r'^loggedin$', views.loggedin, name='loggedin'),
+    url(r'^(?P<username>\w+)/home$', views.homepage, name='homepage'),
     url(r'^(?P<username>\w+)/chooseworkout$', views.chooseworkout, name='chooseworkout'),
+    url(r'^(?P<username>\w+)/choosemetric$', views.choosemetric, name='choosemetric'),
     url(r'^(?P<username>\w+)/dataentry$', views.dataentry, name='dataentry'),
     # ex: /polls/5/results/
     url(r'^(?P<username>\w+)/metrics/$', views.metrics, name='metrics'),
     # ex: /polls/5/vote/
-    url(r'^viewdata/$', views.viewdata, name='viewdata'),
+    url(r'^(?P<username>\w+)/viewdata/$', views.viewdata, name='viewdata'),
     url(r'^(?P<username>\w+)/updated$', views.updated, name='updated'),
+    url(r'^(?P<username>\w+)/report$', views.report, name='report'),
 )

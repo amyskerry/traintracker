@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Sample document</title>
+  <link rel="stylesheet" href="basics.css">
+  </head>
+  <body>
+<script >
+function myFunction() {
+document.getElementById("choiceform").submit();
+}
+</script>
+  	<p>Welcome, {{userid}}</p>
+  	<form name="mainform" action="{% url 'trainapp.views.report' userid %}" method="post">{% csrf_token %}
+<!-- INDOUT-->
+Outdoor? <input type=checkbox name="INDOUT" value=0><br>
+Grade:<select name="GRADE">
+  	<option value="none">---</option>
+  	{% for grade in graderange%}
+      <option value="{{grade}}">{{grade}}</option>
+  	{% endfor %}
+</select>
+Comments: <input type=text name="COMMENTS" size=10><br>
+{{metric}}
+<input type="hidden" name="METRIC" value={{metric}} />
+<input type="submit" name="save" value="save" />
+	</form>
+	<form name="choiceform" id="choiceform" action="{% url 'trainapp.views.metrics' userid %}" method="post">{% csrf_token %}
+	<select name="METRIC" onchange=myFunction()>
+  	<option value="none">---</option>
+  	{% for metricoption in metricoptions%}
+      <option value="{{metricoption}}">{{metricoption}}</option>
+  	{% endfor %}
+	</select>
+  	</form>
+	<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">{% csrf_token %}
+	<input type="submit" name="logout" value="logout" />
+  </body>
+</html>

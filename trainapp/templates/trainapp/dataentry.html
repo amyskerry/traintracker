@@ -7,55 +7,88 @@
   <link rel="stylesheet" href="basics.css">
   </head>
   <body>
-{% csrf_token %}
+<script>
+function myFunction() {
+document.getElementById("choiceform").submit();
+}
+</script>
 <div>
 	<p>Welcome, {{userid}}</p>
-	{{workout.WONAME}}
-	{{workout.WOREPS}}
-	{{workoutui.WOREPS}}
-<form name="choiceform" action="{% url 'trainapp.views.updated' userid %}" method="post">
+<form name="mainform" action="{% url 'trainapp.views.updated' userid %}" method="post">{% csrf_token %}
+<!-- INDOUT-->
 {% if workout.INDOUT != '[]' %}
 {{workout.INDOUT}}<input type=checkbox name="INDOUT" value=0>
-{%endif%}
+<br>{%endif%}
+<!-- WOTIME-->
 {% if workout.WOTIME != '[]' %}
-{% if WOTIME_FORM == 'select' %}
-{{workout.WOTIME}}<select>
-{%for time in workouttimes %}
-<option value="{{time}}">{{time}}</option>
+{{workout.WOTIME}}<select name="WOTIME">
+{%for x in workouttimes %}
+<option value="{{x}}">{{x}} min</option>
 {%endfor%}
 </select>
-{%else%}
-{%endif%}{%endif%}
-
+<br>{%endif%}
+<!-- WOREPS-->
 {% if workout.WOREPS != '[]'  %}
-<p>{{workout.WOREPS}}</p>{%endif%}
+{{workout.WOREPS}}<select name="WOREPS">
+{%for x in workoutreps %}
+<option value="{{x}}">{{x}} rep</option>
+{%endfor%}
+</select>
+<br>{%endif%}
+<!-- WOCYCLES-->
 {% if workout.WOCYCLES != '[]' %}
-<p>{{workout.WOCYCLES}}</p>{%endif%}
-{% if workout.MAXAVG != '[]' %}
-<p>{{workout.MAXAVG}}</p>{%endif%}
+{{workout.WOCYCLES}}<select name="WOCYCLES">
+{%for x in workoutcycles %}
+<option value="{{x}}">{{x}} sets</option>
+{%endfor%}
+</select>
+<br>{%endif%}
+<!-- MAXAVG-->
+{% if workout.WOMAXAVG != '[]' %}
+{{workout.WOMAXAVG}}<select name="WOMAXAVG">
+{%for x in workoutgrades %}
+<option value="{{x}}">{{x}}</option>
+{%endfor%}
+</select>
+<br>{%endif%}
+<!-- CLEANS-->
 {% if workout.CLEANS != '[]' %}
-<p>{{workout.CLEANS}}</p>{%endif%}
-{% if workout.COMMENTS != '[]' %}
-<p>{{workout.COMMENTS}}</p>{%endif%}
+{{workout.CLEANS}}<input name="CLEANS" type="text" size=5>
+<br>{%endif%}
+<!-- OTHER1-->
 {% if workout.OTHER1 != '[]' %}
-<p>{{workout.OTHER1}}</p>{%endif%}
+{{workout.OTHER1}}<input name="OTHER1" type="text" size=10>{
+<br>{%endif%}
+<!-- OTHER2-->
 {% if workout.OTHER2 != '[]' %}
-<p>{{workout.OTHER2}}</p>{%endif%}
+{{workout.OTHER2}}<input name="OTHER2" type="text" size=10>
+<br>{%endif%}
+<!-- OTHER3-->
 {% if workout.OTHER3 != '[]' %}
-<p>{{workout.OTHER3}}</p>{%endif%}
+{{workout.OTHER3}}<input name="OTHER3" type="text" size=10>
+<br>{%endif%}
+<!-- OTHER4-->
 {% if workout.OTHER4 != '[]' %}
-<p>{{workout.OTHER4}}</p>{%endif%}
+{{workout.OTHER4}}<input name="OTHER4" type="text" size=10>
+<br>{%endif%}
+<!-- COMMENTS-->
+{% if workout.COMMENTS != '[]' %}
+{{workout.COMMENTS}}<input name="COMMENTS" type="text" size=10>
+<br>{%endif%}
+<input type="hidden" name="WONAME" value={{workout.WONAME}} />
+<input type="hidden" name="METRIC" value={{workout.METRIC}} />
+<input type="hidden" name="METRIC_RELATIONAL" value={{workout.METRIC_RELATIONAL}} />
+<input type="submit" name="save" value="save" />
 </form>
-<form name="choiceform" action="{% url 'trainapp.views.dataentry' userid %}" method="post">
- 	<select name="wochoice">
+<form name="choiceform" id="choiceform" action="{% url 'trainapp.views.dataentry' userid %}" method="post">{% csrf_token %}
+ 	<select name="wochoice" onchange="myFunction()">
+  <option value="none">choose a workout</option>
   {% for wooption in wooptions%}
       <option value="{{wooption}}">{{wooption}}</option>
   {% endfor %}
 	</select>
- 	<input type="hidden" name="userid" value={{userid}}><br>
-  <input type="submit" name="select" value="select" />
 </form>
-<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">
+<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">{% csrf_token %}
 	<input type="submit" name="logout" value="logout" />
 </form>
 </body>
