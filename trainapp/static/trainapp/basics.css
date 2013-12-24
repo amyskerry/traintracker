@@ -68,7 +68,8 @@ header {
   position: relative;
   background-color: gray;
   top:0em;
-  height:4em;
+  left:0em;
+  height:2em;
   width:100%;
   min-width:58em;
 }
@@ -146,30 +147,20 @@ width:55%;
 }
 #logoimgL{
 height: 100%;
-width: 32%;
+width: 60%;
 position: absolute;
 left: 0em;
 }
-#logoimgR {
-height: 100%;
-width: 32%;
-position: absolute;
-right: 0em;
-}
 .logoimgL {
-height: 4em;
+height: 100%;
 float: left;
 padding-left: .5em;
-}
-.logoimgR {
-height: 3.5em; 
-float: right;
-padding-top: .5em;
-padding-right: .5em;
+margin-right: 1em;
 }
 .logodiv{
 position: relative;
 width:90%;
+height:100%;
 }
 /* this ":after" pseudo element is an annoying hack. It is required because of the justification specification: the last line in paragraphs is not justified. In our case that last line would be the line with the divs. So we need to create a fake last line with :after pseudo element so the previous one (with divs) will get justified.*/
 .navbar:after {
@@ -219,7 +210,7 @@ font: 1.3em sans-serif;
 }
 .logo {
 text-align: center;
-font: 1em/.5em sans-serif; 
+font: 1.5em sans-serif; 
 color: white;
 }
 .p {font: italic 75%/125% "Comic Sans MS", cursive;}
