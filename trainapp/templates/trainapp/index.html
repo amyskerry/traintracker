@@ -26,8 +26,9 @@
 	<div class="navdiv"><a class="navlinks" href=""> View Data </a></div>
 	<div class="navdiv"><a class="navlinks" href=""> Add Workout</a></div>
 	</div>
-	<!-- this is the only content that really varies across pages-->
 	<div class="maincontent">
+<!-- this is the only content that really varies across pages-->
+
 	<p class="heading1"> my heading </p>
 	<form name="loginform" action="{% url 'trainapp.views.loggedin' %}" method="post">{% csrf_token %}
  	<div>
@@ -39,15 +40,16 @@
  		</select>
  	</div>
  	<div>
- 		<label for="newuser" >new user: </label><input type="text" name="newuser" size=20>
+ 		<label for="newuser" >new user: </label><input type="text" name="newuser" size=20><br>
+ 		<label for="goal" >goal: </label><input type="text" name="goal" size=20>
  	</div>
 	<div>
  		<input id="loggin" type="submit" value="login" />
 	</div>
  	</form>
 	<br>
+<!-- end main content-->
 	</div>
-	<!-- end main content-->
 	</div>	
 	<div class="sidebar">
 	<div id="imgsection"><img id="mainimg" src="{% static "trainapp/profile.jpg" %}" alt="">
@@ -58,8 +60,16 @@
 		<p class="heading2"> please login</p>
 	    </div>
 	</div>
+	</div>
+    <div id="loginsection">
+    <div id="userphoto">
+    <img id="facephoto" src="{%  static 'trainapp/default.jpeg' %}" alt="">
+    <div id="goal">
+    <br> Strong For Thailand! 
     </div>
-</div>
+    </div>
+    <a id="login" href="{% url 'trainapp.views.index' %}"> Login as different user</a>
+    </div>
   </div>
     <footer>
 	<p>climb rocks</p>

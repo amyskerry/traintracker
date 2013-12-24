@@ -7,14 +7,14 @@
 
 /*main organization*/
 body {
-  background-color: orange;
+  background-color: black;
 }
 
 .pagecontainer {
   position: relative;
-  background-color: orange;
+  background-color: black;
   height: 43em;
-  max-width:60em;
+  width:60em;
   margin: 1em auto;
   font: .75em sans-serif;
   border: groove;
@@ -77,6 +77,7 @@ header {
 #mainimg {
   width:100%;
   position: relative;
+  max-height:100%;
   top:0em;
 }
 #namebar {
@@ -88,6 +89,14 @@ background-color:red;
 #imgsection{
 position:absolute; 
 background-color:blue;
+height:75%;
+}
+#loginsection{
+position:absolute; 
+background-color:darkgray;
+bottom:0px;
+height:25%;
+width:100%;
 }
 .infosection {
   position:absolute;
@@ -114,6 +123,26 @@ background-color:blue;
   top: 0px; 
   left: 0; 
   width: 100%; 
+}
+#userphoto{
+height: 70%;
+width: 100%;
+position: absolute;
+top: 0em;
+background:green;
+padding:1em;
+}
+#goal{
+position: absolute;
+text-align:center;
+right:0px;
+width:55%;
+}
+#facephoto {
+  position:relative;
+  height:100%;
+  float:left;
+  margin-right:2em;
 }
 #logoimgL{
 height: 100%;
@@ -148,7 +177,7 @@ width:90%;
   width: 100%;
   display: inline-block;
     }
-.navdiv {position: relative; display:inline-block; padding-left: .3em; padding-right: .3em; min-width:6em; background-color: #345; text-align:center;}
+.navdiv {position: relative; display:inline-block; margin-left: 2em; padding-left: .3em; padding-right: .3em; min-width:6em; background-color: #345; text-align:center;}
 #faceimg {
   height:60%;
   float: right;
@@ -174,13 +203,23 @@ font: 1.3em sans-serif;
 }
 .navlinks {
   color: white;
-  font: 1.3em "Arial Black";
+  font: 1.3em sans-serif;
   text-decoration: none;
+}
+#login {
+  position:absolute;
+  color: black;
+  font: 1.2em sans-serif;
+  text-decoration: none;
+  position: absolute;
+  bottom: 0em;
+  text-align:right;
+  padding:.75em;
+  padding-left:1em;
 }
 .logo {
 text-align: center;
 font: 1em/.5em sans-serif; 
 color: white;
-padding:em; 
 }
 .p {font: italic 75%/125% "Comic Sans MS", cursive;}

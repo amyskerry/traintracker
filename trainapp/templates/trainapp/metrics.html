@@ -33,6 +33,17 @@
   </div>
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
+<div id="choicebar"> 
+<form name="choiceform" id="choiceform" action="{% url 'trainapp.views.metrics' userid %}" method="post">{% csrf_token %}
+  <select name="METRIC" onchange="myFunction()">
+  	<option value="none">choose a climb</option>
+  {% for metricoption in metricoptions%}
+      <option value="{{metricoption}}">{{metricoption|displayformat}}</option>
+  {% endfor %}
+  </select>
+</form>
+</div>
+<div id="panel">
 <form name="mainform" action="{% url 'trainapp.views.report' userid %}" method="post">{% csrf_token %}
 <!-- INDOUT-->
 Outdoor? <input type=checkbox name="INDOUT" value=0><br>
@@ -47,36 +58,33 @@ Comments: <input type=text name="COMMENTS" size=10><br>
 <input type="hidden" name="METRIC" value={{metric}} />
 <input type="submit" name="save" value="save" />
 	</form>
-	<form name="choiceform" id="choiceform" action="{% url 'trainapp.views.metrics' userid %}" method="post">{% csrf_token %}
-	<select name="METRIC" onchange=myFunction()>
-  	<option value="none">---</option>
-  	{% for metricoption in metricoptions%}
-      <option value="{{metricoption}}">{{metricoption|displayformat}}</option>
-  	{% endfor %}
-	</select>
-  	</form>
-	<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">{% csrf_token %}
-	<input type="submit" name="logout" value="logout" />
-	</form>
+</div>
   <!-- end main content-->
-  </div>
-  </div>  
+      </div>
+	</div>  
   <div class="sidebar">
   <div id="imgsection"><img id="mainimg" src="{% static "trainapp/profile.jpg" %}" alt="">
   <div class="infosection">
     <div id="infobackground"></div>
     <div id="infoforeground">
-    <p class="heading1" id="maintitle"> <b>WELCOME</b> </p>
-    <p class="heading2"> please login</p>
+    <p class="heading1" id="maintitle"> <b>{{userid}}</b> </p>
+    <p class="heading2"></p>
       </div>
-  </div>
     </div>
+    </div>
+    <div id="loginsection">
+    <div id="userphoto">
+    <img id="facephoto" src="{%  static myphoto %}" alt="">
+    <div id="goal">
+    <br> {{goal}} 
+    </div>
+    </div>
+    <a id="login" href="{% url 'trainapp.views.index' %}"> Login as different user</a>
 </div>
   </div>
+</div>
     <footer>
   <p>climb rocks</p>
   </footer>
   </body>
   </html>
-
-

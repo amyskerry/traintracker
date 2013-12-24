@@ -6,6 +6,7 @@ othermax=30
 
 class Usernames(models.Model):
     USERID = models.CharField(max_length=30)
+    GOAL=models.CharField(max_length=150)
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.USERID
 

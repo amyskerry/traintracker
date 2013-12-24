@@ -33,6 +33,18 @@
   </div>
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
+<!-- this is the only content that really varies across pages-->
+<div id="choicebar">
+<form name="choiceform" id="choiceform" action="{% url 'trainapp.views.dataentry' userid %}" method="post">{% csrf_token %}
+  <select name="wochoice" onchange="myFunction()">
+  <option value="none">choose a workout</option>
+  {% for wooption in wooptions%}
+      <option value="{{wooption}}">{{wooption|displayformat}}</option>
+  {% endfor %}
+  </select>
+</form>
+</div>
+<div id="panel"
 <form name="mainform" action="{% url 'trainapp.views.updated' userid %}" method="post">{% csrf_token %}
 <!-- INDOUT-->
 {% if workout.INDOUT != '[]' %}
@@ -99,17 +111,7 @@
 <input type="hidden" name="METRIC_RELATIONAL" value={{workout.METRIC_RELATIONAL}} />
 <input type="submit" name="save" value="save" />
 </form>
-<form name="choiceform" id="choiceform" action="{% url 'trainapp.views.dataentry' userid %}" method="post">{% csrf_token %}
-  <select name="wochoice" onchange="myFunction()">
-  <option value="none">choose a workout</option>
-  {% for wooption in wooptions%}
-      <option value="{{wooption}}">{{wooption|displayformat}}}</option>
-  {% endfor %}
-  </select>
-</form>
-<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">{% csrf_token %}
-  <input type="submit" name="logout" value="logout" />
-</form>
+</div>
   <!-- end main content-->
   </div>
   </div>  
@@ -118,13 +120,22 @@
   <div class="infosection">
     <div id="infobackground"></div>
     <div id="infoforeground">
-    <p class="heading1" id="maintitle"> <b>WELCOME</b> </p>
-    <p class="heading2"> please login</p>
+    <p class="heading1" id="maintitle"> <b>{{userid}}</b> </p>
+    <p class="heading2"></p>
       </div>
-  </div>
     </div>
+    </div>
+    <div id="loginsection">
+    <div id="userphoto">
+    <img id="facephoto" src="{%  static myphoto %}" alt="">
+    <div id="goal">
+    <br> {{goal}} 
+    </div>
+    </div>
+    <a id="login" href="{% url 'trainapp.views.index' %}"> Login as different user</a>
 </div>
   </div>
+</div>
     <footer>
   <p>climb rocks</p>
   </footer>

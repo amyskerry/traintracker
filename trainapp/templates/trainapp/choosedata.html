@@ -8,6 +8,11 @@
   <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
   </head>
   <body>
+ <script >
+  function myFunction() {
+  document.getElementById("viewdata").submit();
+  }
+  </script>
    <header>
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/harvard.jpeg" %}" alt="my image"/>
@@ -31,30 +36,37 @@
 <form name="viewdata" id="viewdata" action="{% url 'trainapp.views.viewdata' userid %}" method="post">{% csrf_token %}
 <!--  <select multiple name="data" onchange="myFunction()"> -->
 <select name="data" onchange="myFunction()">
+  <option value="none">choose data</option>
   {% for datatype in allnames%}
       <option value="{{datatype}}">{{datatype|displayformat}}</option>
   {% endfor %}
   </select>
   <input type="submit" name="view" value="view" />
 </form>
-<form name="loginform" action="{% url 'trainapp.views.index' %}" method="post">{% csrf_token %}
-  <input type="submit" name="logout" value="logout" />
-</form>
   <!-- end main content-->
-  </div>
-  </div>  
+    </div>
+</div>  
   <div class="sidebar">
   <div id="imgsection"><img id="mainimg" src="{% static "trainapp/profile.jpg" %}" alt="">
   <div class="infosection">
     <div id="infobackground"></div>
     <div id="infoforeground">
-    <p class="heading1" id="maintitle"> <b>WELCOME</b> </p>
-    <p class="heading2"> please login</p>
+    <p class="heading1" id="maintitle"> <b>{{userid}}</b> </p>
+    <p class="heading2"></p>
       </div>
-  </div>
     </div>
+    </div>
+    <div id="loginsection">
+    <div id="userphoto">
+    <img id="facephoto" src="{%  static myphoto %}" alt="">
+    <div id="goal">
+    <br> {{goal}} 
+    </div>
+    </div>
+    <a id="login" href="{% url 'trainapp.views.index' %}"> Login as different user</a>
 </div>
   </div>
+</div>
     <footer>
   <p>climb rocks</p>
   </footer>
