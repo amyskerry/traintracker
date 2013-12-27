@@ -5,9 +5,13 @@
           box-sizing: border-box;
 }
 
+
+
 /*main organization*/
 body {
-  background-color: black;
+  background-color: #383838; /*darkdarkgray*/;
+  color: white;
+  font: 1.1em sans-serif;
 }
 
 .pagecontainer {
@@ -17,61 +21,67 @@ body {
   width:60em;
   margin: 1em auto;
   font: .75em sans-serif;
-  border: groove;
+  border: 10px solid black;
+  border-radius:15px;
 }
 .rightpage {
   position: absolute;
-  background-color: yellow;
+  background-color: black;
   width: 75%;
   height: 100%;
   right:0em;
+  border-radius:15px;
 }
 .sidebar {
   position: absolute;
-  background-color: darkgray;
   width:25%;
   height: 100%;
   left:0em;
-  background-color:green;
 }
 .maincontent {
   position: absolute;
-  background-color: lightgray;
+  background-color: black;
   padding: 1em;
   bottom:0em;
   margin:0em;
-  height: 92%;
+  height: 91%;
   width:100%;
+  border-radius:15px;
+  font: 1.2em sans-serif;
 }
 .navbar {
   position: absolute;
-  background-color: darkgray;
   top:0em;
   height:4em;
   width:100%;
-  padding: 1em;
+  padding: .3em;
+  margin: .2em;
   text-align: justify;
   vertical-align: center;
-  border-bottom: .5em groove;
+  border-radius:15px;
 }
 
 footer {
   position: fixed;
-  background-color: gray;
+  background-color: #3388FF;
   bottom:0em;
   width:100%;
   left: 0em;
+  padding-top: 0em;
+  padding-left: 1em;
   height: 1em;
-  font: px sans-serif;
+  font: .4em sans-serif;
 }
 header {
   position: relative;
-  background-color: gray;
+  background-color: black;
   top:0em;
   left:0em;
-  height:2em;
+  height:2.5em;
   width:100%;
-  min-width:58em;
+  margin-right:1em;
+  min-width:50em;
+  border-top: 3px solid #3388FF;
 }
 
 /* suborg specs */
@@ -80,6 +90,15 @@ header {
   position: relative;
   max-height:100%;
   top:0em;
+  border-radius:15px;
+}
+#plotimg {
+  width:100%;
+  position: relative;
+  max-height:100%;
+  top:0em;
+  border-radius:10px;
+  left:1.5em;
 }
 #namebar {
 position:relative;
@@ -89,12 +108,11 @@ background-color:red;
 }
 #imgsection{
 position:absolute; 
-background-color:blue;
 height:75%;
+border-radius:15px;
 }
 #loginsection{
 position:absolute; 
-background-color:darkgray;
 bottom:0px;
 height:25%;
 width:100%;
@@ -130,12 +148,14 @@ height: 70%;
 width: 100%;
 position: absolute;
 top: 0em;
-background:green;
+background: #787878; /*medium gray*/
 padding:1em;
+border-radius:15px;
 }
 #goal{
 position: absolute;
 text-align:center;
+font: 1.2em sans-serif;
 right:0px;
 width:55%;
 }
@@ -152,12 +172,15 @@ position: absolute;
 left: 0em;
 }
 .logoimgL {
-height: 100%;
+height: 90%;
 float: left;
+padding-top:.1em;
+padding-bottom:.3em;
 padding-left: .5em;
 margin-right: 1em;
 }
 .logodiv{
+padding-top:.2em;
 position: relative;
 width:90%;
 height:100%;
@@ -168,7 +191,7 @@ height:100%;
   width: 100%;
   display: inline-block;
     }
-.navdiv {position: relative; display:inline-block; margin-left: 2em; padding-left: .3em; padding-right: .3em; min-width:6em; background-color: #345; text-align:center;}
+.navdiv {position: relative; display:inline-block; margin-left: 1.5em; padding: .6em; min-width:6em; border-top: 2px solid gray; border-left: 2px solid gray; background-color: #383838; /*darkdarkgray*/; text-align:center; border-radius:10px;}
 #faceimg {
   height:60%;
   float: right;
@@ -204,13 +227,21 @@ font: 1.3em sans-serif;
   text-decoration: none;
   position: absolute;
   bottom: 0em;
-  text-align:right;
+  text-align:center;
   padding:.75em;
-  padding-left:1em;
+  border-radius:10px;
+  width:100%;
+  color:white;
+  background-color:#383838; /*darkdarkgray*/
+  border-top: 2px solid gray; 
+  border-left: 2px solid gray;
 }
 .logo {
+position:absolute;
 text-align: center;
-font: 1.5em sans-serif; 
+font: 1.3em "Candara"; 
 color: white;
+bottom:0em;
+padding-bottom:.3em;
 }
 .p {font: italic 75%/125% "Comic Sans MS", cursive;}

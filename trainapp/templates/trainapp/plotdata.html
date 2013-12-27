@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Sample document</title>
+  {% load trainapptags %}
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
+  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
+  </head>
+  <body>
+   <header>
+    <div id="logoimgL">
+  <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
+    <div class="logodiv">
+  <span class="logo">STRONG FOR THAILAND</span>
+  </div>
+  </div>
+  </header>
+  <div class="pagecontainer">
+<div class="rightpage">
+  <div class="navbar">
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> View Data </a></div>
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.index' %}"> Add Workout</a></div>
+  </div>
+  <div class="maincontent">
+  <!-- this is the only content that really varies across pages-->
+<div><img id="plotimg" src="{% static photoshow %}" alt=""></div>
+<br>
+<div class="navdiv" id="savebutton"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> Add another variable </a></div>
+  <!-- end main content-->
+    </div>
+</div>  
+  <div class="sidebar">
+  <div id="imgsection"><img id="mainimg" src="{% static "trainapp/profile.jpg" %}" alt="">
+  <div class="infosection">
+    <div id="infobackground"></div>
+    <div id="infoforeground">
+    <p class="heading1" id="maintitle"> <b>{{userid}}</b> </p>
+    <p class="heading2"></p>
+      </div>
+    </div>
+    </div>
+    <div id="loginsection">
+    <div id="userphoto">
+    <img id="facephoto" src="{%  static myphoto %}" alt="">
+    <div id="goal">
+    <br> {{goal}} 
+    </div>
+    </div>
+    <a id="login" href="{% url 'trainapp.views.index' %}"> Login as different user</a>
+</div>
+  </div>
+</div>
+    <footer>
+  <span> traintracker.2013.amyskerry </span>
+  </footer>
+  </body>
+  </html>

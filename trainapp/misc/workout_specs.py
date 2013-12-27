@@ -10,14 +10,15 @@ import json
 rootdir='/Users/amyskerry/Documents/projects/trainapp/'
 
 othermax=30
-timerange=[str(x) for x in range(0,8*60,30)]
-reprange=[str(x) for x in range(0,50)]
+timerange=[str(x) for x in range(0,4*60,30)]
+reprange=[str(x) for x in range(0,30)]
 cyclerange=[str(x) for x in range(0,20)]
 routerange=[]
-for x in range(5,15):
+for x in range(7,14):
     for l in ['a','b','c','d']:
-        routerange.append(['5.'+str(x)+l])
-boulderrange=['v'+str(x) for x in range(0,14)]
+        routerange.append('5.'+str(x)+l)
+boulderrange=['v'+str(x) for x in range(0,12)]
+
 defaultUIs={'WONAME':[], 'INDOUT':['radio',['indoor', 'outdoor']], 'WOTIME':['scroll',timerange], 'WOREPS': ['scroll', reprange], 'WOCYCLES': ['scroll', cyclerange], 'WOMAXAVGRANGE': ['textfield'], 'CLEANS':['textfield'], 'METRIC':[], 'OTHER1':[], 'OTHER2':[], 'OTHER3':[], 'OTHER4':[], 'COMMENTS': ['textbox']}
 WOsqlspecs={'WONAME':'varchar(30)','INDOUT':'varchar(20)', 'WOTIME':'float(4,2)', 'WOREPS': 'int', 'WOCYCLES': 'int', 'WOMAXAVGRANGE': 'varchar(5)', 'CLEANS':'int', 'METRIC':'varchar(30)', 'OTHER1':'varchar('+str(othermax)+')', 'OTHER2':'varchar('+str(othermax)+')', 'OTHER3':'varchar('+str(othermax)+')', 'OTHER4':'varchar('+str(othermax)+')','COMMENTS': 'text'}
 

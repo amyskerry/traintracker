@@ -31,13 +31,13 @@ class Metrics(models.Model):
 class WorkoutEntries(models.Model):
     WONAME = models.CharField(max_length=30)
     USERID=  models.CharField(max_length=30)
-    INDOUT = models.CharField(max_length=20)
+    OUTDOOR = models.BooleanField()
     WOTIME = models.IntegerField()
     WOREPS=  models.IntegerField()
     WOCYCLES=  models.IntegerField()
     WOMAXAVG = models.CharField(max_length=5)
     CLEANS=  models.IntegerField()
-    COMMENTs= models.TextField()
+    COMMENTS= models.TextField()
     OTHER1= models.CharField(max_length=othermax)
     OTHER2= models.CharField(max_length=othermax)
     OTHER3= models.CharField(max_length=othermax)
@@ -49,7 +49,7 @@ class WorkoutEntries(models.Model):
         
 class Workouts(models.Model):
     WONAME = models.CharField(max_length=30)
-    INDOUT = models.CharField(max_length=30)
+    OUTDOOR = models.CharField(max_length=30)
     WOTIME = models.CharField(max_length=30)
     WOREPS=  models.CharField(max_length=30)
     WOCYCLES=  models.CharField(max_length=30)
@@ -69,7 +69,6 @@ class Workouts(models.Model):
     
 class WorkoutUIs(models.Model): 
     WONAME = models.CharField(max_length=30)
-    INDOUT = models.CharField(max_length=30)
     WOTIME = models.CharField(max_length=30)
     WOREPS=  models.CharField(max_length=30)
     WOCYCLES=  models.CharField(max_length=30)

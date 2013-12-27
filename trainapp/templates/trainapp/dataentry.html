@@ -6,109 +6,116 @@
   {% load trainapptags %}
   {% load staticfiles %}
   <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
+  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
   </head>
   <body>
     <script >
-  function myFunction() {
+  function submitchoice() {
   document.getElementById("choiceform").submit();
+  }
+  function submitmain() {
+  document.getElementById("mainform").submit();
   }
   </script>
    <header>
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">TrainTracker: strong for thailand</span>
+  <span class="logo">STRONG FOR THAILAND</span>
   </div>
   </div>
   </header>
   <div class="pagecontainer">
 <div class="rightpage">
-  rightpage
   <div class="navbar">
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> View Data </a></div>
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.index' %}"> Add Workout</a></div>
+  <div class="navdiv"><a class="navlinks" href="http://127.0.0.1:8000/admin"> Add Workout</a></div>
   </div>
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
 <!-- this is the only content that really varies across pages-->
 <div id="choicebar">
 <form name="choiceform" id="choiceform" action="{% url 'trainapp.views.dataentry' userid %}" method="post">{% csrf_token %}
-  <select name="wochoice" onchange="myFunction()">
+  <div class="styledselect">
+  <select class="selectmenu" name="wochoice" onchange="submitchoice()">
   <option value="none">choose a workout</option>
   {% for wooption in wooptions%}
       <option value="{{wooption}}">{{wooption|displayformat}}</option>
   {% endfor %}
   </select>
+</div>
 </form>
 </div>
 <div id="panel">
-<form name="mainform" action="{% url 'trainapp.views.updated' userid %}" method="post">{% csrf_token %}
-<!-- INDOUT-->
-{% if workout.INDOUT != '[]' %}
-{{workout.INDOUT}}<input type=checkbox name="INDOUT" value=0>
-<br>{%endif%}
+<br>
+workout: <span id="workoutlabel">{{workout.WONAME|displayformat}}</span> 
+<form id="mainform" name="mainform" action="{% url 'trainapp.views.updated' userid %}" method="post">{% csrf_token %}
+<!-- OUTDOOR-->
+{% if workout.OUTDOOR != '[]' %}
+<div class="row"><div class="menulabel">Outdoor</div><input type=checkbox class="panelitem" name="OUTDOOR" value=1>
+<br></div>{%endif%}
 <!-- WOTIME-->
 {% if workout.WOTIME != '[]' %}
-{{workout.WOTIME}}<select name="WOTIME">
+<div class="row"><div class="menulabel">{{workout.WOTIME}}:</div><div class="styledselect"><select class="panelitem" name="WOTIME">
 {%for x in workouttimes %}
 <option value="{{x}}">{{x}} min</option>
 {%endfor%}
-</select>
-<br>{%endif%}
+</select></div>
+<br></div>{%endif%}
 <!-- WOREPS-->
 {% if workout.WOREPS != '[]'  %}
-{{workout.WOREPS}}<select name="WOREPS">
+<div class="row"><div class="menulabel">{{workout.WOREPS}}:</div><div class="styledselect"><select class="panelitem" name="WOREPS">
 {%for x in workoutreps %}
-<option value="{{x}}">{{x}} rep</option>
+<option value="{{x}}">{{x}}</option>
 {%endfor%}
-</select>
-<br>{%endif%}
+</select></div>
+<br></div>{%endif%}
 <!-- WOCYCLES-->
 {% if workout.WOCYCLES != '[]' %}
-{{workout.WOCYCLES}}<select name="WOCYCLES">
+<div class="row"><div class="menulabel">{{workout.WOCYCLES}}:</div><div class="styledselect"><select class="panelitem" name="WOCYCLES">
 {%for x in workoutcycles %}
-<option value="{{x}}">{{x}} sets</option>
+<option value="{{x}}">{{x}}</option>
 {%endfor%}
-</select>
-<br>{%endif%}
+</select></div>
+<br></div>{%endif%}
 <!-- MAXAVG-->
 {% if workout.WOMAXAVG != '[]' %}
-{{workout.WOMAXAVG}}<select name="WOMAXAVG">
+<div class="row"><div class="menulabel">{{workout.WOMAXAVG}}:</div><div class="styledselect"><select class="panelitem" name="WOMAXAVG">
 {%for x in workoutgrades %}
 <option value="{{x}}">{{x}}</option>
 {%endfor%}
-</select>
-<br>{%endif%}
+</select></div>
+<br></div>{%endif%}
 <!-- CLEANS-->
 {% if workout.CLEANS != '[]' %}
-{{workout.CLEANS}}<input name="CLEANS" type="text" size=5>
-<br>{%endif%}
+<div class="row"><div class="menulabel">{{workout.CLEANS}}: </div><input class="panelitem" name="CLEANS" type="text" size=5>
+<br></div>{%endif%}
 <!-- OTHER1-->
 {% if workout.OTHER1 != '[]' %}
-{{workout.OTHER1}}<input name="OTHER1" type="text" size=10>{
-<br>{%endif%}
+<div class="row"><div class="menulabel">{{workout.OTHER1}}:</div><input class="panelitem" name="OTHER1" type="text" size=10>{
+<br></div>{%endif%}
 <!-- OTHER2-->
 {% if workout.OTHER2 != '[]' %}
-{{workout.OTHER2}}<input name="OTHER2" type="text" size=10>
-<br>{%endif%}
+<div class="row"><div class="menulabel">{{workout.OTHER2}}:</div><input class="panelitem" name="OTHER2" type="text" size=10>
+<br></div>{%endif%}
 <!-- OTHER3-->
 {% if workout.OTHER3 != '[]' %}
-{{workout.OTHER3}}<input name="OTHER3" type="text" size=10>
-<br>{%endif%}
+<div class="row"><div class="menulabel">{{workout.OTHER3}}:</div><input class="panelitem" name="OTHER3" type="text" size=10>
+<br></div>{%endif%}
 <!-- OTHER4-->
 {% if workout.OTHER4 != '[]' %}
-{{workout.OTHER4}}<input name="OTHER4" type="text" size=10>
-<br>{%endif%}
+<div class="row"><div class="menulabel">{{workout.OTHER4}}:</div><input class="panelitem" name="OTHER4" type="text" size=10>
+<br></div>{%endif%}
 <!-- COMMENTS-->
 {% if workout.COMMENTS != '[]' %}
-{{workout.COMMENTS}}<input name="COMMENTS" type="text" size=10>
-<br>{%endif%}
+<div class="row"><div class="menulabel">{{workout.COMMENTS}}:</div><input class="panelitem" name="COMMENTS" type="text" size=10>
+<br></div>{%endif%}
 <input type="hidden" name="WONAME" value={{workout.WONAME}} />
 <input type="hidden" name="METRIC" value={{workout.METRIC}} />
 <input type="hidden" name="METRIC_RELATIONAL" value={{workout.METRIC_RELATIONAL}} />
-<input type="submit" name="save" value="save" />
+<div class="row"><div class="navdiv" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Enter Workout </a></div></div>
 </form>
 </div>
   <!-- end main content-->
@@ -136,7 +143,7 @@
   </div>
 </div>
     <footer>
-  <p>climb rocks</p>
+  <span> traintracker.2013.amyskerry </span>
   </footer>
   </body>
   </html>

@@ -15,6 +15,9 @@ def removearg(string, arg):
 def lowercase(string):
     """Converts a string into all lowercase"""    
     return string.lower()
+def uppercase(string):
+    """Converts a string into all lowercase"""    
+    return string.upper()
 def humanreadablespace(string):
     """Converts a string into all lowercase"""    
     return string.replace('_',' ')
@@ -25,6 +28,7 @@ def displayformat(string):
     return string
     
 removearg = register.filter('removetag', removearg)   
-lowercase = register.filter('lowercase', lowercase)   
+lowercase = register.filter('lowercase', lowercase) 
+uppercase = register.filter('uppercase', uppercase)   
 humanreadablespace = register.filter('humanreadablespace',humanreadablespace)   
 displayformat = register.filter('displayformat',displayformat)   

@@ -6,19 +6,19 @@
   {% load trainapptags %}
   {% load staticfiles %}
   <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
+  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
   </head>
   <body>
-  <header>
+   <header>
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">TrainTracker: strong for thailand</span>
+  <span class="logo">STRONG FOR THAILAND</span>
   </div>
   </div>
   </header>
   <div class="pagecontainer">
 <div class="rightpage">
-  rightpage
   <div class="navbar">
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
@@ -28,18 +28,11 @@
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
 {%for choice in datachoices%}
-{{choice|displayformat}} 
-counts: {{counts}}<br>
-{{count}}
+{{choice.name|displayformat}} <br>
 {%endfor%}
-<br><br>
-{{bins}}
-<br><br>
-{{userid}}
-<br><br>
-{{binneddata}}
-{% load staticfiles %}
 <br>
+<div class="navdiv" id="savebutton"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> Choose another variable </a></div>
+<div class="navdiv" id="savebutton"><a class="navlinks" href="{% url 'trainapp.views.plotdata' userid%}"> View Data </a></div>
   <!-- end main content-->
     </div>
 </div>  
@@ -65,7 +58,7 @@ counts: {{counts}}<br>
   </div>
 </div>
     <footer>
-  <p>climb rocks</p>
+  <span> traintracker.2013.amyskerry </span>
   </footer>
   </body>
   </html>

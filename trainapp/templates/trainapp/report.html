@@ -6,6 +6,7 @@
   {% load trainapptags %}
   {% load staticfiles %}
   <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
+  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
   </head>
   <body>
   	<script >
@@ -17,13 +18,12 @@
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">TrainTracker: strong for thailand</span>
+  <span class="logo">STRONG FOR THAILAND</span>
   </div>
   </div>
   </header>
   <div class="pagecontainer">
 <div class="rightpage">
-  rightpage
   <div class="navbar">
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
@@ -32,28 +32,27 @@
   </div>
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
-<br>
-    Report: 
-    {{mentry.METRIC|displayformat}}
-    <br>
-    Date:
-    {{mentry.DATE}}
-    <br>
-    Location:
+<div class="updated">
+  <h2> Climb updated! </h1>
+  <h3> Summary:</h3>
+  </div>
+  <div class="reportcontent">
+  <span id="heading">{{mentry.METRIC|displayformat|uppercase}} </span>
+  <ul>
+    <li>Location:
     {%if mentry.OUTDOOR%}
     Outdoor
     {%else%}
     Indoor
-    {%endif%}
-    <br>
-    Grade:
-    {{mentry.GRADE}}
-    <br>
-    Comments:
-    {{mentry.COMMENTS}}
-    <br>
-    updated!
-    <br>
+    {%endif%}</li>
+    <li>Grade:
+    {{mentry.GRADE}}</li>
+    <li>Date:
+    {{mentry.DATE}}</li>
+    <li>Comments:
+    {{mentry.COMMENTS}}</li>
+   </ul>
+ </div>
   <!-- end main content-->
   </div>
   </div>  
@@ -79,7 +78,7 @@
   </div>
 </div>
     <footer>
-  <p>climb rocks</p>
+  <span> traintracker.2013.amyskerry </span>
   </footer>
   </body>
   </html>

@@ -6,24 +6,24 @@
   {% load trainapptags %}
   {% load staticfiles %}
   <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
+  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
   </head>
   <body>
   <script>
-  function myFunction() {
+  function submitchoice() {
   document.getElementById("choiceform").submit();
   }
   </script>
-  <header>
+   <header>
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">TrainTracker: strong for thailand</span>
+  <span class="logo">STRONG FOR THAILAND</span>
   </div>
   </div>
   </header>
   <div class="pagecontainer">
 <div class="rightpage">
-  rightpage
   <div class="navbar">
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid %}"> Enter Workout </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid %}"> Report Climb </a></div>
@@ -32,16 +32,19 @@
   </div>
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
-<div id="choicebar"> 
+  <div id="choicebar">
 <form name="choiceform" id="choiceform" action="{% url 'trainapp.views.metrics' userid %}" method="post">{% csrf_token %}
-  <select name="METRIC" onchange="myFunction()">
-    <option value="none">choose a climb</option>
+  <div class="styledselect">
+  <select class="selectmenu" name="METRIC" onchange="submitchoice()">
+  <option value="none">choose a climb</option>
   {% for metricoption in metricoptions%}
       <option value="{{metricoption}}">{{metricoption|displayformat}}</option>
   {% endfor %}
   </select>
+</div>
 </form>
 </div>
+<div id="invispanel"></div>
   <!-- end main content-->
   </div>
   </div>  
@@ -67,7 +70,7 @@
   </div>
 </div>
     <footer>
-  <p>climb rocks</p>
+  <span> traintracker.2013.amyskerry </span>
   </footer>
   </body>
   </html>

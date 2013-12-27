@@ -1,0 +1,162 @@
+
+#choicebar {
+	padding: 2em;
+ 	position: absolute;
+	width:50%;
+	height: 100%;
+	left:1em;
+}
+#panel {
+	margin-top:.3em;
+	padding: 1em;
+	position: absolute;
+	width:58%;
+	height: 20em;
+	right:5%;
+}
+#invispanel{
+	visibility:hidden;
+	margin-top:.3em;
+	padding: 1em;
+	position: absolute;
+	width:45%;
+	height: 20em;
+	right:5%;
+}
+.selectmenu{
+	width:100%;
+}
+#workoutlabel{
+	position:absolute;
+	text-transform:uppercase;
+	margin-left:1em;
+	font-weight:bold;
+	text-align:left;
+	margin-top:.1em;
+	width:50%;
+	right:0em;
+}
+.menulabel{
+	position: absolute;
+	width:50%;
+	left:0px;
+	text-align: left;
+	padding-top:.3em;
+	font: 1em/1em sans-serif;
+}
+.panelitem{
+	position: absolute;
+	width:50%;
+	right:0px;
+	text-align: center;
+}
+select {
+}
+.styledselect select { 
+   background: url(new_arrow.jpg) no-repeat right #ddd;  
+   position:absolute;
+   width:50%;
+   line-height: 1.5;
+   padding-left:.5em;
+   padding-top:.25em;
+   padding-bottom:.25em;
+   border: 0;
+   border-radius: 5px;
+   -webkit-appearance: none;
+}
+.row{
+	position:relative;
+	width:100%;
+	margin-top:1em;
+	margin-bottom:1em;
+}
+#savebutton{
+	width:100%;
+	margin-left:0em;
+	margin-top:1em;
+}
+
+/* specific to login page */
+#leftpanel{
+	position:absolute;
+	margin-left:5em;
+	padding-top:2em;
+	margin-top:1em;
+	width:100%;
+}
+#newuser{
+	position:absolute;
+	left:0px;
+	top:5em;
+	margin-top:1em;
+	width:50%;
+}
+.loggin{
+	position:absolute;
+	top:12em;
+	left:0em;
+	width:50%;
+}
+.loginmenu{
+	position: absolute;
+	width:50%;
+	left:0px;
+	text-align: center;
+}
+
+/*for choosing and viewing data*/
+.datatype {
+	position:absolute;
+	right:0em;
+	text-align:right;
+	width:60%%;
+}
+.rowbig{
+	position:relative;
+	width:100%;
+	margin-top:1em;
+	height:3.5em;
+	margin-bottom:1em;
+}
+.gradepanelitemextend {
+	position: absolute;
+	width:50%;
+	right:0px;
+	text-align: center;
+	height: 5.5em;
+}
+.radioplot{
+	margin-left:1em;
+}
+.bottomrow {
+	position:absolute;
+	width:100%;
+	margin-top:1em;
+	top:25em;
+	margin-bottom:1em;
+}
+/*report/update*/
+.updated{
+	margin-top:2em;
+	margin-left:3em;
+	background-color:#383838;
+	padding-left:1em;
+	padding-top:.2em;
+	padding-bottom:.1em;
+	width:80%;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+}
+.reportcontent{
+	margin-left:3em;
+	background-color:#383838;
+	padding:1em;
+	width:80%;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+
+
+
+
+
+}

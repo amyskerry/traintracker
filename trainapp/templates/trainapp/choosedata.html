@@ -6,24 +6,27 @@
   {% load trainapptags %}
   {% load staticfiles %}
   <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
+  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
   </head>
   <body>
  <script >
-  function myFunction() {
+  function submitchoice() {
   document.getElementById("viewdata").submit();
+  }
+    function submitmain() {
+  document.getElementById("mainform").submit();
   }
   </script>
    <header>
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">TrainTracker: strong for thailand</span>
+  <span class="logo">STRONG FOR THAILAND</span>
   </div>
   </div>
   </header>
   <div class="pagecontainer">
 <div class="rightpage">
-  rightpage
   <div class="navbar">
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
@@ -32,16 +35,88 @@
   </div>
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
-<form name="viewdata" id="viewdata" action="{% url 'trainapp.views.viewdata' userid %}" method="post">{% csrf_token %}
-<!--  <select multiple name="data" onchange="myFunction()"> -->
-<select name="data" onchange="myFunction()">
+<div id="choicebar">
+<form name="viewdata" id="viewdata" action="{% url 'trainapp.views.choosefilters' userid %}" method="post">{% csrf_token %}
+  <div class="styledselect">
+  <select class="selectmenu" name="data" onchange="submitchoice()">
   <option value="none">choose data</option>
   {% for datatype in allnames%}
       <option value="{{datatype}}">{{datatype|displayformat}}</option>
   {% endfor %}
   </select>
-  <input type="submit" name="view" value="view" />
+</div>
 </form>
+</div>
+<div id="invispanel">
+<br>
+workout: <span id="workoutlabel">{{dataclass.WONAME|displayformat}}</span> 
+<form id="mainform" name="mainform" action="{% url 'trainapp.views.viewdata' userid %}" method="post">{% csrf_token %}
+<!-- INDOUT-->
+{% if dataclass.INDOUT != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.INDOUT}}:</div><input type=checkbox class="panelitem" name="INDOUT" value=0>
+<br></div>{%endif%}
+<!-- WOTIME-->
+{% if dataclass.WOTIME != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.WOTIME}}:</div><div class="styledselect"><select class="panelitem" name="WOTIME">
+{%for x in workouttimes %}
+<option value="{{x}}">{{x}} min</option>
+{%endfor%}
+</select></div>
+<br></div>{%endif%}
+<!-- WOREPS-->
+{% if dataclass.WOREPS != '[]'  %}
+<div class="row"><div class="menulabel">{{dataclass.WOREPS}}:</div><div class="styledselect"><select class="panelitem" name="WOREPS">
+{%for x in workoutreps %}
+<option value="{{x}}">{{x}}</option>
+{%endfor%}
+</select></div>
+<br></div>{%endif%}
+<!-- WOCYCLES-->
+{% if dataclass.WOCYCLES != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.WOCYCLES}}:</div><div class="styledselect"><select class="panelitem" name="WOCYCLES">
+{%for x in workoutcycles %}
+<option value="{{x}}">{{x}}</option>
+{%endfor%}
+</select></div>
+<br></div>{%endif%}
+<!-- MAXAVG-->
+{% if dataclass.WOMAXAVG != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.WOMAXAVG}}:</div><div class="styledselect"><select class="panelitem" name="WOMAXAVG">
+{%for x in workoutgrades %}
+<option value="{{x}}">{{x}}</option>
+{%endfor%}
+</select></div>
+<br></div>{%endif%}
+<!-- CLEANS-->
+{% if dataclass.CLEANS != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.CLEANS}}: </div><input class="panelitem" name="CLEANS" type="text" size=5>
+<br></div>{%endif%}
+<!-- OTHER1-->
+{% if dataclass.OTHER1 != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.OTHER1}}:</div><input class="panelitem" name="OTHER1" type="text" size=10>{
+<br></div>{%endif%}
+<!-- OTHER2-->
+{% if dataclass.OTHER2 != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.OTHER2}}:</div><input class="panelitem" name="OTHER2" type="text" size=10>
+<br></div>{%endif%}
+<!-- OTHER3-->
+{% if dataclass.OTHER3 != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.OTHER3}}:</div><input class="panelitem" name="OTHER3" type="text" size=10>
+<br></div>{%endif%}
+<!-- OTHER4-->
+{% if dataclass.OTHER4 != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.OTHER4}}:</div><input class="panelitem" name="OTHER4" type="text" size=10>
+<br></div>{%endif%}
+<!-- COMMENTS-->
+{% if dataclass.COMMENTS != '[]' %}
+<div class="row"><div class="menulabel">{{dataclass.COMMENTS}}:</div><input class="panelitem" name="COMMENTS" type="text" size=10>
+<br></div>{%endif%}
+<input type="hidden" name="WONAME" value={{dataclass.WONAME}} />
+<input type="hidden" name="METRIC" value={{dataclass.METRIC}} />
+<input type="hidden" name="METRIC_RELATIONAL" value={{dataclass.METRIC_RELATIONAL}} />
+<div class="row"><div class="navdiv" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Enter Workout </a></div></div>
+</form>
+</div>
   <!-- end main content-->
     </div>
 </div>  
@@ -67,7 +142,7 @@
   </div>
 </div>
     <footer>
-  <p>climb rocks</p>
+  <span> traintracker.2013.amyskerry </span>
   </footer>
   </body>
   </html>

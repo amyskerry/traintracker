@@ -14,24 +14,22 @@ class dataview():
         self.data=[]
         self.filters=[]
         self.binneddata =[]
+        self.filternames=[]
+        self.filtervalue=[]
         self.counts =[]
 
-def bindata(data):
+def bindata(data,startdatetuple):
     const=1
-    [mindate,maxdate]=getdateends(data) 
+    [mindate,maxdate]=getdateends(data, startdatetuple) 
     datebins=getbins(mindate,maxdate,const)
     counts=[[] for thisbin in datebins]
     for entry in data:
-        #print entry
         datelist=entry.DATE.split('-')
         dateobj=datetime.date(int(datelist[0]), int(datelist[1]), int(datelist[2]))
-        #print dateobj
         binned=False
         for binnum, thisbin in enumerate(datebins):
             if not binned:
-                #print (dateobj-thisbin).days
                 if (dateobj-thisbin).days<=0 :
-                    #print "belongs in bin #" +str(binnum)
                     binned=True
                     counts[binnum].append(entry)
     return datebins,counts
@@ -43,7 +41,7 @@ def getbins(mindate,maxdate,binconst):
     datebins.append(maxdate+datetime.timedelta(days=1))
     return datebins
         
-def getdateends(data):
+def getdateends(data, startdatetuple):
     for entryn,entry in enumerate(data):
         datelist=entry.DATE.split('-')    
         dateobj=datetime.date(int(datelist[0]), int(datelist[1]), int(datelist[2]))
@@ -57,6 +55,9 @@ def getdateends(data):
                 maxdate=dateobj
             if mintd>0:
                 mindate=dateobj
+    #wops. hackily overriding this because this approach leads to different bins for different variables
+    mindate=datetime.date(startdatetuple[0], startdatetuple[1], startdatetuple[2])
+    maxdate=datetime.date.today()
     return mindate,maxdate
 def sortdata(datachoices):
     allchoices=[]
@@ -72,3 +73,18 @@ def sortdata(datachoices):
             thischoice.bins=map(lambda binobj:binobj.strftime("%Y-%m-%d"), bins)
             allchoices.append(thischoice)
     return allchoices
+def filterdata(filternames,filtervals,thischoice, data):
+    # do remaining filtering and add the data to the object
+    if 'WOREPS' in filternames:
+        data=data.filter(WOREPS__in=thischoice.WOREPS)
+    if 'WOCYCLES' in filternames:
+        data=data.filter(WOCYCLES__in=thischoice.WOCYCLES)
+    if 'WOMAXAVG' in filternames:
+        data=data.filter(WOMAXAVG__in=thischoice.WOMAXAVG)
+    if 'GRADE' in filternames:
+        data=data.filter(GRADE__in=thischoice.GRADE)
+    if 'OUTDOOR' in filternames:
+        data=data.filter(OUTDOOR=thischoice.OUTDOOR)
+    if 'COMMENTS' in filternames:
+        data=data.filter(COMMENTS__contains=thischoice.COMMENTS)
+    return data
