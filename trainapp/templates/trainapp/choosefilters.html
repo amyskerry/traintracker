@@ -21,7 +21,7 @@
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">STRONG FOR THAILAND</span>
+  <span class="logo">{{headertext}}</span>
   </div>
   </div>
   </header>
@@ -95,7 +95,7 @@ workout: <span id="workoutlabel">{{dataclass.WONAME|displayformat}}</span> <br>
 <br></div>{%endif%}
 {%else%}
 <!--SPECIFIC TO METRICS-->
-workout: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
+climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 <div class="rowbig"><div class="menulabel">grade:</div><select multiple class="gradepanelitemextend" name="GRADE">
     <option value="none">---</option>
     {% for grade in graderange%}
@@ -109,26 +109,52 @@ workout: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 <div class="row">   
 <div class="menulabel">location:</div>
    <div class="datatype">
-  <input class="radiodataL" type="radio" name={{indoutvar}} value="1"> outdoor
-  <input class="radiodataR" type="radio" name={{indoutvar}} value="2"> indoor
+  <input class="radiodataL" type="radio" name=OUTDOOR value="1"> outdoor
+  <input class="radiodataR" type="radio" name=OUTDOOR value="2"> indoor
+   </div>
+</div>
+<br> 
+{% if routetype == 'route' %}
+<div class="row"> 
+<div class="menulabel">type:</div>
+   <div class="datatype">
+  <input class="radiodataL" type="radio" id="extras2" name="TYPE" value="sport"> sport
+  <input class="radiodataR" type="radio" name="TYPE" value="trad"> trad
+   </div>
+</div>
+<br>
+<div class="row"> 
+<div class="menulabel">lead:</div>
+   <div class="datatype">
+  <input class="radiodataL" type="radio" id="extras2" name="LEAD" value="1"> lead
+  <input class="radiodataR" type="radio" name="LEAD" value="0"> toprope
+   </div>
+</div>
+<br>
+{% endif %}
+<div class="row"> 
+<div class="menulabel">status:</div>
+   <div class="datatype">
+  <input class="radiodataL" type="radio" id="extras2" name="STATUS" value="1"> send
+  <input class="radiodataR" type="radio" name="STATUS" value="0"> finish
    </div>
 </div>
 <br>
 <br>
-<br>
 SELECT PLOT VARIABLE<br>
 <div class="row">  
- 
    <div>
-  <input class="radioplot" type="radio" name="countsORavg" value="counts" checked> counts
-  <input class="radioplot" type="radio" name="countsORavg" value="avggr"> avg grade
-  <input class="radioplot" type="radio" name="countsORavg" value="avgrep"> avg reps
+  <input class="radioplot" type="radio" name="countsORavg" value="counts" checked># climbs
+  <input class="radioplot" type="radio" name="countsORavg" value="sessions"> # sessions
+  <input class="radioplot" type="radio" name="countsORavg" value="avggr"> grade
+  <input class="radioplot" type="radio" name="countsORavg" value="avgrep"> reps
    </div>
-</div><br>
+</div>
+<br>
 <input type="hidden" name="dataWO" value="{{dataclass.WONAME}}" />
 <input type="hidden" name="dataMetric" value="{{dataclass.METRIC}}" />
 <input type="hidden" name="METRIC_RELATIONAL" value={{dataclass.METRIC_RELATIONAL}} />
-<div class="bottomrow"><div class="navdiv" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Apply Filter </a></div></div>
+<div class="bottomrow"><div class="navdiv2" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Apply Filter </a></div></div>
 </div>
 </form>
   <!-- end main content-->
@@ -148,6 +174,7 @@ SELECT PLOT VARIABLE<br>
     <div id="userphoto">
     <img id="facephoto" src="{%  static myphoto %}" alt="">
     <div id="goal">
+      <br> goal:
     <br> {{goal}} 
     </div>
     </div>
@@ -156,7 +183,7 @@ SELECT PLOT VARIABLE<br>
   </div>
 </div>
     <footer>
-  <span> traintracker.2013.amyskerry </span> 
+  <span> {{footertext}} </span>
   </footer>
   </body>
   </html>

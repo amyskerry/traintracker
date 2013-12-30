@@ -18,7 +18,7 @@
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">STRONG FOR THAILAND</span>
+  <span class="logo">{{headertext}}</span>
   </div>
   </div>
   </header>
@@ -39,17 +39,38 @@
   <div class="reportcontent">
   <span id="heading">{{mentry.METRIC|displayformat|uppercase}} </span>
   <ul>
-    <li>Location:
+    <li>location:
     {%if mentry.OUTDOOR%}
     Outdoor
     {%else%}
     Indoor
     {%endif%}</li>
-    <li>Grade:
+    <li>grade:
     {{mentry.GRADE}}</li>
-    <li>Date:
+    <li>date:
     {{mentry.DATE}}</li>
-    <li>Comments:
+    <li>status:
+    {% if mentry.STATUS %}
+    sent
+    {%else%}
+    finished
+    {%endif%}
+    </li>
+    {%if mentry.LEAD|makestr != '[]'%}
+    <li>style:
+    {% if mentry.LEAD %}
+    lead
+    {%else%}
+    toproped
+    {%endif%}
+    </li>
+    {%endif%}
+    {%if mentry.TYPE|makestr != '[]'%}
+    <li>type:
+   {{mentry.TYPE}}
+    </li>
+    {%endif%}
+    <li>comments:
     {{mentry.COMMENTS}}</li>
    </ul>
  </div>
@@ -70,6 +91,7 @@
     <div id="userphoto">
     <img id="facephoto" src="{%  static myphoto %}" alt="">
     <div id="goal">
+      <br> goal:
     <br> {{goal}} 
     </div>
     </div>
@@ -78,7 +100,7 @@
   </div>
 </div>
     <footer>
-  <span> traintracker.2013.amyskerry </span>
+  <span> {{footertext}} </span>
   </footer>
   </body>
   </html>

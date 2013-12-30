@@ -21,7 +21,7 @@
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">STRONG FOR THAILAND</span>
+  <span class="logo">{{headertext}}</span>
   </div>
   </div>
   </header>
@@ -46,13 +46,25 @@
   </select>
 </div>
 </form>
+<form id="mainform" name="mainform" action="{% url 'trainapp.views.report' userid %}" method="post">{% csrf_token %}
+<div id="extraoptions">
+  {% if metricinfo.STYLE == 'route' %}
+  <div>
+  <input class="radiodataL" type="radio" name="TYPE" value="sport" checked=True> Sport
+  <input class="radiodataR" id="extras" type="radio" name="TYPE" value="trad"> Trad
+  </div>
+  {%endif%}
+  </div>
 </div>
 <div id="panel">
-<form id="mainform" name="mainform" action="{% url 'trainapp.views.report' userid %}" method="post">{% csrf_token %}
 <br>
 Climb Type: <span id="workoutlabel">{{metric|displayformat}}</span> 
 <!-- INDOUT-->
-<div class="row"><div class="menulabel">Outdoor:</div><input class="panelitem" type=checkbox name="INDOUT" value=1><br></div>
+<div class="row"><div class="menulabel">Outdoor:</div><input class="panelitem" type=checkbox name="OUTDOOR" value=1><br></div>
+{% if metricinfo.STYLE == 'route' %}
+  <div class="row"><div class="menulabel">Lead:</div><input class="panelitem" type=checkbox name="LEAD" value=1><br></div>
+  {%endif%}
+  <div class="row"><div class="menulabel">Send:</div><input class="panelitem" type=checkbox name="STATUS" value=1><br></div>
 <div class="row"><div class="menulabel">Grade:</div><select class="panelitem" name="GRADE">
   	<option value="none">---</option>
   	{% for grade in graderange%}
@@ -81,6 +93,7 @@ Climb Type: <span id="workoutlabel">{{metric|displayformat}}</span>
     <div id="userphoto">
     <img id="facephoto" src="{%  static myphoto %}" alt="">
     <div id="goal">
+      <br> goal:
     <br> {{goal}} 
     </div>
     </div>
@@ -89,7 +102,7 @@ Climb Type: <span id="workoutlabel">{{metric|displayformat}}</span>
   </div>
 </div>
     <footer>
-  <span> traintracker.2013.amyskerry </span>
+  <span> {{footertext}} </span>
   </footer>
   </body>
   </html>

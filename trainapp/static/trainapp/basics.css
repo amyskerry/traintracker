@@ -11,14 +11,14 @@
 body {
   background-color: #383838; /*darkdarkgray*/;
   color: white;
-  font: 1.1em sans-serif;
+  font: .95em sans-serif;
 }
 
 .pagecontainer {
   position: relative;
   background-color: black;
-  height: 43em;
-  width:60em;
+  height: 47em;
+  width:63em;
   margin: 1em auto;
   font: .75em sans-serif;
   border: 10px solid black;
@@ -27,14 +27,14 @@ body {
 .rightpage {
   position: absolute;
   background-color: black;
-  width: 75%;
+  width: 73%;
   height: 100%;
-  right:0em;
+  right:.5em;
   border-radius:15px;
 }
 .sidebar {
   position: absolute;
-  width:25%;
+  width:27%;
   height: 100%;
   left:0em;
 }
@@ -42,12 +42,15 @@ body {
   position: absolute;
   background-color: black;
   padding: 1em;
+  padding-right:1.5em;
   bottom:0em;
-  margin:0em;
   height: 91%;
   width:100%;
   border-radius:15px;
   font: 1.2em sans-serif;
+}
+#moreroom{
+  padding:0em;
 }
 .navbar {
   position: absolute;
@@ -77,7 +80,7 @@ header {
   background-color: black;
   top:0em;
   left:0em;
-  height:2.5em;
+  height:2.1em;
   width:100%;
   margin-right:1em;
   min-width:50em;
@@ -175,7 +178,7 @@ left: 0em;
 height: 90%;
 float: left;
 padding-top:.1em;
-padding-bottom:.3em;
+padding-bottom:.2em;
 padding-left: .5em;
 margin-right: 1em;
 }
@@ -223,7 +226,7 @@ font: 1.3em sans-serif;
 #login {
   position:absolute;
   color: black;
-  font: 1.2em sans-serif;
+  font: 1.3em sans-serif;
   text-decoration: none;
   position: absolute;
   bottom: 0em;
@@ -242,6 +245,6 @@ text-align: center;
 font: 1.3em "Candara"; 
 color: white;
 bottom:0em;
-padding-bottom:.3em;
+padding-bottom:.2em;
 }
 .p {font: italic 75%/125% "Comic Sans MS", cursive;}

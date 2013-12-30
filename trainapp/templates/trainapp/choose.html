@@ -12,7 +12,7 @@
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">STRONG FOR THAILAND</span>
+  <span class="logo">{{headertext}}</span>
   </div>
   </div>
   </header>
@@ -43,6 +43,7 @@
     <div id="userphoto">
     <img id="facephoto" src="{%  static myphoto %}" alt="">
     <div id="goal">
+    <br> goal:
     <br> {{goal}} 
     </div>
     </div>
@@ -51,7 +52,7 @@
   </div>
 </div>
     <footer>
-  <span> traintracker.2013.amyskerry </span>
+  <span> {{footertext}} </span>
   </footer>
   </body>
   </html>

@@ -13,7 +13,7 @@
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">STRONG FOR THAILAND</span>
+  <span class="logo">{{headertext}}</span>
   </div>
   </div>
   </header>
@@ -54,6 +54,26 @@
      <li>{{workout.CLEANS}}:
      {{entry.CLEANS}}</li>
      {%endif%}
+    {% if entry.LEAD|makestr != '[]' %}
+    <li>style:
+    {% if entry.LEAD %}
+    lead
+    {%else%}
+    toproped
+    {%endif%}
+    </li>
+    {%endif%}
+    {% if entry.TYPE|makestr != '[]' %}
+    <li>type:
+   {{entry.TYPE}}
+    </li>
+    {%endif%}
+    <li>location:
+    {%if entry.OUTDOOR%}
+    Outdoor
+    {%else%}
+    Indoor
+    {%endif%}</li>
     {% if workout.OTHER1 != '[]' %}
     <li>{{workout.OTHER1}}:
     {{entry.OTHER1}}</li>
@@ -93,6 +113,7 @@
     <div id="userphoto">
     <img id="facephoto" src="{%  static myphoto %}" alt="">
     <div id="goal">
+      <br> goal:
     <br> {{goal}} 
     </div>
     </div>
@@ -101,7 +122,7 @@
   </div>
 </div>
     <footer>
-  <span> traintracker.2013.amyskerry </span>
+  <span> {{footertext}} </span>
   </footer>
   </body>
   </html>

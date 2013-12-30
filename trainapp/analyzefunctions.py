@@ -87,4 +87,10 @@ def filterdata(filternames,filtervals,thischoice, data):
         data=data.filter(OUTDOOR=thischoice.OUTDOOR)
     if 'COMMENTS' in filternames:
         data=data.filter(COMMENTS__contains=thischoice.COMMENTS)
+    if 'STATUS' in filternames:
+        data=data.filter(STATUS=thischoice.STATUS)
+    if 'LEAD' in filternames:
+        data=data.filter(LEAD=thischoice.LEAD)
+    if 'TYPE' in filternames:
+        data=data.filter(TYPE=thischoice.TYPE)
     return data

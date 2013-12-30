@@ -21,6 +21,9 @@ def uppercase(string):
 def humanreadablespace(string):
     """Converts a string into all lowercase"""    
     return string.replace('_',' ')
+def makestr(string):
+    """Converts a string into all lowercase"""    
+    return str(string)
 def displayformat(string):
     """Converts a string into all lowercase"""    
     string=string.replace('_',' ')
@@ -31,4 +34,5 @@ removearg = register.filter('removetag', removearg)
 lowercase = register.filter('lowercase', lowercase) 
 uppercase = register.filter('uppercase', uppercase)   
 humanreadablespace = register.filter('humanreadablespace',humanreadablespace)   
+makestr = register.filter('makestr', makestr)  
 displayformat = register.filter('displayformat',displayformat)   

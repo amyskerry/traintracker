@@ -13,12 +13,16 @@ class Usernames(models.Model):
 class PossMetrics(models.Model):
     METRIC = models.CharField(max_length=30)
     GRADERANGE=models.CharField(max_length=300)
+    STYLE=models.CharField(max_length=30) #route or boulder
     
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.METRIC
         
 class Metrics(models.Model):
     METRIC = models.CharField(max_length=30)
+    TYPE=models.CharField(max_length=30) #trad or sport
+    STATUS=models.CharField(max_length=30)#send or finish (boolean 1 for send)
+    LEAD=models.CharField(max_length=30)#lead or TR (boolean 1 for lead)
     GRADE = models.CharField(max_length=15)
     USERID=  models.CharField(max_length=30)
     DATE=models.CharField(max_length=30)
@@ -30,6 +34,9 @@ class Metrics(models.Model):
 
 class WorkoutEntries(models.Model):
     WONAME = models.CharField(max_length=30)
+    TYPE=models.CharField(max_length=30) #trad or sport
+    STATUS=models.CharField(max_length=30) #send or finish (boolean 1 for send)
+    LEAD=models.CharField(max_length=30) #lead or TR (boolean 1 for lead)
     USERID=  models.CharField(max_length=30)
     OUTDOOR = models.BooleanField()
     WOTIME = models.IntegerField()
@@ -49,6 +56,7 @@ class WorkoutEntries(models.Model):
         
 class Workouts(models.Model):
     WONAME = models.CharField(max_length=30)
+    STYLE=models.CharField(max_length=30) # route or boulder
     OUTDOOR = models.CharField(max_length=30)
     WOTIME = models.CharField(max_length=30)
     WOREPS=  models.CharField(max_length=30)

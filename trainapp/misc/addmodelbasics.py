@@ -17,38 +17,26 @@ for x in range(7,14):
 boulderrange=['v'+str(x) for x in range(0,12)]
 
 #boulder
-wo=Workouts(WONAME='boulder', OUTDOOR='outdoor',WOTIME='total time', WOREPS= 'reps at max', WOCYCLES=[], WOMAXAVG= 'max grade', CLEANS='# clean at max', METRIC='boulder--send', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= 'comments')
+wo=Workouts(WONAME='boulder_session', STYLE='boulder', OUTDOOR='outdoor',WOTIME='total time', WOREPS= 'reps at max', WOCYCLES=[], WOMAXAVG= 'max grade', CLEANS='# clean at max', METRIC='boulder', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= 'comments')
 wo.save()
-wui=WorkoutUIs(WONAME='boulder', WOTIME=timerange, WOREPS= reprange, WOCYCLES= cyclerange, WOMAXAVG= boulderrange, CLEANS='textfield', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= ['textbox'])
+wui=WorkoutUIs(WONAME='boulder_session', WOTIME=timerange, WOREPS= reprange, WOCYCLES= cyclerange, WOMAXAVG= boulderrange, CLEANS='textfield', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= ['textbox'])
 wui.save()
 
-#TR
-wo=Workouts(WONAME='TR', OUTDOOR='outdoor',WOTIME='total time', WOREPS= 'reps at max', WOCYCLES= [], WOMAXAVG= 'max grade', CLEANS='# clean at max', METRIC='TR--clean', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= 'comments')
-wo.save()
-wui=WorkoutUIs(WONAME='TR', WOTIME=timerange, WOREPS= reprange, WOCYCLES= cyclerange, WOMAXAVG= routerange, CLEANS='textfield', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= ['textbox'])
-wui.save()
 #boulder pyramid
-wo=Workouts(WONAME='boulder_pyramid', OUTDOOR='outdoor',WOTIME='total time', WOREPS= 'reps per grade', WOCYCLES= 'cycles', WOMAXAVG= 'max grade', CLEANS='# clean at max', METRIC=[], OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= 'comments')
+wo=Workouts(WONAME='boulder_pyramid', STYLE='boulder', OUTDOOR='outdoor',WOTIME='total time', WOREPS= 'reps per grade', WOCYCLES= 'cycles', WOMAXAVG= 'max grade', CLEANS='# clean at max', METRIC=[], OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= 'comments')
 wo.save()
 wui=WorkoutUIs(WONAME='boulder_pyramid', WOTIME=timerange, WOREPS= reprange, WOCYCLES= cyclerange, WOMAXAVG= boulderrange, CLEANS='textfield', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= ['textbox'])
 wui.save()
 #sport
-wo=Workouts(WONAME='sport', OUTDOOR='outdoor',WOTIME='total time', WOREPS= 'reps at max', WOCYCLES=[], WOMAXAVG= 'max grade', CLEANS='# clean at max', METRIC='sport--send', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= 'comments')
+wo=Workouts(WONAME='route_session', STYLE='route', OUTDOOR='outdoor',WOTIME='total time', WOREPS= 'reps at max', WOCYCLES=[], WOMAXAVG= 'max grade', CLEANS='# clean at max', METRIC='route', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= 'comments')
 wo.save()
-wui=WorkoutUIs(WONAME='sport', WOTIME=timerange, WOREPS= reprange, WOCYCLES= cyclerange, WOMAXAVG= routerange, CLEANS='textfield', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= ['textbox'])
+wui=WorkoutUIs(WONAME='route_session', WOTIME=timerange, WOREPS= reprange, WOCYCLES= cyclerange, WOMAXAVG= routerange, CLEANS='textfield', OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= ['textbox'])
 wui.save()
 
-m=PossMetrics(METRIC="SPORT--send", GRADERANGE=routerange)
+m=PossMetrics(METRIC="route", GRADERANGE=routerange, STYLE='route')
 m.save()
-m=PossMetrics(METRIC="SPORT--finish", GRADERANGE=routerange)
+m=PossMetrics(METRIC="boulder", GRADERANGE=boulderrange, STYLE='boulder')
 m.save()
-m=PossMetrics(METRIC="TRAD--send", GRADERANGE=routerange)
-m.save()
-m=PossMetrics(METRIC="TRAD--finish", GRADERANGE=routerange)
-m.save()
-m=PossMetrics(METRIC="BOULDER--send", GRADERANGE=boulderrange)
-m.save()
-m=PossMetrics(METRIC="TR--clean", GRADERANGE=routerange)
-m.save()
+
 
 

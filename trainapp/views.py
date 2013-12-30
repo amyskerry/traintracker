@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 import datetime, time
 import numpy as np
 import seaborn as sns
+import random
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
@@ -12,7 +13,7 @@ import matplotlib.ticker as plticker
 from trainapp.models import Metrics, WorkoutEntries, Usernames, Workouts, WorkoutUIs, PossMetrics
 from trainapp.analyzefunctions import *
 
-global timerange, reprange, cyclerange, routerange, boulderrange, datachoices, datevar, startdatetuple
+global timerange, reprange, cyclerange, routerange, boulderrange, datachoices, datevar, startdatetuple, footertext, headertext
 timerange=[str(x) for x in range(0,4*60,30)]
 reprange=[str(x) for x in range(0,30)]
 cyclerange=[str(x) for x in range(0,20)]
@@ -26,6 +27,8 @@ datachoices=[]
 #can add to earlier times by manually adjustigthis e.g. 
 datevar='2013-12-11'
 startdatetuple=(2013,10,01)
+footertext="traintracker.2013"
+headertext="STRONG FOR THAILAND"
 
 def index(request):
     global datachoices
@@ -36,7 +39,7 @@ def index(request):
         usernames=[induser.USERID for induser in stored_users]
     except:
         usernames=[]
-    context = {'pagetitle': title, 'usernames': usernames}
+    context = {'pagetitle': title, 'usernames': usernames, 'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/index.html', context)
 def loggedin(request):
     username=request.POST['username']
@@ -59,7 +62,7 @@ def homepage(request, username):
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
     metricreports = Metrics.objects.order_by('USERID')[:5]
-    context ={'metricreports': metricreports, 'userid':username, 'goal': goal, 'myphoto':myphoto}
+    context ={'metricreports': metricreports, 'userid':username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     #return HttpResponse(template.render(context))
     return render(request, 'trainapp/choose.html', context)
     
@@ -69,7 +72,7 @@ def chooseworkout(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
-    context={'userid': username, 'goal': goal, 'myphoto':myphoto}
+    context={'userid': username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     # get wo possibilities
     workouts=Workouts.objects.all()
     context['wooptions']=[workout.WONAME for workout in workouts]
@@ -82,7 +85,7 @@ def choosemetric(request, username):
     myphoto='trainapp/'+username+'.jpg'
     # get wo possibilities
     metrics=PossMetrics.objects.all()
-    context={'userid': username, 'metricoptions':[metric.METRIC for metric in metrics], 'goal': goal, 'myphoto':myphoto}
+    context={'userid': username, 'metricoptions':[metric.METRIC for metric in metrics], 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/choosemetric.html', context)
 def dataentry(request, username):
     global datachoices
@@ -100,7 +103,7 @@ def dataentry(request, username):
     workoutreps=workoutUI.WOREPS[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
     workoutcycles=workoutUI.WOCYCLES[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
     workoutgrades=workoutUI.WOMAXAVG[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
-    context={'userid': username, 'workout':workout, 'workoutui':workoutUI, 'propnames': propnames, 'workouttimes':workouttimes,'workoutreps':workoutreps,'workoutcycles':workoutcycles,'workoutgrades':workoutgrades, 'goal': goal, 'myphoto':myphoto}
+    context={'userid': username, 'workout':workout, 'workoutui':workoutUI, 'propnames': propnames, 'workouttimes':workouttimes,'workoutreps':workoutreps,'workoutcycles':workoutcycles,'workoutgrades':workoutgrades, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     # still want to provide wo possibilities
     workouts=Workouts.objects.all()
     context['wooptions']=[workout.WONAME for workout in workouts]
@@ -111,11 +114,19 @@ def updated(request, username):
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
     wk=request.POST['WONAME'].encode('ascii','ignore')
+    workout = get_object_or_404(Workouts, WONAME=wk)
     entry=WorkoutEntries(WONAME=wk)
     #set default
     entry.WOTIME=0
     entry.OUTDOOR=0
     entry.WOREPS=0
+    entry.STATUS=1
+    if workout.STYLE=='route':
+        entry.TYPE=0
+        entry.LEAD=0
+    else:
+        entry.TYPE=[]
+        entry.LEAD=[]
     entry.WOCYCLES=0
     entry.WOMAXAVG=''
     entry.CLEANS=0
@@ -127,6 +138,21 @@ def updated(request, username):
     #update (figure out cleaner way to do this)
     try:
         entry.WOTIME=int(request.POST['WOTIME'].encode('ascii','ignore'))
+    except:
+        pass
+    try:
+        entry.TYPE=request.POST['TYPE'].encode('ascii','ignore')
+        print entry.TYPE
+    except:
+        pass
+    try:
+        entry.STATUS=int(request.POST['STATUS'].encode('ascii','ignore'))
+        print entry.STATUS
+    except:
+        pass
+    try:
+        entry.LEAD=int(request.POST['LEAD'].encode('ascii','ignore'))
+        print entry.LEAD
     except:
         pass
     try:
@@ -173,12 +199,16 @@ def updated(request, username):
     workout = get_object_or_404(Workouts, WONAME=wk)
     propobjs=workout._meta.fields
     propnames=[prop.name for prop in propobjs]
-    context={'propnames':propnames, 'entry':entry, 'workout': workout, 'userid':username, 'goal': goal, 'myphoto':myphoto}
+    context={'propnames':propnames, 'entry':entry, 'workout': workout, 'userid':username, 'goal': goal, 'myphoto':myphoto, 'headertext':headertext, 'footertext':footertext}
     entry.save()
+    print "hi"
+    print workout
     metric=workout.METRIC
+    print metric
     if metric:
         for x in range(entry.CLEANS):
             m=Metrics(METRIC=metric, GRADE=entry.WOMAXAVG, DATE=datevar, USERID=username, OUTDOOR=entry.OUTDOOR)
+            print m
             m.save()
     #should add optional metric save here as well
     return render(request, 'trainapp/updated.html', context)
@@ -190,39 +220,63 @@ def metrics(request, username):
     metric=request.POST['METRIC'].encode('ascii','ignore')
     metricinfo=PossMetrics.objects.get(METRIC=metric)
     graderange=metricinfo.GRADERANGE[1:-1].replace("'","").replace("[","").replace("]","").split(",")
-    metricvals=Metrics._meta.fields
-    metricnames=[mval.name for mval in metricvals]
+    #metricvals=Metrics._meta.fields
+    #metricnames=[mval.name for mval in metricvals]
     metrics=PossMetrics.objects.all()
     metricoptions=[thism.METRIC for thism in metrics]
-    context={'userid': username, 'fieldnames':metricnames, 'metric': metric, 'metricoptions': metricoptions, 'graderange':graderange, 'goal': goal, 'myphoto':myphoto}
+    context={'userid': username, 'metric': metric, 'metricoptions': metricoptions, 'graderange':graderange, 'goal': goal, 'myphoto':myphoto, 'metricinfo':metricinfo, 'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/metrics.html', context)
 def report(request,username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
     metric=request.POST['METRIC'].encode('ascii','ignore')
+    themetric = get_object_or_404(PossMetrics, METRIC=metric)
     mentry=Metrics(METRIC=metric)
     mentry.DATE=datevar
     mentry.USERID=username
     mentry.GRADE=''
+    mentry.STATUS=0
+    if themetric.STYLE=='route':
+        mentry.TYPE=0
+        mentry.LEAD=0
+    else:
+        mentry.TYPE=[]
+        mentry.LEAD=[]
+    mentry.OUTDOOR=0
+    mentry.COMMENTS=''
     try:
         mentry.GRADE=request.POST['GRADE'].encode('ascii','ignore')
     except:
         pass
-    mentry.OUTDOOR=0
     try:
         mentry.OUTDOOR=bool(request.POST['OUTDOOR'].encode('ascii','ignore'))
+        print mentry.OUTDOOR
     except:
         pass
-    mentry.COMMENTS=''
     try:
         mentry.COMMENTS=request.POST['COMMENTS'].encode('ascii','ignore')
+    except:
+        pass
+    try:
+        mentry.TYPE=request.POST['TYPE'].encode('ascii','ignore')
+        print mentry.TYPE
+    except:
+        pass
+    try:
+        mentry.STATUS=int(request.POST['STATUS'].encode('ascii','ignore'))
+        print mentry.STATUS
+    except:
+        pass
+    try:
+        mentry.LEAD=int(request.POST['LEAD'].encode('ascii','ignore'))
+        print mentry.LEAD
     except:
         pass
     mentry.save()
     metricvals=Metrics._meta.fields
     metricnames=[mval.name for mval in metricvals]
-    context={'userid': username, 'fieldnames':metricnames, 'mentry':mentry, 'goal': goal, 'myphoto':myphoto}
+    context={'userid': username, 'fieldnames':metricnames, 'mentry':mentry, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/report.html', context)
 def choosedata(request, username):
     u=Usernames.objects.get(USERID=username)
@@ -233,28 +287,31 @@ def choosedata(request, username):
     wos=Workouts.objects.all()
     wonames=[wo.WONAME for wo in wos]
     allnames=wonames+pmnames
-    context={'userid': username, 'pmnames':pmnames, 'wonames':wonames, 'allnames': allnames, 'goal': goal, 'myphoto':myphoto}
+    context={'userid': username, 'pmnames':pmnames, 'wonames':wonames, 'allnames': allnames, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/choosedata.html', context)
 def choosefilters(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
     datachoice=request.POST.get('data').encode('ascii','ignore')
+    try:    
+        chosen=PossMetrics.objects.get(METRIC=datachoice)
+    except:
+        chosen=Workouts.objects.get(WONAME=datachoice)
+    routetype=chosen.STYLE
     pms=PossMetrics.objects.all()
     pmnames=[pm.METRIC for pm in pms]
     wos=Workouts.objects.all()
     wonames=[wo.WONAME for wo in wos]
     allnames=wonames+pmnames
-    context={'userid': username, 'pmnames':pmnames, 'wonames':wonames, 'allnames': allnames, 'goal': goal, 'myphoto':myphoto}
+    context={'userid': username, 'pmnames':pmnames, 'wonames':wonames, 'allnames': allnames, 'goal': goal, 'myphoto':myphoto, 'routetype':routetype,'headertext':headertext, 'footertext':footertext}
     try:    
         dataclass=PossMetrics.objects.get(METRIC=datachoice)
         context['woORme']='me'
-        context['indoutvar']='OUTDOOR'
         context['graderange']=dataclass.GRADERANGE[1:-1].replace("'","").replace("[","").replace("]","").split(",")
     except:
         dataclass = get_object_or_404(Workouts, WONAME=datachoice)
         context['woORme']='wo'
-        context['indoutvar']='OUTDOOR'
         workoutUI = get_object_or_404(WorkoutUIs, WONAME=datachoice)
         context['workoutreps']=workoutUI.WOREPS[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
         context['workoutcycles']=workoutUI.WOCYCLES[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
@@ -281,7 +338,7 @@ def viewdata(request, username):
         data=WorkoutEntries.objects.filter(WONAME=datachoice)
     elif objtype=='Metrics':
         data=Metrics.objects.filter(METRIC=datachoice)
-    possiblefilters=['WOREPS', 'WOCYCLES', 'WOMAXAVG', 'GRADE', 'COMMENTS', 'OUTDOOR']
+    possiblefilters=['WOREPS', 'WOCYCLES', 'WOMAXAVG', 'GRADE', 'COMMENTS', 'OUTDOOR', 'STATUS', 'LEAD', 'TYPE']
     filternames=[]
     filtervals=[]
     for thisfilter in possiblefilters:
@@ -295,15 +352,33 @@ def viewdata(request, username):
                 x=1
             if x=='2':
                 x=0
+        elif thisfilter=='STATUS':
+            try:
+                x=int(request.POST.get(thisfilter))
+            except:
+                x=[]
+        elif thisfilter=='LEAD':
+            try:
+                x=int(request.POST.get(thisfilter))
+            except:
+                x=[]
+        elif thisfilter=='TYPE':
+            try:
+                x=request.POST.get(thisfilter)
+            except:
+                x=[]
         if x != [] and x != '' and x != None:
             try:
                 x=map(lambda i:int(i), x)
             except:
                 pass
             setattr(thischoice, thisfilter, x)
+            print thisfilter
+            print x
             filternames.append(thisfilter)
             filtervals.append(x) 
     thischoice.data=filterdata(filternames,filtervals,thischoice, data)
+    print "this is the data:"+str(thischoice.data)
     # do other things
     if thischoice.data:
         [bins,thischoice.binneddata]=bindata(thischoice.data, startdatetuple)
@@ -312,20 +387,30 @@ def viewdata(request, username):
         thischoice.filternames=filternames
         thischoice.filtervals=filtervals
     # once fully filtered, append to list
-    datachoices.append(thischoice)
-    context={'userid': username,'datachoices':datachoices, 'goal': goal, 'myphoto':myphoto}
+        datachoices.append(thischoice)
+    context={'userid': username,'datachoices':datachoices, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/viewdata.html', context)
 def plotdata(request, username):
     plt.close('all')
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
-    context ={'userid':username, 'goal': goal, 'myphoto':myphoto}
+    context ={'userid':username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     print "found"
     print datachoices
     for dc in datachoices:
-        if dc.plotvar=="counts":
+        if dc.plotvar=="sessions":
             vector=dc.counts
+        if dc.plotvar=="counts":
+            vector=[]
+            for thebin in dc.binneddata:
+                sumit=0
+                for entry in thebin:
+                    try:
+                        sumit=sumit+entry.CLEANS
+                    except:
+                        sumit=sumit+1
+                vector.append(sumit)
         elif dc.plotvar=="avggr":
             vector=[]
             for thebin in dc.binneddata:
@@ -387,7 +472,7 @@ def plotdata(request, username):
                 nv.append(0.0)
         vector=nv
         dc.plotvector=vector
-    vardict={'avggr':'avg grade', 'avgrep':'avg reps', 'counts':'counts'}
+    vardict={'avggr':'avg grade', 'avgrep':'avg reps', 'counts':'# climbs', 'sessions':'# sessions'}
     filterdict={'WOTIME':'time', 'WOREPS':'reps','WOCYCLES':'cycles', 'WOMAXAVG':'grade', 'GRADE':'grade', 'OUTDOOR':'outdoor', 'COMMENTS':'comments'}        
     numplots=len(datachoices)
     sns.set(style='nogrid')
@@ -455,9 +540,10 @@ def plotdata(request, username):
                 xticklabels=[dc.bins[xn] for xn,xv in enumerate(dc.bins) if xn in xindex]
                 ax.set_xticklabels(xticklabels,rotation='40', color=textcolor, fontsize=14) #rotation='60'
         plt.gcf().subplots_adjust(bottom=0.16, left=.05, hspace = .6)
-        fig.savefig('/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/plots/temp1.png', facecolor=fig.get_facecolor(), edgecolor='none')
+        randomint=str(random.randint(0,100))
+        fig.savefig('/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/plots/temp'+randomint+'.png', facecolor=fig.get_facecolor(), edgecolor='none')
         plt.close('all')
-        context['photoshow']='trainapp/plots/temp1.png'
+        context['photoshow']='trainapp/plots/temp'+randomint+'.png'
     else:
         context['photoshow']='trainapp/solo.jpg'
         

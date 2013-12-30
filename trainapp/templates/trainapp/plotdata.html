@@ -13,7 +13,7 @@
     <div id="logoimgL">
   <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
     <div class="logodiv">
-  <span class="logo">STRONG FOR THAILAND</span>
+  <span class="logo">{{headertext}}</span>
   </div>
   </div>
   </header>
@@ -29,7 +29,7 @@
   <!-- this is the only content that really varies across pages-->
 <div><img id="plotimg" src="{% static photoshow %}" alt=""></div>
 <br>
-<div class="navdiv" id="savebutton"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> Add another variable </a></div>
+<div class="navdiv" id="morebutton"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> Add another variable </a></div>
   <!-- end main content-->
     </div>
 </div>  
@@ -47,6 +47,7 @@
     <div id="userphoto">
     <img id="facephoto" src="{%  static myphoto %}" alt="">
     <div id="goal">
+      <br> goal:
     <br> {{goal}} 
     </div>
     </div>
@@ -55,7 +56,7 @@
   </div>
 </div>
     <footer>
-  <span> traintracker.2013.amyskerry </span>
+  <span> {{footertext}} </span>
   </footer>
   </body>
   </html>
