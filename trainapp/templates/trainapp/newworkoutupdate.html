@@ -7,4 +7,10 @@
 {% block title %}dataentry block{% endblock %}
 
 {% block maincontentbody %}
-{% endblock maincontentbd%}
+<!-- this is the only content that really varies across pages-->
+<div id="panel">
+ <b> Workout "{{workout.WONAME|humanreadablespace}}"" added.</b> 
+<br>
+
+</div>
+{% endblock %}

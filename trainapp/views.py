@@ -103,7 +103,9 @@ def dataentry(request, username):
     workoutreps=workoutUI.WOREPS[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
     workoutcycles=workoutUI.WOCYCLES[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
     workoutgrades=workoutUI.WOMAXAVG[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
-    context={'userid': username, 'workout':workout, 'workoutui':workoutUI, 'propnames': propnames, 'workouttimes':workouttimes,'workoutreps':workoutreps,'workoutcycles':workoutcycles,'workoutgrades':workoutgrades, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
+    workoutcleans=workoutUI.CLEANS[1:-1].replace("'","").replace("[","").replace("]","").split(",")
+    print workout.OTHER1
+    context={'userid': username, 'workout':workout, 'workoutui':workoutUI, 'propnames': propnames, 'workouttimes':workouttimes,'workoutreps':workoutreps,'workoutcycles':workoutcycles,'workoutgrades':workoutgrades,'workoutcleans':workoutcleans, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     # still want to provide wo possibilities
     workouts=Workouts.objects.all()
     context['wooptions']=[workout.WONAME for workout in workouts]
@@ -545,7 +547,118 @@ def plotdata(request, username):
         plt.close('all')
         context['photoshow']='trainapp/plots/temp'+randomint+'.png'
     else:
-        context['photoshow']='trainapp/solo.jpg'
-        
+        context['photoshow']='trainapp/solo.jpg'   
         
     return render(request, 'trainapp/plotdata.html', context)
+def newworkout(request, username):
+    u=Usernames.objects.get(USERID=username)
+    goal=u.GOAL           
+    myphoto='trainapp/'+username+'.jpg'
+    context={'userid':username, 'goal': goal, 'myphoto':myphoto, 'headertext':headertext, 'footertext':footertext}
+    return render(request, 'trainapp/newworkout.html', context)
+def newworkoutupdate(request, username):
+    u=Usernames.objects.get(USERID=username)
+    goal=u.GOAL           
+    myphoto='trainapp/'+username+'.jpg'
+    inputstyle=0
+    inputreps=0
+    inputcycles=0
+    inputgrade=0
+    inputname=request.POST['inputname'].encode('ascii','ignore')
+    inputname=inputname.replace(' ', '_')
+    print inputname
+    try:
+        inputstyle=request.POST['inputstyle'].encode('ascii','ignore')
+        print inputstyle
+    except:
+        pass
+    try:
+        inputreps=request.POST['inputreps'].encode('ascii','ignore')
+        print inputreps
+    except:
+        pass
+    try:
+        inputcycles=request.POST['inputcycles'].encode('ascii','ignore')
+        print inputcycles
+    except:
+        pass
+    try:
+        inputgrade=request.POST['inputgrade'].encode('ascii','ignore')
+        print inputgrade
+    except:
+        pass
+    inputother1=request.POST['inputother1'].encode('ascii','ignore')
+    print inputother1
+    inputother2=request.POST['inputother2'].encode('ascii','ignore')
+    print inputother2
+    print type(inputother2)
+    inputother3=request.POST['inputother3'].encode('ascii','ignore')
+    print inputother3
+    inputother4=request.POST['inputother4'].encode('ascii','ignore')
+    print inputother4
+    wo=Workouts(WONAME=inputname, STYLE=inputstyle, OUTDOOR='outdoor',WOTIME='total time', COMMENTS= 'comments')
+    wui=WorkoutUIs(WONAME=inputname, WOTIME=timerange,COMMENTS=['textbox'])
+    if inputreps:
+        wo.WOREPS='reps'
+        wui.WOREPS= reprange
+    else:
+        wo.WOREPS=[]
+        wui.WOREPS= []
+    if inputcycles:
+        wo.WOCYCLES='cycles'
+        wui.WOCYCLES= cyclerange
+    else:
+        wo.WOCYCLES=[]
+        wui.WOCYCLES= []
+    if inputgrade:
+        wo.WOMAXAVG='grade'
+        wo.CLEANS='# clean at max'
+        wui.CLEANS=reprange
+        if inputstyle=='boulder':
+            wui.WOMAXAVG=boulderrange
+        elif inputstyle=='route':
+            wui.WOMAXAVG=routerange
+        else:
+            wui.WOMAXAVG='textfield'
+    else:
+        wo.WOMAXAVG=[]
+        wui.WOMAXAVG=[]
+        wo.CLEANS=[]
+        wui.CLEANS=[]
+    if inputstyle=='boulder':
+        wo.METRIC='boulder'
+    elif inputstyle=='route':
+        wo.METRIC='route'
+    else:
+        wo.METRIC=[]
+    if inputother1 !='':
+        wo.OTHER1=inputother1
+        wui.OTHER1='textfield'
+    else:
+        wo.OTHER1=[]
+        wui.OTHER1=[]
+    if inputother2 !='':
+        wo.OTHER2=inputother2
+        wui.OTHER2='textfield'
+    else:
+        wo.OTHER2=[]
+        wui.OTHER2=[]
+    if inputother3 !='':
+        wo.OTHER3=inputother3
+        wui.OTHER3='textfield'
+    else:
+        wo.OTHER3=[]
+        wui.OTHER3=[]
+    if inputother4 !='':
+        wo.OTHER4=inputother4
+        wui.OTHER4='textfield'
+    else:
+        wo.OTHER4=[]
+        wui.OTHER4=[]
+    wo.save()
+    wui.save()
+    #chosen=Workouts.objects.get(WONAME=inputname)
+    workout=wo
+    print workout.WONAME
+    context={'workout': workout, 'userid':username, 'goal': goal, 'myphoto':myphoto, 'headertext':headertext, 'footertext':footertext}
+    return render(request, 'trainapp/newworkoutupdate.html', context)

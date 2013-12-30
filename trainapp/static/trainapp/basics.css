@@ -11,7 +11,7 @@
 body {
   background-color: #383838; /*darkdarkgray*/;
   color: white;
-  font: .95em sans-serif;
+  font: 1em sans-serif;
 }
 
 .pagecontainer {
@@ -80,10 +80,9 @@ header {
   background-color: black;
   top:0em;
   left:0em;
-  height:2.1em;
   width:100%;
+  height:2.1em;
   margin-right:1em;
-  min-width:50em;
   border-top: 3px solid #3388FF;
 }
 
@@ -180,7 +179,7 @@ float: left;
 padding-top:.1em;
 padding-bottom:.2em;
 padding-left: .5em;
-margin-right: 1em;
+margin-right: 2em;
 }
 .logodiv{
 padding-top:.2em;

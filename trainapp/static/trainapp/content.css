@@ -41,7 +41,15 @@
 	width:50%;
 	left:0px;
 	text-align: left;
-	padding-top:.3em;
+	padding-top:.6em;
+	font: 1em/1em sans-serif;
+}
+.menulabel2{
+	position: absolute;
+	width:40%;
+	left:0px;
+	text-align: left;
+	padding-top:.4em;
 	font: 1em/1em sans-serif;
 }
 .panelitem{
@@ -177,4 +185,7 @@ select {
 }
 #extras{
 	margin-left:1.8em;
+}
+.nw{
+	margin-left:7.5em;
 }

@@ -31,7 +31,7 @@
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> View Data </a></div>
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.index' %}"> Add Workout</a></div>
+  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.newworkout' userid%}"> Add Workout</a></div>
   </div>
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
@@ -107,7 +107,7 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 <!--USE FOR EITHER WORKOUTS OR METRICS-->
 <div class="row"><div class="menulabel">comments:</div><input class="panelitem" name="COMMENTS" type="text" size=10><br></div>
 <div class="row">   
-<div class="menulabel">location:</div>
+<div class="menulabel2">location:</div>
    <div class="datatype">
   <input class="radiodataL" type="radio" name=OUTDOOR value="1"> outdoor
   <input class="radiodataR" type="radio" name=OUTDOOR value="2"> indoor
@@ -116,7 +116,7 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 <br> 
 {% if routetype == 'route' %}
 <div class="row"> 
-<div class="menulabel">type:</div>
+<div class="menulabel2">type:</div>
    <div class="datatype">
   <input class="radiodataL" type="radio" id="extras2" name="TYPE" value="sport"> sport
   <input class="radiodataR" type="radio" name="TYPE" value="trad"> trad
@@ -124,7 +124,7 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 </div>
 <br>
 <div class="row"> 
-<div class="menulabel">lead:</div>
+<div class="menulabel2">lead:</div>
    <div class="datatype">
   <input class="radiodataL" type="radio" id="extras2" name="LEAD" value="1"> lead
   <input class="radiodataR" type="radio" name="LEAD" value="0"> toprope
@@ -133,7 +133,7 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 <br>
 {% endif %}
 <div class="row"> 
-<div class="menulabel">status:</div>
+<div class="menulabel2">status:</div>
    <div class="datatype">
   <input class="radiodataL" type="radio" id="extras2" name="STATUS" value="1"> send
   <input class="radiodataR" type="radio" name="STATUS" value="0"> finish
