@@ -1,44 +1,17 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  <meta charset="UTF-8">
-  <title>Sample document</title>
+{% extends "trainapp/mainboilerplate.html" %}
   {% load trainapptags %}
   {% load staticfiles %}
   <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
   <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
-  </head>
-  <body>
- <script >
-  function submitchoice() {
-  document.getElementById("viewdata").submit();
-  }
-   function submitmain() {
-  document.getElementById("mainform").submit();
-  }
-  </script>
-   <header>
-    <div id="logoimgL">
-  <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
-    <div class="logodiv">
-  <span class="logo">{{headertext}}</span>
-  </div>
-  </div>
-  </header>
-  <div class="pagecontainer">
-<div class="rightpage">
-  <div class="navbar">
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> View Data </a></div>
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.newworkout' userid%}"> Add Workout</a></div>
-  </div>
-  <div class="maincontent">
+
+{% block title %}choosefilters block{% endblock %}
+
+{% block maincontentbody %}
   <!-- this is the only content that really varies across pages-->
 <div id="choicebar">
 <form name="viewdata" id="viewdata" action="{% url 'trainapp.views.choosefilters' userid %}" method="post">{% csrf_token %}
   <div class="styledselect">
-  <select class="selectmenu" name="data" onchange="submitchoice()">
+  <select class="selectmenu" name="data" onchange="submitview()">
   <option value="none">choose data</option>
   {% for datatype in allnames%}
       <option value="{{datatype}}">{{datatype|displayformat}}</option>
@@ -79,7 +52,7 @@ workout: <span id="workoutlabel">{{dataclass.WONAME|displayformat}}</span> <br>
 <br></div>{%endif%}
 <!-- OTHER1-->
 {% if dataclass.OTHER1 != '[]' %}
-<div class="row"><div class="menulabel">{{dataclass.OTHER1}}:</div><input class="panelitem" name="OTHER1" type="text" size=10>{
+<div class="row"><div class="menulabel">{{dataclass.OTHER1}}:</div><input class="panelitem" name="OTHER1" type="text" size=10>
 <br></div>{%endif%}
 <!-- OTHER2-->
 {% if dataclass.OTHER2 != '[]' %}
@@ -105,18 +78,18 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 </select>
 {%endif%}
 <!--USE FOR EITHER WORKOUTS OR METRICS-->
-<div class="row"><div class="menulabel">comments:</div><input class="panelitem" name="COMMENTS" type="text" size=10><br></div>
+<div class="row"><div class="menulabel">comments:</div><input class="panelitem" name="COMMENTS" type="text" size=10><br><br></div>
 <div class="row">   
-<div class="menulabel2">location:</div>
+<div class="higher">location:</div>
    <div class="datatype">
   <input class="radiodataL" type="radio" name=OUTDOOR value="1"> outdoor
   <input class="radiodataR" type="radio" name=OUTDOOR value="2"> indoor
    </div>
 </div>
-<br> 
+<br>
 {% if routetype == 'route' %}
 <div class="row"> 
-<div class="menulabel2">type:</div>
+<div class="higher">type:</div>
    <div class="datatype">
   <input class="radiodataL" type="radio" id="extras2" name="TYPE" value="sport"> sport
   <input class="radiodataR" type="radio" name="TYPE" value="trad"> trad
@@ -124,7 +97,7 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 </div>
 <br>
 <div class="row"> 
-<div class="menulabel2">lead:</div>
+<div class="higher">lead:</div>
    <div class="datatype">
   <input class="radiodataL" type="radio" id="extras2" name="LEAD" value="1"> lead
   <input class="radiodataR" type="radio" name="LEAD" value="0"> toprope
@@ -133,7 +106,7 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 <br>
 {% endif %}
 <div class="row"> 
-<div class="menulabel2">status:</div>
+<div class="higher">status:</div>
    <div class="datatype">
   <input class="radiodataL" type="radio" id="extras2" name="STATUS" value="1"> send
   <input class="radiodataR" type="radio" name="STATUS" value="0"> finish
@@ -158,32 +131,4 @@ SELECT PLOT VARIABLE<br>
 </div>
 </form>
   <!-- end main content-->
-    </div>
-</div>  
-  <div class="sidebar">
-  <div id="imgsection"><img id="mainimg" src="{% static "trainapp/profile.jpg" %}" alt="">
-  <div class="infosection">
-    <div id="infobackground"></div>
-    <div id="infoforeground">
-    <p class="heading1" id="maintitle"> <b>{{userid}}</b> </p>
-    <p class="heading2"></p>
-      </div>
-    </div>
-    </div>
-    <div id="loginsection">
-    <div id="userphoto">
-    <img id="facephoto" src="{%  static myphoto %}" alt="">
-    <div id="goal">
-      <br> goal:
-    <br> {{goal}} 
-    </div>
-    </div>
-    <a id="login" href="{% url 'trainapp.views.index' %}"> Login as different user</a>
-</div>
-  </div>
-</div>
-    <footer>
-  <span> {{footertext}} </span>
-  </footer>
-  </body>
-  </html>
+  {% endblock maincontentbody%}
