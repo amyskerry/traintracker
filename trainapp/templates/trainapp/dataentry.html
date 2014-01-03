@@ -100,7 +100,11 @@ workout: <span id="workoutlabel">{{workout.WONAME|displayformat}}</span>
 {% if workout.COMMENTS != '[]' %}
 <div class="row"><div class="menulabel">{{workout.COMMENTS}}:</div><input class="panelitem" name="COMMENTS" type="text" size=10>
 <br></div>{%endif%}
-<div class="row"><div class="menulabel">date:</div><input class="panelitem" type="date" name="entrydate"></div>
+<div class="row"><div class="menulabel">date:</div><input id="mydate" class="panelitem" type="date" name="entrydate" value=''></div>
+<script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
+<script>
+document.getElementById("mydate").value=(new Date()).format("yyyy-mm-dd");
+</script>
 <input type="hidden" name="WONAME" value={{workout.WONAME}} />
 <input type="hidden" name="METRIC" value={{workout.METRIC}} />
 <input type="hidden" name="METRIC_RELATIONAL" value={{workout.METRIC_RELATIONAL}} />

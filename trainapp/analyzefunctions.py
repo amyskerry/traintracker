@@ -73,8 +73,9 @@ def sortdata(datachoices):
             thischoice.bins=map(lambda binobj:binobj.strftime("%Y-%m-%d"), bins)
             allchoices.append(thischoice)
     return allchoices
-def filterdata(filternames,filtervals,thischoice, data):
+def filterdata(filternames,filtervals,thischoice, data, username):
     # do remaining filtering and add the data to the object
+    data=data.filter(USERID=username) #always filter by username
     if 'WOREPS' in filternames:
         data=data.filter(WOREPS__in=thischoice.WOREPS)
     if 'WOCYCLES' in filternames:

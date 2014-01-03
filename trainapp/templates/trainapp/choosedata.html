@@ -11,7 +11,7 @@
 <div id="choicebar">
 <form name="viewdata" id="viewdata" action="{% url 'trainapp.views.choosefilters' userid %}" method="post">{% csrf_token %}
   <div class="styledselect">
-  <select class="selectmenu" name="data" onchange="submitview)">
+  <select class="selectmenu" name="data" onchange="submitview()">
   <option value="none">choose data</option>
   {% for datatype in allnames%}
       <option value="{{datatype}}">{{datatype|displayformat}}</option>

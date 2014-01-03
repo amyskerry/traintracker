@@ -45,7 +45,11 @@ Climb Type: <span id="workoutlabel">{{metric|displayformat}}</span>
   	{% endfor %}
 </select><br></div>
 <div class="row"><div class="menulabel">Comments:</div> <input class="panelitem" type=text name="COMMENTS" size=10><br></div>
-<div class="row"><div class="menulabel">Date:</div><input class="panelitem" type="date" name="entrydate"></div>
+<div class="row"><div class="menulabel">Date:</div><input id="mydate" class="panelitem" type="date" name="entrydate" value=''></div>
+<script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
+<script>
+document.getElementById("mydate").value=(new Date()).format("yyyy-mm-dd");
+</script>
 <input type="hidden" name="METRIC" value={{metric}} />
 <div class="row"><div class="navdiv" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Save </a></div></div>
 	</form>

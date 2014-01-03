@@ -9,7 +9,10 @@
   <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
   </head>
   <body>
-    <script >
+    <script>
+  function submitlogin() {
+  document.getElementById("loginform").submit();
+  }
   function submitchoice() {
   document.getElementById("choiceform").submit();
   }
@@ -20,22 +23,17 @@
   document.getElementById("viewdata").submit();
   }
   </script>
-   <header>
-    <div id="logoimgL">
-  <img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
-    <div class="logodiv">
-  <span class="logo">{{headertext}}</span>
-  </div>
-  </div>
-  </header>
+
   <div class="pagecontainer">
 <div class="rightpage">
+  {% block mainnavbar%}
   <div class="navbar">
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> View Data </a></div>
   <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.newworkout' userid %}"> Add Workout</a></div>
   </div>
+  {% endblock %}
   <div class="maincontent">
   <!-- this is the only content that really varies across pages-->
 {% block maincontentbody%}
@@ -55,10 +53,18 @@
     </div>
     <div id="loginsection">
     <div id="userphoto">
+    {%if myphoto != 'default' %}
     <img id="facephoto" src="{%  static myphoto %}" alt="">
+    {%else%}
+    <img id="facephoto" src="{%  static 'trainapp/default.jpeg' %}" alt="">
+    {%endif%}
     <div id="goal">
+    {%if goal != 'default' %}
       <br> goal:
     <br> {{goal}} 
+    {%else%}
+    <br> Strong for Thailand
+    {%endif%}
     </div>
     </div>
     <a id="login" href="{% url 'trainapp.views.index' %}"> Login as different user</a>

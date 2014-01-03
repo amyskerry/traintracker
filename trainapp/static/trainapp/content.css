@@ -10,10 +10,7 @@ input[type=date]::-webkit-inner-spin-button {
 	height: 100%;
 	left:1em;
 }
-.mydate{
-	position:absolute;
-	top:1em;
-}
+
 #panel {
 	margin-top:.3em;
 	padding-top: 1em;
@@ -173,6 +170,13 @@ select {
 }
 .radioplot{
 	margin-left:0.3em;
+}
+#bottombutton{
+	position:absolute;
+	width:93%;
+	padding:.65em;
+	margin-left:2em;
+	margin-top:.7em;
 }
 .bottomrow {
 	position:absolute;
