@@ -158,7 +158,9 @@ border-radius:15px;
 position: absolute;
 text-align:center;
 font: 1.2em sans-serif;
-right:0px;
+padding-right:1em;
+padding-left:1em;
+right:0em;
 width:55%;
 }
 #facephoto {

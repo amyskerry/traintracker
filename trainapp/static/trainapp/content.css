@@ -19,13 +19,21 @@ input[type=date]::-webkit-inner-spin-button {
 	height: 30em;
 	right:5%;
 }
+#loginpanel {
+	margin-top:.3em;
+	padding-top: 1em;
+	position: absolute;
+	width:70%;
+	height: 30em;
+	right:3%;
+}
 #invispanel{
 	visibility:hidden;
 	margin-top:.3em;
 	padding: 1em;
 	position: absolute;
-	width:45%;
-	height: 20em;
+	width:58%;
+	height: 30em;;
 	right:5%;
 }
 .selectmenu{
@@ -64,6 +72,18 @@ input[type=date]::-webkit-inner-spin-button {
 	right:0px;
 	text-align: center;
 	margin-top:.6em;
+}
+.loginitem{
+	position: absolute;
+	width:50%;
+	right:0px;
+	text-align: center;
+	margin-top:.6em;
+	margin-left:30em;
+}
+#loginbutton{
+	margin-left:2.5em;
+	width:100%;
 }
 .higher{
 	position: absolute;
@@ -132,7 +152,7 @@ select {
 	left:0px;
 	top:5em;
 	margin-top:1em;
-	width:50%;
+	width:70%;
 }
 .loggin{
 	position:absolute;
