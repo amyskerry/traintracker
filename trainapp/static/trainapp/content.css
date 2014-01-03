@@ -1,4 +1,8 @@
 
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
 #choicebar {
 	padding: 2em;
  	position: absolute;
@@ -6,12 +10,13 @@
 	height: 100%;
 	left:1em;
 }
+
 #panel {
 	margin-top:.3em;
 	padding-top: 1em;
 	position: absolute;
 	width:58%;
-	height: 20em;
+	height: 30em;
 	right:5%;
 }
 #invispanel{
@@ -52,6 +57,7 @@
 	padding-top:.4em;
 	font: 1em/1em sans-serif;
 }
+
 .panelitem{
 	position: absolute;
 	width:50%;
@@ -59,6 +65,22 @@
 	text-align: center;
 	margin-top:.6em;
 }
+.higher{
+	position: absolute;
+	width:40%;
+	left:0px;
+	text-align: left;
+	padding-top:.1em;
+	font: 1em/1em sans-serif;
+}
+.panelitemlower{
+	position: absolute;
+	width:50%;
+	right:0px;
+	text-align: center;
+	margin-top:.8em;
+}
+
 select {
 }
 .styledselect select { 
@@ -80,9 +102,11 @@ select {
 	margin-bottom:1em;
 }
 #savebutton{
+	position:absolute;
 	width:100%;
 	margin-left:0em;
 	margin-top:4em;
+	top:0em;
 }
 #nextbutton{
 	width:100%;
@@ -147,6 +171,13 @@ select {
 .radioplot{
 	margin-left:0.3em;
 }
+#bottombutton{
+	position:absolute;
+	width:93%;
+	padding:.65em;
+	margin-left:2em;
+	margin-top:.7em;
+}
 .bottomrow {
 	position:absolute;
 	width:100%;
@@ -188,4 +219,7 @@ select {
 }
 .nw{
 	margin-left:7.5em;
+}
+.radiodataL2{
+	margin-top:.9em;
 }

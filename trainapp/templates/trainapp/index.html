@@ -1,79 +1,42 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  <meta charset="UTF-8">
-  <title>Sample document</title>
+{% extends "trainapp/mainboilerplate.html" %}
   {% load trainapptags %}
   {% load staticfiles %}
   <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
   <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
-  </head>
-  <body>
-  <script >
-  function submitlogin() {
-  document.getElementById("loginform").submit();
-  }
-  </script>
-   <header>
-  	<div id="logoimgL">
-	<img class="logoimgL" src="{% static "trainapp/logo.jpg" %}" alt="my image"/>
-  	<div class="logodiv">
-	<span class="logo">{{headertext}}</span>
-	</div>
-	</div>
-  </header>
-  <div class="pagecontainer">
-<div class="rightpage">
-	<div class="navbar">
+
+  {% block mainnavbar%}
+  <div class="navbar">
   <div class="navdiv"><a class="navlinks" href=""> Enter Workout </a></div>
   <div class="navdiv"><a class="navlinks" href=""> Report Climb </a></div>
   <div class="navdiv"><a class="navlinks" href=""> View Data </a></div>
   <div class="navdiv"><a class="navlinks" href=""> Add Workout</a></div>
   </div>
-	<div class="maincontent">
+  {%endblock mainnavbar%}
+
+{% block title %}dataentry block{% endblock %}
+
+{% block maincontentbody %}
 <!-- this is the only content that really varies across pages-->
 	<form id="loginform" name="loginform" action="{% url 'trainapp.views.loggedin' %}" method="post">{% csrf_token %}
- 	<div id="leftpanel">
+ 	<div id="choicebar">
     <div class="styledselect">
- 		<select name="username" class="loginmenu" id="username" onchange=myFunction()>
+ 		<select name="username" class="selectmenu" onchange=submitlogin()>
   			<option value="none">new user</option>
   			{% for username in usernames%}
       		<option value="{{username}}">{{username}}</option>
   			{% endfor %}
  		</select>
     </div>
+  </div>
+  <div id="leftpanel">
     <div id="newuser">
-    <label for="newuser" >new user: </label><input class="panelitem" type="text" name="newuser" size=20><br><br>
-    <label for="goal" >climbing goal: </label><input class="panelitem" type="text" name="goal" size=20>
+    <label class="menulabel" for="newuser" >new user:  </label><input class="panelitem" type="text" name="newuser" size=20><br><br>
+    <label class="menulabel" for="goal" >climbing goal: </label><input class="panelitem" type="text" name="goal" size=20>
     </div>
-      <div class="loggin"><div class="navdiv" id="savebutton"><a class="navlinks" href="#" onclick="submitlogin()"> Login </a></div></div>
+      <div class="loggin"><div class="navdiv" id="nextbutton"><a class="navlinks" href="#" onclick="submitlogin()"> Enter </a></div></div>
  	</div>
   </form>
 	<br>
+
 <!-- end main content-->
-	</div>
-	</div>	
-	<div class="sidebar">
-	<div id="imgsection"><img id="mainimg" src="{% static "trainapp/profile.jpg" %}" alt="">
-	<div class="infosection">
-		<div id="infobackground"></div>
-		<div id="infoforeground">
-		<p class="heading1" id="maintitle"> <b>WELCOME</b> </p>
-	    </div>
-	</div>
-	</div>
-    <div id="loginsection">
-    <div id="userphoto">
-    <img id="facephoto" src="{%  static 'trainapp/default.jpeg' %}" alt="">
-    <div id="goal">
-    <br> Strong For Thailand! 
-    </div>
-    </div>
-    <a id="login" href="{% url 'trainapp.views.index' %}"> Login as different user</a>
-    </div>
-  </div>
-    <footer>
-  <span> {{footertext}} </span>
-  </footer>
-  </body>
-  </html>
+	{% endblock maincontentbody%}

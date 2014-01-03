@@ -13,7 +13,7 @@ import matplotlib.ticker as plticker
 from trainapp.models import Metrics, WorkoutEntries, Usernames, Workouts, WorkoutUIs, PossMetrics
 from trainapp.analyzefunctions import *
 
-global timerange, reprange, cyclerange, routerange, boulderrange, datachoices, datevar, startdatetuple, footertext, headertext
+global timerange, reprange, cyclerange, routerange, boulderrange, datachoices, startdatetuple, footertext, headertext
 timerange=[str(x) for x in range(0,4*60,30)]
 reprange=[str(x) for x in range(0,50)]
 cyclerange=[str(x) for x in range(0,20)]
@@ -25,7 +25,7 @@ boulderrange=['v'+str(x) for x in range(0,12)]
 datachoices=[]
 #datevar=time.strftime("%Y-%m-%d")
 #can add to earlier times by manually adjustigthis e.g. 
-datevar='2013-12-11'
+#datevar='2013-12-11'
 startdatetuple=(2013,10,01)
 footertext="traintracker.2013"
 headertext="STRONG FOR THAILAND"
@@ -39,7 +39,7 @@ def index(request):
         usernames=[induser.USERID for induser in stored_users]
     except:
         usernames=[]
-    context = {'pagetitle': title, 'usernames': usernames, 'headertext':headertext, 'footertext':footertext}
+    context = {'pagetitle': title, 'usernames': usernames, 'headertext':headertext, 'footertext':footertext, 'userid':'', 'goal': 'default', 'myphoto':'default'}
     return render(request, 'trainapp/index.html', context)
 def loggedin(request):
     username=request.POST['username']
@@ -104,7 +104,6 @@ def dataentry(request, username):
     workoutcycles=workoutUI.WOCYCLES[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
     workoutgrades=workoutUI.WOMAXAVG[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
     workoutcleans=workoutUI.CLEANS[1:-1].replace("'","").replace("[","").replace("]","").split(",")
-    print workout.OTHER1
     context={'userid': username, 'workout':workout, 'workoutui':workoutUI, 'propnames': propnames, 'workouttimes':workouttimes,'workoutreps':workoutreps,'workoutcycles':workoutcycles,'workoutgrades':workoutgrades,'workoutcleans':workoutcleans, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     # still want to provide wo possibilities
     workouts=Workouts.objects.all()
@@ -116,6 +115,7 @@ def updated(request, username):
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
     wk=request.POST['WONAME'].encode('ascii','ignore')
+    datevar=request.POST['entrydate'].encode('ascii','ignore') # find date
     workout = get_object_or_404(Workouts, WONAME=wk)
     entry=WorkoutEntries(WONAME=wk)
     #set default
@@ -138,23 +138,21 @@ def updated(request, username):
     entry.OTHER3=''
     entry.OTHER4=''
     #update (figure out cleaner way to do this)
+    entry.USERID=username
     try:
         entry.WOTIME=int(request.POST['WOTIME'].encode('ascii','ignore'))
     except:
         pass
     try:
         entry.TYPE=request.POST['TYPE'].encode('ascii','ignore')
-        print entry.TYPE
     except:
         pass
     try:
         entry.STATUS=int(request.POST['STATUS'].encode('ascii','ignore'))
-        print entry.STATUS
     except:
         pass
     try:
         entry.LEAD=int(request.POST['LEAD'].encode('ascii','ignore'))
-        print entry.LEAD
     except:
         pass
     try:
@@ -203,14 +201,10 @@ def updated(request, username):
     propnames=[prop.name for prop in propobjs]
     context={'propnames':propnames, 'entry':entry, 'workout': workout, 'userid':username, 'goal': goal, 'myphoto':myphoto, 'headertext':headertext, 'footertext':footertext}
     entry.save()
-    print "hi"
-    print workout
     metric=workout.METRIC
-    print metric
     if metric:
         for x in range(entry.CLEANS):
             m=Metrics(METRIC=metric, GRADE=entry.WOMAXAVG, DATE=datevar, USERID=username, OUTDOOR=entry.OUTDOOR)
-            print m
             m.save()
     #should add optional metric save here as well
     return render(request, 'trainapp/updated.html', context)
@@ -233,6 +227,7 @@ def report(request,username):
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
     metric=request.POST['METRIC'].encode('ascii','ignore')
+    datevar=request.POST['entrydate'].encode('ascii','ignore') # find date
     themetric = get_object_or_404(PossMetrics, METRIC=metric)
     mentry=Metrics(METRIC=metric)
     mentry.DATE=datevar
@@ -253,7 +248,6 @@ def report(request,username):
         pass
     try:
         mentry.OUTDOOR=bool(request.POST['OUTDOOR'].encode('ascii','ignore'))
-        print mentry.OUTDOOR
     except:
         pass
     try:
@@ -262,17 +256,14 @@ def report(request,username):
         pass
     try:
         mentry.TYPE=request.POST['TYPE'].encode('ascii','ignore')
-        print mentry.TYPE
     except:
         pass
     try:
         mentry.STATUS=int(request.POST['STATUS'].encode('ascii','ignore'))
-        print mentry.STATUS
     except:
         pass
     try:
         mentry.LEAD=int(request.POST['LEAD'].encode('ascii','ignore'))
-        print mentry.LEAD
     except:
         pass
     mentry.save()
@@ -375,12 +366,9 @@ def viewdata(request, username):
             except:
                 pass
             setattr(thischoice, thisfilter, x)
-            print thisfilter
-            print x
             filternames.append(thisfilter)
             filtervals.append(x) 
-    thischoice.data=filterdata(filternames,filtervals,thischoice, data)
-    print "this is the data:"+str(thischoice.data)
+    thischoice.data=filterdata(filternames,filtervals,thischoice, data, username)
     # do other things
     if thischoice.data:
         [bins,thischoice.binneddata]=bindata(thischoice.data, startdatetuple)
@@ -398,8 +386,6 @@ def plotdata(request, username):
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
     context ={'userid':username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
-    print "found"
-    print datachoices
     for dc in datachoices:
         if dc.plotvar=="sessions":
             vector=dc.counts
@@ -479,7 +465,7 @@ def plotdata(request, username):
     numplots=len(datachoices)
     sns.set(style='nogrid')
     #ourfigsize=[8,6]
-    ourfigsize=[12,8]
+    ourfigsize=[12,12]
     bgcolor='black'
     axiscolor='white'
     textcolor='white'
@@ -495,12 +481,9 @@ def plotdata(request, username):
                 filterstring= dc.name.upper().replace('_', ' ') +' (filtered by: '
                 for fn, filtername in enumerate(dc.filternames):
                     fv=dc.filtervals[fn]
-                    print filtername
-                    print fv
-                    print type(fv)
                     if type(fv)==list:
-                        minfv=fv[0].encode('ascii','ignore')
-                        maxfv=fv[-1].encode('ascii','ignore')
+                        minfv=str(fv[0])
+                        maxfv=str(fv[-1])
                         fv=minfv+'-'+maxfv
                     elif type(fv)==int:
                         fv=str(fv)
@@ -541,7 +524,8 @@ def plotdata(request, username):
                 xindex=ax.get_xticks()
                 xticklabels=[dc.bins[xn] for xn,xv in enumerate(dc.bins) if xn in xindex]
                 ax.set_xticklabels(xticklabels,rotation='40', color=textcolor, fontsize=14) #rotation='60'
-        plt.gcf().subplots_adjust(bottom=0.16, left=.05, hspace = .6)
+        plt.gcf().subplots_adjust(bottom=0.1, left=.08, hspace = .6)
+        plt.tight_layout()
         randomint=str(random.randint(0,100))
         fig.savefig('/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/plots/temp'+randomint+'.png', facecolor=fig.get_facecolor(), edgecolor='none')
         plt.close('all')
@@ -566,36 +550,26 @@ def newworkoutupdate(request, username):
     inputgrade=0
     inputname=request.POST['inputname'].encode('ascii','ignore')
     inputname=inputname.replace(' ', '_')
-    print inputname
     try:
         inputstyle=request.POST['inputstyle'].encode('ascii','ignore')
-        print inputstyle
     except:
         pass
     try:
         inputreps=request.POST['inputreps'].encode('ascii','ignore')
-        print inputreps
     except:
         pass
     try:
         inputcycles=request.POST['inputcycles'].encode('ascii','ignore')
-        print inputcycles
     except:
         pass
     try:
         inputgrade=request.POST['inputgrade'].encode('ascii','ignore')
-        print inputgrade
     except:
         pass
     inputother1=request.POST['inputother1'].encode('ascii','ignore')
-    print inputother1
     inputother2=request.POST['inputother2'].encode('ascii','ignore')
-    print inputother2
-    print type(inputother2)
     inputother3=request.POST['inputother3'].encode('ascii','ignore')
-    print inputother3
     inputother4=request.POST['inputother4'].encode('ascii','ignore')
-    print inputother4
     wo=Workouts(WONAME=inputname, STYLE=inputstyle, OUTDOOR='outdoor',WOTIME='total time', COMMENTS= 'comments')
     wui=WorkoutUIs(WONAME=inputname, WOTIME=timerange,COMMENTS=['textbox'])
     if inputreps:
@@ -659,6 +633,5 @@ def newworkoutupdate(request, username):
     wui.save()
     #chosen=Workouts.objects.get(WONAME=inputname)
     workout=wo
-    print workout.WONAME
     context={'workout': workout, 'userid':username, 'goal': goal, 'myphoto':myphoto, 'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/newworkoutupdate.html', context)

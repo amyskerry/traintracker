@@ -17,8 +17,8 @@ body {
 .pagecontainer {
   position: relative;
   background-color: black;
-  height: 47em;
-  width:63em;
+  height: 55em;
+  width:65em;
   margin: 1em auto;
   font: .75em sans-serif;
   border: 10px solid black;
@@ -27,14 +27,14 @@ body {
 .rightpage {
   position: absolute;
   background-color: black;
-  width: 73%;
+  width: 70%;
   height: 100%;
   right:.5em;
   border-radius:15px;
 }
 .sidebar {
   position: absolute;
-  width:27%;
+  width:30%;
   height: 100%;
   left:0em;
 }
