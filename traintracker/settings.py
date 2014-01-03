@@ -22,13 +22,11 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '8o_mv+rz2i*u-8-6-g@=$l)+m5g1v7e!y501lmv4!@&p%xfl5b'
 
-if socket.gethostname() == 'Amy-Skerrys-MacBook-Pro.local':
+#if socket.gethostname() == 'Amy-Skerrys-MacBook-Pro.local':
 # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
-    TEMPLATE_DEBUG = True
-else:
-    DEBUG = False
-    TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = True
+
     
 
 ALLOWED_HOSTS = []
