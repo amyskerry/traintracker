@@ -7,9 +7,11 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
+import os
+import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
@@ -20,10 +22,14 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '8o_mv+rz2i*u-8-6-g@=$l)+m5g1v7e!y501lmv4!@&p%xfl5b'
 
+if socket.gethostname() == 'Amy-Skerrys-MacBook-Pro.local':
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
+    DEBUG = True
+    TEMPLATE_DEBUG = True
+else:
+    DEBUG = False
+    TEMPLATE_DEBUG = False
+    
 
 ALLOWED_HOSTS = []
 
@@ -85,3 +91,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+ #Admins for error emails
+
+ADMINS = (
+    ('Amy Skerry', 'amy.skerry@gmail.com'),
+)
+MANAGERS = (
+    ('Amy Skerry', 'amy.skerry@gmail.com'),
+)

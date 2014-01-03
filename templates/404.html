@@ -1,0 +1,12 @@
+{% extends "trainapp/mainboilerplate.html" %}
+  {% load trainapptags %}
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
+  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
+{% block title %}Page not found{% endblock %}
+
+{% block maincontentbody %}
+<h1>Page not found</h1>
+
+<p>Sorry, but the requested page could not be found.</p>
+{% endblock %}
