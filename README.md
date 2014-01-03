@@ -1,4 +1,4 @@
 traintracker
 ============
 
-django based web app for tracking your climbing routines
+learning some things by making django based web app for tracking climbing routines. 
