@@ -15,7 +15,7 @@ from trainapp.analyzefunctions import *
 
 global timerange, reprange, cyclerange, routerange, boulderrange, datachoices, datevar, startdatetuple, footertext, headertext
 timerange=[str(x) for x in range(0,4*60,30)]
-reprange=[str(x) for x in range(0,30)]
+reprange=[str(x) for x in range(0,50)]
 cyclerange=[str(x) for x in range(0,20)]
 routerange=[]
 for x in range(7,14):
