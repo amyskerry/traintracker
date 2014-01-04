@@ -38,12 +38,11 @@ Climb Type: <span id="workoutlabel">{{metric|displayformat}}</span>
   <div class="row"><div class="menulabel">Lead:</div><input class="panelitem" type=checkbox name="LEAD" value=1><br></div>
   {%endif%}
   <div class="row"><div class="menulabel">Send:</div><input class="panelitem" type=checkbox name="STATUS" value=1><br></div>
-<div class="row"><div class="menulabel">Grade:</div><select class="panelitem" name="GRADE">
-  	<option value="none">---</option>
+<div class="row"><div class="menulabel">Grade:</div><div class="styledselect"><select class="panelitem" name="GRADE">
   	{% for grade in graderange%}
       <option value="{{grade}}">{{grade}}</option>
   	{% endfor %}
-</select><br></div>
+</select> </div><br></div>
 <div class="row"><div class="menulabel">Comments:</div> <input class="panelitem" type=text name="COMMENTS" size=10><br></div>
 <div class="row"><div class="menulabel">Date:</div><input id="mydate" class="panelitem" type="date" name="entrydate" value=''></div>
 <script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>

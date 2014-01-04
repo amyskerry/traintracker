@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'trainapp',
+    'django.contrib.sessions',
 )
 
 '''TEMPLATE_LOADERS = (
@@ -56,6 +57,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
 ROOT_URLCONF = 'traintracker.urls'
 

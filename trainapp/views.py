@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 import datetime, time
 import numpy as np
-import seaborn as sns
+#import seaborn as sns
+#from settings import STATIC_ROOT
 import random
 import matplotlib
 import matplotlib.pyplot as plt
@@ -13,7 +14,7 @@ import matplotlib.ticker as plticker
 from trainapp.models import Metrics, WorkoutEntries, Usernames, Workouts, WorkoutUIs, PossMetrics
 from trainapp.analyzefunctions import *
 
-global timerange, reprange, cyclerange, routerange, boulderrange, datachoices, startdatetuple, footertext, headertext
+global timerange, reprange, cyclerange, routerange, boulderrange, startdatetuple, footertext, headertext
 timerange=[str(x) for x in range(0,4*60,30)]
 reprange=[str(x) for x in range(0,50)]
 cyclerange=[str(x) for x in range(0,20)]
@@ -22,7 +23,6 @@ for x in range(7,14):
     for l in ['a','b','c','d']:
         routerange.append('5.'+str(x)+l)
 boulderrange=['v'+str(x) for x in range(0,12)]
-datachoices=[]
 #datevar=time.strftime("%Y-%m-%d")
 #can add to earlier times by manually adjustigthis e.g. 
 #datevar='2013-12-11'
@@ -31,8 +31,6 @@ footertext="traintracker.2013"
 headertext="STRONG FOR THAILAND"
 
 def index(request):
-    global datachoices
-    datachoices=[]
     title='TrainTracker'
     stored_users=Usernames.objects.all()
     try:
@@ -42,6 +40,7 @@ def index(request):
     context = {'pagetitle': title, 'usernames': usernames, 'headertext':headertext, 'footertext':footertext, 'userid':'', 'goal': 'default', 'myphoto':'default'}
     return render(request, 'trainapp/index.html', context)
 def loggedin(request):
+    request.session['datachoices'] = []
     username=request.POST['username']
     goal='Get Strong!'
     try:
@@ -67,8 +66,7 @@ def homepage(request, username):
     return render(request, 'trainapp/choose.html', context)
     
 def chooseworkout(request, username):
-    global datachoices
-    datachoices=[]
+    request.session['datachoices'] = []  
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
@@ -78,8 +76,7 @@ def chooseworkout(request, username):
     context['wooptions']=[workout.WONAME for workout in workouts]
     return render(request, 'trainapp/chooseworkout.html', context)
 def choosemetric(request, username):
-    global datachoices
-    datachoices=[]
+    request.session['datachoices'] = []  
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
@@ -88,8 +85,6 @@ def choosemetric(request, username):
     context={'userid': username, 'metricoptions':[metric.METRIC for metric in metrics], 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/choosemetric.html', context)
 def dataentry(request, username):
-    global datachoices
-    datachoices=[]
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
@@ -273,7 +268,7 @@ def report(request,username):
     return render(request, 'trainapp/report.html', context)
 def choosedata(request, username):
     u=Usernames.objects.get(USERID=username)
-    goal=u.GOAL           
+    goal=u.GOAL         
     myphoto='trainapp/'+username+'.jpg'
     pms=PossMetrics.objects.all()
     pmnames=[pm.METRIC for pm in pms]
@@ -315,6 +310,8 @@ def viewdata(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
+    #get prior choices
+    datachoices = request.session['datachoices']
     #get the datachoice
     datachoice=request.POST.get('dataWO').encode('ascii','ignore')
     objtype='Workouts'
@@ -378,6 +375,7 @@ def viewdata(request, username):
         thischoice.filtervals=filtervals
     # once fully filtered, append to list
         datachoices.append(thischoice)
+        request.session['datachoices']=datachoices
     context={'userid': username,'datachoices':datachoices, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/viewdata.html', context)
 def plotdata(request, username):
@@ -386,6 +384,7 @@ def plotdata(request, username):
     goal=u.GOAL           
     myphoto='trainapp/'+username+'.jpg'
     context ={'userid':username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
+    datachoices = request.session['datachoices']
     for dc in datachoices:
         if dc.plotvar=="sessions":
             vector=dc.counts
@@ -463,7 +462,7 @@ def plotdata(request, username):
     vardict={'avggr':'avg grade', 'avgrep':'avg reps', 'counts':'# climbs', 'sessions':'# sessions'}
     filterdict={'WOTIME':'time', 'WOREPS':'reps','WOCYCLES':'cycles', 'WOMAXAVG':'grade', 'GRADE':'grade', 'OUTDOOR':'outdoor', 'COMMENTS':'comments'}        
     numplots=len(datachoices)
-    sns.set(style='nogrid')
+    #sns.set(style='nogrid')
     #ourfigsize=[8,6]
     ourfigsize=[12,12]
     bgcolor='black'
@@ -527,7 +526,9 @@ def plotdata(request, username):
         plt.gcf().subplots_adjust(bottom=0.1, left=.08, hspace = .6)
         plt.tight_layout()
         randomint=str(random.randint(0,100))
-        fig.savefig('/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/plots/temp'+randomint+'.png', facecolor=fig.get_facecolor(), edgecolor='none')
+        #fig.savefig(STATIC_ROOT+'/trainapp/plots/temp'+randomint+'.png',
+        fig.savefig('/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/plots/temp'+randomint+'.png',
+ facecolor=fig.get_facecolor(), edgecolor='none')
         plt.close('all')
         context['photoshow']='trainapp/plots/temp'+randomint+'.png'
     else:
