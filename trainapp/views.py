@@ -26,7 +26,7 @@ boulderrange=['v'+str(x) for x in range(0,12)]
 #datevar=time.strftime("%Y-%m-%d")
 #can add to earlier times by manually adjustigthis e.g. 
 #datevar='2013-12-11'
-startdatetuple=(2013,10,01)
+startdatetuple=(2013,12,03)
 footertext="traintracker.2013"
 headertext="STRONG FOR THAILAND"
 
