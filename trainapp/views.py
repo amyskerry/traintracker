@@ -460,7 +460,7 @@ def plotdata(request, username):
         vector=nv
         dc.plotvector=vector
     vardict={'avggr':'avg grade', 'avgrep':'avg reps', 'counts':'# climbs', 'sessions':'# sessions'}
-    filterdict={'WOTIME':'time', 'WOREPS':'reps','WOCYCLES':'cycles', 'WOMAXAVG':'grade', 'GRADE':'grade', 'OUTDOOR':'outdoor', 'COMMENTS':'comments'}        
+    filterdict={'WOTIME':'time', 'WOREPS':'reps','WOCYCLES':'cycles', 'WOMAXAVG':'grade', 'GRADE':'grade', 'OUTDOOR':'outdoor', 'COMMENTS':'comments', 'LEAD': 'lead', 'TYPE':'type'}        
     numplots=len(datachoices)
     #sns.set(style='nogrid')
     #ourfigsize=[8,6]
