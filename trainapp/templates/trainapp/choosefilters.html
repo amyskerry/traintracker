@@ -105,6 +105,7 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
 </div>
 <br>
 {% endif %}
+{%if woORme == 'me' %}
 <div class="row"> 
 <div class="higher">status:</div>
    <div class="datatype">
@@ -113,6 +114,7 @@ climb: <span id="workoutlabel">{{dataclass.METRIC|displayformat}}</span> <br>
    </div>
 </div>
 <br>
+{% endif %}
 <br>
 SELECT PLOT VARIABLE<br>
 <div class="row">  
@@ -127,6 +129,7 @@ SELECT PLOT VARIABLE<br>
 <input type="hidden" name="dataWO" value="{{dataclass.WONAME}}" />
 <input type="hidden" name="dataMetric" value="{{dataclass.METRIC}}" />
 <input type="hidden" name="METRIC_RELATIONAL" value={{dataclass.METRIC_RELATIONAL}} />
+<input type="hidden" name="datachoices" value={{datachoices}} />
 <div class="bottomrow"><div class="navdiv2" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Apply Filter </a></div></div>
 </div>
 </form>

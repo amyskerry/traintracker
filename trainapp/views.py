@@ -199,7 +199,7 @@ def updated(request, username):
     metric=workout.METRIC
     if metric:
         for x in range(entry.CLEANS):
-            m=Metrics(METRIC=metric, GRADE=entry.WOMAXAVG, DATE=datevar, USERID=username, OUTDOOR=entry.OUTDOOR)
+            m=Metrics(METRIC=metric, GRADE=entry.WOMAXAVG, DATE=datevar, USERID=username, OUTDOOR=entry.OUTDOOR, STATUS=1, COMMENTS=entry.COMMENTS)
             m.save()
     #should add optional metric save here as well
     return render(request, 'trainapp/updated.html', context)
@@ -460,7 +460,7 @@ def plotdata(request, username):
         vector=nv
         dc.plotvector=vector
     vardict={'avggr':'avg grade', 'avgrep':'avg reps', 'counts':'# climbs', 'sessions':'# sessions'}
-    filterdict={'WOTIME':'time', 'WOREPS':'reps','WOCYCLES':'cycles', 'WOMAXAVG':'grade', 'GRADE':'grade', 'OUTDOOR':'outdoor', 'COMMENTS':'comments', 'LEAD': 'lead', 'TYPE':'type'}        
+    filterdict={'WOTIME':'time', 'WOREPS':'reps','WOCYCLES':'cycles', 'WOMAXAVG':'grade', 'GRADE':'grade', 'OUTDOOR':'outdoor', 'COMMENTS':'comments', 'LEAD': 'lead', 'TYPE': 'type', 'STATUS': 'send'}        
     numplots=len(datachoices)
     #sns.set(style='nogrid')
     #ourfigsize=[8,6]
