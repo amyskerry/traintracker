@@ -1,0 +1,265 @@
+@import "basics.less";
+
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+#choicebar {
+	padding: 2em;
+ 	position: absolute;
+	width:50%;
+	height: 100%;
+	left:1em;
+}
+
+#panel {
+	margin-top:.3em;
+	padding-top: 1em;
+	position: absolute;
+	width:58%;
+	height: 30em;
+	right:5%;
+}
+#loginpanel {
+	margin-top:.3em;
+	padding-top: 1em;
+	position: absolute;
+	width:70%;
+	height: 30em;
+	right:3%;
+}
+#invispanel{
+	visibility:hidden;
+	margin-top:.3em;
+	padding: 1em;
+	position: absolute;
+	width:58%;
+	height: 30em;;
+	right:5%;
+}
+.selectmenu{
+	width:100%;
+}
+#workoutlabel{
+	position:absolute;
+	text-transform:uppercase;
+	margin-left:1em;
+	font-weight:bold;
+	text-align:center;
+	margin-top:.1em;
+	width:50%;
+	right:0em;
+}
+.menulabel{
+	position: absolute;
+	width:50%;
+	left:0px;
+	text-align: left;
+	padding-top:.6em;
+	font: 1em/1em sans-serif;
+}
+.menulabel2{
+	position: absolute;
+	width:40%;
+	left:0px;
+	text-align: left;
+	padding-top:.4em;
+	font: 1em/1em sans-serif;
+}
+
+.panelitem{
+	position: absolute;
+	width:50%;
+	right:0px;
+	text-align: center;
+	margin-top:.6em;
+    .rounded;
+}
+.loginitem{
+	position: absolute;
+	width:50%;
+	right:0px;
+	text-align: center;
+	margin-top:.6em;
+	margin-left:30em;
+    .rounded;
+}
+#loginbutton{
+	margin-left:2.5em;
+	width:100%;
+    #gradient.vertical(@accentmedium,@accentdark);
+}
+.higher{
+	position: absolute;
+	width:40%;
+	left:0px;
+	text-align: left;
+	padding-top:.1em;
+	font: 1em/1em sans-serif;
+}
+.panelitemlower{
+	position: absolute;
+	width:50%;
+	right:0px;
+	text-align: center;
+	margin-top:.8em;
+}
+
+select {
+}
+.styledselect select { 
+   background: url(new_arrow.jpg) no-repeat right #ddd;  
+   position:absolute;
+   width:50%;
+   line-height: 1.5;
+   padding-left:.5em;
+   padding-top:.25em;
+   padding-bottom:.25em;
+   border: 0;
+   border-radius: 5px;
+   -webkit-appearance: none;
+}
+#newinj{
+    position:absolute;
+    top:4.7em;
+}
+.row{
+	position:relative;
+	width:100%;
+	margin-top:1em;
+	margin-bottom:1em;
+}
+#savebutton{
+	position:absolute;
+	width:100%;
+	margin-left:0em;
+	margin-top:4em;
+	top:0em;
+    #gradient.vertical(@accentmedium,@accentdark);
+}
+#nextbutton{
+	width:100%;
+	margin-left:0em;
+	margin-top:1em;
+    #gradient.vertical(@accentmedium,@accentdark);
+}
+#morebutton{
+	width:100%;
+	margin-left:1.5em;
+	margin-top:4em;
+    #gradient.vertical(@accentmedium,@accentdark);
+}
+
+/* specific to login page */
+#leftpanel{
+	position:absolute;
+	margin-left:5em;
+	padding-top:2em;
+	margin-top:1em;
+	width:100%;
+}
+#newuser{
+	position:absolute;
+	left:0px;
+	top:5em;
+	margin-top:1em;
+	width:70%;
+}
+.loggin{
+	position:absolute;
+	top:12em;
+	left:0em;
+	width:50%;
+}
+.loginmenu{
+	position: absolute;
+	width:50%;
+	left:0px;
+	text-align: center;
+}
+
+/*for choosing and viewing data*/
+.datatype {
+	position:absolute;
+	right:0em;
+	text-align:right;
+	width:60%%;
+}
+.rowbig{
+	position:relative;
+	width:100%;
+	margin-top:1em;
+	height:3.5em;
+	margin-bottom:1em;
+}
+.gradepanelitemextend {
+	position: absolute;
+	width:50%;
+	right:0px;
+	text-align: center;
+	height: 5.5em;
+}
+.radioplot{
+	margin-left:0.3em;
+}
+#bottombutton{
+	position:absolute;
+	width:93%;
+	padding:.65em;
+	margin-left:2em;
+	margin-top:.7em;
+    #gradient.vertical(@accentmedium,@accentdark);
+}
+.bottomrow {
+	position:absolute;
+	width:100%;
+	margin-top:5em;
+	top:23em;
+	margin-bottom:1em;
+}
+.navdiv2 {position: relative; display:inline-block; margin-top:10em; margin-left: 1.5em; font: .8em sans-serif; padding: .5em; min-width:6em; border-top: 2px solid @accentlight; border-left: 2px solid @accentlight; background-color: @accentdark; /*darkdarkgray*/; text-align:center; border-radius:10px;}
+
+
+/*report/update*/
+.updated{
+	margin-top:2em;
+	margin-left:3em;
+	background-color:@accentdark;
+	padding-left:1em;
+	padding-top:.2em;
+	padding-bottom:.1em;
+	width:80%;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+}
+.reportcontent{
+	margin-left:3em;
+	background-color:@accentdark;
+	padding:1em;
+	width:80%;
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+}
+#extraoptions{
+	position:absolute;
+	width:55%;
+	height:30%;
+	top:5em;
+}
+#extras{
+	margin-left:1.8em;
+}
+.nw{
+	margin-left:7.5em;
+}
+.radiodataL2{
+	margin-top:.9em;
+}
+#newinjury{
+   .rounded;
+    width:12em;
+}
+.higherrow{
+    .bottomrow;
+    top:3em;
+}

@@ -1,0 +1,276 @@
+/*boxes keep things size appropriately regardless of borders, etc*/
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+//@import "elements.less";
+@import "bootstrap/mixins.less";
+@maindark:black;
+@accentlight: gray;
+@accentmedium: #676767;
+@accentdark:#38383A;
+@bgdark:#383838;
+/*main organization*/
+body {
+  background-color: @bgdark; /*darkdarkgray*/;
+  color: white;
+  font: 1em sans-serif;
+}
+.rounded{
+  border-radius:5px;
+}
+
+.pagecontainer {
+  position: relative;
+  background-color: @maindark;
+  height: 55em;
+  width:65em;
+  margin: 1em auto;
+  font: .75em sans-serif;
+  border: 10px solid @maindark;
+  border-radius:15px;
+}
+.rightpage {
+  position: absolute;
+  background-color: @maindark;
+  width: 70%;
+  height: 100%;
+  right:.5em;
+  border-radius:15px;
+}
+.sidebar {
+  position: absolute;
+  width:30%;
+  height: 100%;
+  left:0em;
+}
+.maincontent {
+  position: absolute;
+  background-color: @maindark;
+  padding: 1em;
+  padding-right:1.5em;
+  bottom:0em;
+  height: 91%;
+  width:100%;
+  border-radius:15px;
+  font: 1.2em sans-serif;
+}
+#moreroom{
+  padding:0em;
+}
+.navbar {
+  position: absolute;
+  top:0em;
+  height:4em;
+  width:100%;
+  padding: .3em;
+  margin: .2em;
+  text-align: justify;
+  vertical-align: center;
+  border-radius:15px;
+}
+
+footer {
+  position: fixed;
+  background-color: #3388FF;
+  bottom:0em;
+  width:100%;
+  left: 0em;
+  padding-top: 0em;
+  padding-left: 1em;
+  height: 1em;
+  font: .4em sans-serif;
+}
+header {
+  position: relative;
+  background-color: @maindark;
+  top:0em;
+  left:0em;
+  width:100%;
+  height:2.1em;
+  margin-right:1em;
+  border-top: 3px solid #3388FF;
+}
+
+/* suborg specs */
+#mainimg {
+  width:100%;
+  position: relative;
+  max-height:100%;
+  top:0em;
+  border-radius:15px;
+}
+#plotimg {
+  width:100%;
+  position: relative;
+  max-height:100%;
+  top:0em;
+  border-radius:10px;
+  left:1.5em;
+}
+#namebar {
+position:relative;
+top:0px;
+height:7em;
+background-color:red;
+}
+#imgsection{
+position:absolute; 
+height:75%;
+border-radius:15px;
+}
+#loginsection{
+position:absolute; 
+bottom:0px;
+height:25%;
+width:100%;
+}
+.infosection {
+  position:absolute;
+  bottom: 5em; 
+  left: 0; 
+  width: 100%;
+}
+#infobackground {
+  position:absolute; 
+  left: 0; 
+  width: 100%;
+  height:100%;
+  background-color: @maindark;
+  opacity:.5;
+}
+#infoforeground {
+  position:relative; 
+  left: 0; 
+  width: 100%;
+  height:100%;
+}
+#name {
+  position: absolute; 
+  top: 0px; 
+  left: 0; 
+  width: 100%; 
+}
+#userphoto{
+height: 70%;
+width: 100%;
+position: absolute;
+top: 0em;
+background: @accentmedium; /*medium gray*/
+padding:1em;
+border-radius:15px;
+}
+#goal{
+position: absolute;
+text-align:center;
+font: 1.2em sans-serif;
+padding-right:1em;
+padding-left:1em;
+right:0em;
+width:55%;
+}
+#facephoto {
+  position:relative;
+  height:100%;
+  float:left;
+  margin-right:2em;
+}
+#logoimgL{
+height: 100%;
+width: 60%;
+position: absolute;
+left: 0em;
+}
+.logoimgL {
+height: 90%;
+float: left;
+padding-top:.1em;
+padding-bottom:.2em;
+padding-left: .5em;
+margin-right: 2em;
+}
+.logodiv{
+padding-top:.2em;
+position: relative;
+width:90%;
+height:100%;
+}
+/* this ":after" pseudo element is an annoying hack. It is required because of the justification specification: the last line in paragraphs is not justified. In our case that last line would be the line with the divs. So we need to create a fake last line with :after pseudo element so the previous one (with divs) will get justified.*/
+.navbar:after {
+  content: "";
+  width: 100%;
+  display: inline-block;
+    }
+.navdiv {position: relative; display:inline-block; margin-left: 1.5em; padding: .6em; min-width:6em; border-top: 2px solid @accentlight; border-left: 2px solid @accentlight; background-color: @accentdark; /*darkdarkgray*/; text-align:center; border-radius:10px;#gradient.vertical(@accentmedium,@accentdark);}
+.navdivmain {
+    position: relative; 
+    display:inline-block; 
+    margin-left: .8em; //needs to be .2em; for djtracker
+    padding: .5em; //needs to be .3em for djtracker
+    padding-top:.35em;
+    padding-bottom:.6em;
+    min-width:5em; 
+    border-top: 2px solid @accentlight; 
+    border-left: 2px solid @accentlight; 
+    background-color: @accentdark; /*darkdarkgray*/; 
+    text-align:center; 
+    border-radius:10px;
+    #gradient.vertical(@accentmedium,@accentdark);
+}
+#faceimg {
+  height:60%;
+  float: right;
+  position: relative;
+  top:0em;
+}
+/* font specs*/
+
+#maintitle {
+text-align: center;
+font: 2em/.01em sans-serif; 
+color: white;
+}
+
+.heading2 {
+text-align: center;
+font: 1.3em/.5em sans-serif; 
+color:white;
+}
+.heading1 {
+text-align: left;
+font: 1.3em sans-serif;  
+}
+.navlinks {
+  color: white;
+  font: 1.3em sans-serif;
+  text-decoration: none;
+}
+#login {
+  position:absolute;
+  color: @maindark;
+  font: 1.3em sans-serif;
+  text-decoration: none;
+  position: absolute;
+  bottom: 0em;
+  text-align:center;
+  padding:.75em;
+  border-radius:10px;
+  width:100%;
+  color:white;
+  background-color:@accentdark; /*darkdarkgray*/
+  border-top: 2px solid @accentlight; 
+  border-left: 2px solid @accentlight;
+  #gradient.vertical(@accentmedium,@accentdark);
+
+}
+.logo {
+position:absolute;
+text-align: center;
+font: 1.3em "Candara"; 
+color: white;
+bottom:0em;
+padding-bottom:.2em;
+}
+.p {font: italic 75%/125% "Comic Sans MS", cursive;}

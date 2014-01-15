@@ -14,7 +14,6 @@ class PossMetrics(models.Model):
     METRIC = models.CharField(max_length=30)
     GRADERANGE=models.CharField(max_length=300)
     STYLE=models.CharField(max_length=30) #route or boulder
-    
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.METRIC
         
@@ -28,7 +27,6 @@ class Metrics(models.Model):
     DATE=models.CharField(max_length=30)
     OUTDOOR = models.BooleanField()
     COMMENTS= models.TextField()
-    
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.METRIC
 
@@ -50,7 +48,6 @@ class WorkoutEntries(models.Model):
     OTHER3= models.CharField(max_length=othermax)
     OTHER4= models.CharField(max_length=othermax)
     DATE=models.CharField(max_length=30)
-    
     def __unicode__(self):  # Python 3: def __str__(self):
         return self.WONAME
         
@@ -93,5 +90,18 @@ class WorkoutUIs(models.Model):
     
 #defaultUIs={'WONAME':[], 'INDOUT':['radio',['indoor', 'outdoor']], 'WOTIME':['scroll',timerange], 'WOREPS': ['scroll', reprange], 'WOCYCLES': ['scroll', cyclerange], 'WOMAXAVGRANGE': ['textfield'], 'CLEANS':['textfield'], 'OTHER1':[], 'OTHER2':[], 'OTHER3':[], 'OTHER4':[], 'COMMENTS': ['textbox']}
 #wui2=WorkoutUIs(WONAME='TR', INDOUT=['radio',['indoor', 'outdoor']], WOTIME=['select',timerange], WOREPS= ['select', reprange], WOCYCLES= ['select', cyclerange], WOMAXAVG= ['textfield'], CLEANS=['textfield'], OTHER1=[], OTHER2=[], OTHER3=[], OTHER4=[], COMMENTS= ['textbox'])    
-    
+class Injuries(models.Model):
+    INJURY = models.CharField(max_length=30)
+    USERID=  models.CharField(max_length=30)
+    PAIN=  models.IntegerField()
+    LIMIT= models.IntegerField()
+    DATE=models.CharField(max_length=30)
+    COMMENTS= models.TextField()
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.INJURY
+        
+class PossInjuries(models.Model):
+    INJURY = models.CharField(max_length=30)
+    def __unicode__(self):  # Python 3: def __str__(self):
+        return self.INJURY
     

@@ -1,0 +1,27 @@
+{% extends "trainapp/mainboilerplate.html" %}
+  {% load trainapptags %}
+  {% load staticfiles %}
+
+{% block title %}report{% endblock %}
+
+{% block maincontentbody %}
+  <!-- this is the only content that really varies across pages-->
+<div class="updated">
+  <h2> Injury updated. </h1>
+  <h3> Summary:</h3>
+  </div>
+  <div class="reportcontent">
+  <span id="heading">{{ientry.INJURY|displayformat|uppercase}} </span>
+  <ul>
+    <li>pain:
+    {{ientry.PAIN}}</li>
+    <li>limitation:
+    {{ientry.LIMIT}}</li>
+    <li>date:
+    {{ientry.DATE}}</li>
+    <li>comments:
+    {{ientry.COMMENTS}}</li>
+   </ul>
+ </div>
+  <!-- end main content-->
+  {% endblock maincontentbody%}

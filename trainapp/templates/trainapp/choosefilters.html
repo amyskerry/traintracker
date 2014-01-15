@@ -1,8 +1,6 @@
 {% extends "trainapp/mainboilerplate.html" %}
   {% load trainapptags %}
   {% load staticfiles %}
-  <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
-  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
 
 {% block title %}choosefilters block{% endblock %}
 
@@ -23,6 +21,7 @@
 <div id="panel">
 <br>
 <form id="mainform" name="mainform" action="{% url 'trainapp.views.viewdata' userid %}" method="post">{% csrf_token %}
+{% if woORme == 'wo' or woORme == 'me' %}
 {%if woORme == 'wo' %}
 workout: <span id="workoutlabel">{{dataclass.WONAME|displayformat}}</span> <br>
 <!--SPECIFIC TO WORKOUTS-->
@@ -125,12 +124,31 @@ SELECT PLOT VARIABLE<br>
   <input class="radioplot" type="radio" name="countsORavg" value="avgrep"> reps
    </div>
 </div>
-<br>
+<br>  
 <input type="hidden" name="dataWO" value="{{dataclass.WONAME}}" />
 <input type="hidden" name="dataMetric" value="{{dataclass.METRIC}}" />
+<input type="hidden" name="dataInjury" value="{{dataclass.INJURY}}" />
 <input type="hidden" name="METRIC_RELATIONAL" value={{dataclass.METRIC_RELATIONAL}} />
 <input type="hidden" name="datachoices" value={{datachoices}} />
 <div class="bottomrow"><div class="navdiv2" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Apply Filter </a></div></div>
+{%else%}
+injury: <span id="workoutlabel">{{dataclass.INJURY|displayformat}}</span> <br>
+<div class="row"><div class="menulabel">comments:</div><input class="panelitem" name="COMMENTS" type="text" size=10><br><br></div>
+<div class="row">   
+<div class="higher">plot variable:</div>
+   <div class="datatype">
+  <input class="radiodataL" type="radio" name=INJVAR value="pain" checked> pain
+  <input class="radiodataR" type="radio" name=INJVAR value="limit"> limitation
+   </div>
+</div>
+<br>  
+<input type="hidden" name="dataWO" value="{{dataclass.WONAME}}" />
+<input type="hidden" name="dataMetric" value="{{dataclass.METRIC}}" />
+<input type="hidden" name="dataInjury" value="{{dataclass.INJURY}}" />
+<input type="hidden" name="METRIC_RELATIONAL" value={{dataclass.METRIC_RELATIONAL}} />
+<input type="hidden" name="datachoices" value={{datachoices}} />
+<div class="higherrow"><div class="navdiv2" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Apply Filter </a></div></div>
+{%endif%}  
 </div>
 </form>
   <!-- end main content-->

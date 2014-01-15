@@ -115,6 +115,10 @@ select {
    border-radius: 5px;
    -webkit-appearance: none;
 }
+#newinj{
+    position:absolute;
+    top:4.7em;
+}
 .row{
 	position:relative;
 	width:100%;

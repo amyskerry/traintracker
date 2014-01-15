@@ -1,0 +1,47 @@
+{% extends "trainapp/mainboilerplate.html" %}
+  {% load trainapptags %}
+  {% load staticfiles %}
+
+{% block title %}injury block{% endblock %}
+
+{% block maincontentbody %}
+  <!-- this is the only content that really varies across pages-->
+<div id="choicebar">
+<form name="choiceform" id="choiceform" action="{% url 'trainapp.views.injury' userid %}" method="post">{% csrf_token %}
+  <div class="styledselect">
+  <select class="selectmenu" name="INJURY" onchange="submitchoice()">
+  <option value="none">choose an injury</option>
+  {% for ioption in injuryoptions%}
+      <option value="{{ioption}}">{{ioption|displayformat}}</option>
+  {% endfor %}
+  </select>
+</div>
+<div id="newinj"><input type="text" name="NEWINJURY" id="newinjury" placeholder="enter new injury" onkeydown="if (event.keyCode == 13) {submitchoice()}"/></div>
+</form>
+</div>
+<div id="panel">
+<form id="mainform" name="mainform" action="{% url 'trainapp.views.injuryupdated' userid %}" method="post">{% csrf_token %}
+<br>
+Injury Type: <span id="injurylabel">{{injury|displayformat}}</span> 
+<div class="row"><div class="menulabel">Pain:</div><div class="styledselect"><select class="panelitem" name="PAIN">
+  	{% for pain in scale%}
+      <option value="{{pain}}">{{pain}}</option>
+  	{% endfor %}
+</select> </div><br></div>
+<div class="row"><div class="menulabel">Limitation:</div><div class="styledselect"><select class="panelitem" name="LIMIT">
+  	{% for limit in scale%}
+      <option value="{{limit}}">{{limit}}</option>
+  	{% endfor %}
+</select> </div><br></div>
+<div class="row"><div class="menulabel">Comments:</div> <input class="panelitem" type=text name="COMMENTS" size=10><br></div>
+<div class="row"><div class="menulabel">Date:</div><input id="mydate" class="panelitem" type="date" name="DATE" value=''></div>
+<script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
+<script>
+document.getElementById("mydate").value=(new Date()).format("yyyy-mm-dd");
+</script>
+<input type="hidden" name="INJURY" value={{injury}} />
+<div class="row"><div class="navdiv" id="savebutton"><a class="navlinks" href="#" onclick="submitmain()"> Save </a></div></div>
+</form>
+</div>
+  <!-- end main content-->
+  {% endblock maincontentbody%}

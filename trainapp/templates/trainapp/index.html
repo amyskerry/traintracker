@@ -1,15 +1,14 @@
 {% extends "trainapp/mainboilerplate.html" %}
   {% load trainapptags %}
   {% load staticfiles %}
-  <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
-  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
 
   {% block mainnavbar%}
   <div class="navbar">
-  <div class="navdiv"><a class="navlinks" href=""> Enter Workout </a></div>
-  <div class="navdiv"><a class="navlinks" href=""> Report Climb </a></div>
-  <div class="navdiv"><a class="navlinks" href=""> View Data </a></div>
-  <div class="navdiv"><a class="navlinks" href=""> Add Workout</a></div>
+  <div class="navdivmain"><a class="navlinks" href=""> Enter Workout </a></div>
+  <div class="navdivmain"><a class="navlinks" href=""> Report Climb </a></div>
+  <div class="navdivmain"><a class="navlinks" href=""> Injury </a></div>
+  <div class="navdivmain"><a class="navlinks" href=""> View Data </a></div>
+  <div class="navdivmain"><a class="navlinks" href=""> Add Workout</a></div>
   </div>
   {%endblock mainnavbar%}
 

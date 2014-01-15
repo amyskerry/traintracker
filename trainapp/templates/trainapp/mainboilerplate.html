@@ -5,8 +5,13 @@
   <title>Sample document</title>
   {% load trainapptags %}
   {% load staticfiles %}
-  <link rel="stylesheet" href="{% static "trainapp/basics.css" %}">
-  <link rel="stylesheet" href="{% static "trainapp/content.css" %}">
+  <!--<link rel="stylesheet" href="{% static "trainapp/basics.css" %}">-->
+  <!--<link rel="stylesheet" href="{% static "trainapp/content.css" %}">-->
+  <!--my less-->
+  <link rel="stylesheet/less" type="text/less" href="{% static "trainapp/basics.less" %}" />
+  <link rel="stylesheet/less" type="text/less" href="{% static "trainapp/content.less" %}" />
+  <!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">-->
+  <script src="{% static "trainapp/less-1.6.0.min.js" %}" type="text/javascript"></script>
   </head>
   <body>
     <script>
@@ -28,10 +33,11 @@
 <div class="rightpage">
   {% block mainnavbar%}
   <div class="navbar">
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> View Data </a></div>
-  <div class="navdiv"><a class="navlinks" href="{% url 'trainapp.views.newworkout' userid %}"> Add Workout</a></div>
+  <div class="navdivmain"><a class="navlinks" href="{% url 'trainapp.views.chooseworkout' userid%}"> Enter Workout </a></div>
+  <div class="navdivmain"><a class="navlinks" href="{% url 'trainapp.views.choosemetric' userid%}"> Report Climb </a></div>
+  <div class="navdivmain"><a class="navlinks" href="{% url 'trainapp.views.injury' userid %}"> Injury</a></div>
+  <div class="navdivmain"><a class="navlinks" href="{% url 'trainapp.views.choosedata' userid%}"> View Data </a></div>
+  <div class="navdivmain"><a class="navlinks" href="{% url 'trainapp.views.newworkout' userid %}"> Add Workout</a></div>
   </div>
   {% endblock %}
   <div class="maincontent">

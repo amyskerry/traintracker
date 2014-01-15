@@ -29,4 +29,6 @@ urlpatterns = patterns('',
     url(r'^(?P<username>\w+)/plotdata$', views.plotdata, name='plotdata'),
     url(r'^(?P<username>\w+)/newworkout$', views.newworkout, name='newworkout'),
     url(r'^(?P<username>\w+)/newworkoutupdate$', views.newworkoutupdate, name='newworkoutupdate'),
+    url(r'^(?P<username>\w+)/injury$', views.injury, name='injury'),
+    url(r'^(?P<username>\w+)/injuryupdated$', views.injuryupdated, name='injuryupdated'),
 )

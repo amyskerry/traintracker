@@ -11,7 +11,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
 
-from trainapp.models import Metrics, WorkoutEntries, Usernames, Workouts, WorkoutUIs, PossMetrics
+from trainapp.models import Metrics, WorkoutEntries, Usernames, Workouts, WorkoutUIs, PossMetrics, Injuries, PossInjuries
 from trainapp.analyzefunctions import *
 
 global timerange, reprange, cyclerange, routerange, boulderrange, startdatetuple, footertext, headertext
@@ -274,7 +274,9 @@ def choosedata(request, username):
     pmnames=[pm.METRIC for pm in pms]
     wos=Workouts.objects.all()
     wonames=[wo.WONAME for wo in wos]
-    allnames=wonames+pmnames
+    ins=PossInjuries.objects.all()
+    injnames=[inj.INJURY for inj in ins]
+    allnames=wonames+pmnames+injnames
     context={'userid': username, 'pmnames':pmnames, 'wonames':wonames, 'allnames': allnames, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/choosedata.html', context)
 def choosefilters(request, username):
@@ -284,26 +286,38 @@ def choosefilters(request, username):
     datachoice=request.POST.get('data').encode('ascii','ignore')
     try:    
         chosen=PossMetrics.objects.get(METRIC=datachoice)
+        routetype=chosen.STYLE
     except:
-        chosen=Workouts.objects.get(WONAME=datachoice)
-    routetype=chosen.STYLE
+        try:
+            chosen=Workouts.objects.get(WONAME=datachoice)
+            routetype=chosen.STYLE
+        except:
+            chosen=PossInjuries.objects.get(INJURY=datachoice)
+            routetype='NA'
     pms=PossMetrics.objects.all()
     pmnames=[pm.METRIC for pm in pms]
     wos=Workouts.objects.all()
     wonames=[wo.WONAME for wo in wos]
-    allnames=wonames+pmnames
+    ins=PossInjuries.objects.all()
+    injnames=[inj.INJURY for inj in ins]
+    allnames=wonames+pmnames+injnames
+    print allnames
     context={'userid': username, 'pmnames':pmnames, 'wonames':wonames, 'allnames': allnames, 'goal': goal, 'myphoto':myphoto, 'routetype':routetype,'headertext':headertext, 'footertext':footertext}
     try:    
         dataclass=PossMetrics.objects.get(METRIC=datachoice)
         context['woORme']='me'
         context['graderange']=dataclass.GRADERANGE[1:-1].replace("'","").replace("[","").replace("]","").split(",")
     except:
-        dataclass = get_object_or_404(Workouts, WONAME=datachoice)
-        context['woORme']='wo'
-        workoutUI = get_object_or_404(WorkoutUIs, WONAME=datachoice)
-        context['workoutreps']=workoutUI.WOREPS[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
-        context['workoutcycles']=workoutUI.WOCYCLES[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
-        context['workoutgrades']=workoutUI.WOMAXAVG[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
+        try:
+            dataclass = get_object_or_404(Workouts, WONAME=datachoice)
+            context['woORme']='wo'
+            workoutUI = get_object_or_404(WorkoutUIs, WONAME=datachoice)
+            context['workoutreps']=workoutUI.WOREPS[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
+            context['workoutcycles']=workoutUI.WOCYCLES[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
+            context['workoutgrades']=workoutUI.WOMAXAVG[1:-1].replace("'","").replace("[","").replace("]","").split(",")
+        except:
+            dataclass = get_object_or_404(PossInjuries, INJURY=datachoice)
+            context['woORme']='inj'
     context['dataclass']=dataclass
     return render(request, 'trainapp/choosefilters.html', context)
 def viewdata(request, username):
@@ -313,13 +327,28 @@ def viewdata(request, username):
     #get prior choices
     datachoices = request.session['datachoices']
     #get the datachoice
-    datachoice=request.POST.get('dataWO').encode('ascii','ignore')
-    objtype='Workouts'
+    try:
+        datachoice=request.POST.get('dataWO').encode('ascii','ignore')
+        objtype='Workouts'
+    except:
+        pass
     if not datachoice:
-        datachoice=request.POST.get('dataMetric').encode('ascii','ignore')
-        objtype='Metrics'
+        try:
+            datachoice=request.POST.get('dataMetric').encode('ascii','ignore')
+            objtype='Metrics'
+        except:
+            pass
+    if not datachoice:
+        try:
+            datachoice=request.POST.get('dataInjury').encode('ascii','ignore')
+            objtype='Injuries'
+        except:
+            pass
     #get the datatype and create dataview object
-    datatype=request.POST.get('countsORavg').encode('ascii','ignore')
+    try:
+        datatype=request.POST.get('countsORavg').encode('ascii','ignore')
+    except:
+        datatype=request.POST.get('INJVAR').encode('ascii','ignore')
     thischoice=dataview()
     thischoice.name=datachoice
     thischoice.plotvar=datatype
@@ -328,6 +357,8 @@ def viewdata(request, username):
         data=WorkoutEntries.objects.filter(WONAME=datachoice)
     elif objtype=='Metrics':
         data=Metrics.objects.filter(METRIC=datachoice)
+    elif objtype=='Injuries':
+        data=Injuries.objects.filter(INJURY=datachoice)
     possiblefilters=['WOREPS', 'WOCYCLES', 'WOMAXAVG', 'GRADE', 'COMMENTS', 'OUTDOOR', 'STATUS', 'LEAD', 'TYPE']
     filternames=[]
     filtervals=[]
@@ -451,6 +482,32 @@ def plotdata(request, username):
                                 pass
                 avgreps=np.mean(np.array(avgrep))
                 vector.append(avgreps)
+        elif dc.plotvar=="pain":
+            vector=[]
+            for thebin in dc.binneddata:
+                avgpain=[]
+                for entry in thebin:
+                     pain=entry.PAIN
+                     try:
+                         pain=float(pain)
+                         avgpain.append(pain)
+                     except:
+                        pass
+                avgpain=np.mean(np.array(avgpain))
+                vector.append(avgpain)
+        elif dc.plotvar=="limit":
+            vector=[]
+            for thebin in dc.binneddata:
+                avglimit=[]
+                for entry in thebin:
+                     limit=entry.LIMIT
+                     try:
+                         limit=float(limit)
+                         avglimit.append(limit)
+                     except:
+                        pass
+                avglimit=np.mean(np.array(avglimit))
+                vector.append(avglimit)
         nv=[]
         for v in vector:
             if not np.isnan(v):
@@ -459,7 +516,7 @@ def plotdata(request, username):
                 nv.append(0.0)
         vector=nv
         dc.plotvector=vector
-    vardict={'avggr':'avg grade', 'avgrep':'avg reps', 'counts':'# climbs', 'sessions':'# sessions'}
+    vardict={'avggr':'avg grade', 'avgrep':'avg reps', 'counts':'# climbs', 'sessions':'# sessions', 'pain':'avg pain', 'limit':'avg performance limitation'}
     filterdict={'WOTIME':'time', 'WOREPS':'reps','WOCYCLES':'cycles', 'WOMAXAVG':'grade', 'GRADE':'grade', 'OUTDOOR':'outdoor', 'COMMENTS':'comments', 'LEAD': 'lead', 'TYPE': 'type', 'STATUS': 'send'}        
     numplots=len(datachoices)
     #sns.set(style='nogrid')
@@ -636,3 +693,50 @@ def newworkoutupdate(request, username):
     workout=wo
     context={'workout': workout, 'userid':username, 'goal': goal, 'myphoto':myphoto, 'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/newworkoutupdate.html', context)
+def injury(request, username):
+    request.session['datachoices'] = []  
+    u=Usernames.objects.get(USERID=username)
+    goal=u.GOAL           
+    myphoto='trainapp/'+username+'.jpg'
+    try:
+        injury=request.POST['INJURY'].encode('ascii','ignore')
+    except:
+        injury="none selected"
+    try:
+        newinj=request.POST['NEWINJURY'].encode('ascii','ignore')
+        if len(newinj)>0:
+            newinj=newinj.replace(' ','_')        
+            print newinj        
+            injurytype=PossInjuries(INJURY=newinj)
+            injurytype.save()
+            injury=newinj
+    except:
+        pass
+    injuries=PossInjuries.objects.all()
+    injuryoptions=[thisi.INJURY for thisi in injuries]
+    context={'userid': username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext, 'injuryoptions':injuryoptions, 'injury':injury}
+    scale=range(11)
+    context['scale']=scale
+    return render(request, 'trainapp/injury.html', context)
+def injuryupdated(request, username):
+    u=Usernames.objects.get(USERID=username)
+    goal=u.GOAL           
+    myphoto='trainapp/'+username+'.jpg'
+    context={'userid': username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
+    ientry=Injuries()
+    ientry.USERID=username
+    ientry.COMMENTS=''
+    ientry.INJURY=request.POST['INJURY'].encode('ascii','ignore')
+    ientry.PAIN=int(request.POST['PAIN'].encode('ascii','ignore'))
+    ientry.LIMIT=int(request.POST['LIMIT'].encode('ascii','ignore'))
+    ientry.DATE=request.POST['DATE'].encode('ascii','ignore')
+    try:
+        ientry.COMMENTS=request.POST['COMMENTS'].encode('ascii','ignore')
+    except:
+        pass
+    ientry.save()
+    injuryvals=Injuries._meta.fields
+    injurynames=[ival.name for ival in injuryvals]
+    context['injurynames']=injurynames
+    context['ientry']=ientry
+    return render(request, 'trainapp/injuryupdated.html', context)
