@@ -327,6 +327,7 @@ def viewdata(request, username):
     #get prior choices
     datachoices = request.session['datachoices']
     #get the datachoice
+    datachoice=0
     try:
         datachoice=request.POST.get('dataWO').encode('ascii','ignore')
         objtype='Workouts'
