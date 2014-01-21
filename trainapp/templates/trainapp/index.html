@@ -29,10 +29,25 @@
   </div>
   <div id="loginpanel">
     <div id="newuser">
-    <label class="menulabel" for="newuser" >new user:  </label><input class="loginitem" type="text" name="newuser" size=20><br><br>
-    <label class="menulabel" for="goal" >climbing goal: </label><input class="loginitem" type="text" name="goal" size=20>
+    <label class="menulabel" for="newuser" >new user:  </label><input class="loginitem" type="text" name="newuser" size=20 placeholder="enter username"><br><br>
+    <label class="menulabel" for="goal" >climbing goal: </label><input class="loginitem" type="text" name="goal" size=20 placeholder="I want to..."><br><br>
+    <label class="menulabel" for="level" >current level: </label>
+    <div id="levelselect">
+        <div class="styledselect">
+ 		<select name="level" class="selectmenu">
+  			<option value="beginner">beginner (5.8/5.9)</option>
+      		<option value="intermediate">intermediate (5.10/5.11)</option>
+            <option value="advanced">advanced (5.12/5.13)</option>
+            <option value="pro">pro (5.14/5.15)</option>
+ 		</select>
+    </div>
+    </div>
+    <br><br>    
+    <span id="uploader" class="myupload" onclick="fileselector.click()">Upload ID photo<input type="file" id="fileselector" name="files[]" /></span>
+        <input type="hidden" name="uploadedphotos" id="uploadedphotos">    
     </div>
       <div class="loggin"><div class="navdiv" id="loginbutton"><a class="navlinks" href="#" onclick="submitlogin()"> Enter </a></div></div>
+      <output id="thumbnaildisplay"></output>
  	</div>
   </form>
 	<br>

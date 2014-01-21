@@ -1,34 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
+  </head>
   <meta charset="UTF-8">
-  <title>Sample document</title>
+  <title>traintracker</title>
   {% load trainapptags %}
   {% load staticfiles %}
   <!--<link rel="stylesheet" href="{% static "trainapp/basics.css" %}">-->
   <!--<link rel="stylesheet" href="{% static "trainapp/content.css" %}">-->
+<!--JQUERY-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <!--my less-->
   <link rel="stylesheet/less" type="text/less" href="{% static "trainapp/basics.less" %}" />
   <link rel="stylesheet/less" type="text/less" href="{% static "trainapp/content.less" %}" />
   <!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">-->
   <script src="{% static "trainapp/less-1.6.0.min.js" %}" type="text/javascript"></script>
+<!-- Latest compiled and minified bootstrap JavaScript-->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>  
+<!--prettier dialogs!-->
+<script src="{% static "trainapp/bootbox.min.js" %}" type="text/javascript"></script>
   </head>
   <body>
-    <script>
-  function submitlogin() {
-  document.getElementById("loginform").submit();
-  }
-  function submitchoice() {
-  document.getElementById("choiceform").submit();
-  }
-  function submitmain() {
-  document.getElementById("mainform").submit();
-  }
-  function submitview() {
-  document.getElementById("viewdata").submit();
-  }
-  </script>
-
   <div class="pagecontainer">
 <div class="rightpage">
   {% block mainnavbar%}
@@ -60,7 +52,7 @@
     <div id="loginsection">
     <div id="userphoto">
     {%if myphoto != 'default' %}
-    <img id="facephoto" src="{%  static myphoto %}" alt="">
+    <img id="facephoto" src="{% static myphoto %}" alt="">
     {%else%}
     <img id="facephoto" src="{%  static 'trainapp/default.jpeg' %}" alt="">
     {%endif%}
@@ -80,5 +72,90 @@
     <footer>
   <span> {{footertext}} </span>
   </footer>
+<script>
+  function submitlogin() {
+  document.getElementById("loginform").submit();
+  }
+  function submitchoice() {
+  document.getElementById("choiceform").submit();
+  }
+  function submitmainNOCHECKS() {document.getElementById("choiceform").submit();}    
+  function submitmain() {
+  pass=1;
+  try{
+  gradepresent=document.getElementsByName('MYGRADE')[0].value;
+  gradepresent=gradepresent.replace(' ','')
+  console.log(gradepresent)
+  if (gradepresent=='--'){
+  pass=0;
+  mymessage="Please enter a grade."
+  bootbox.dialog({message:mymessage, title:'Oops', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {}}}});}
+  else if ($.inArray(gradepresent, congratslist) > -1 && $('[name="STATUS"]').attr('checked')){mymessage="Good job.";
+  pass=0;
+  bootbox.dialog({message:mymessage, title:'Congrats!', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {document.getElementById("mainform").submit();}}}});}
+  }
+      catch (err){}
+  try{
+  maxavgpresent=document.getElementsByName('MYWOMAXAVG')[0].value;
+  maxavgpresent=maxavgpresent.replace(' ','')
+  console.log(maxavgpresent)
+  if (maxavgpresent=='--'){
+  pass=0;
+  mymessage="Please enter a grade.";     
+  bootbox.dialog({message:mymessage, title:'Oops', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {}}}});}
+  else if ($.inArray(maxavgpresent, congratslist) > -1 && document.getElementsByName('CLEANS')[0].value>0){mymessage="Good job.";
+  pass=0;
+  bootbox.dialog({message:mymessage, title:'Congrats!', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {document.getElementById("mainform").submit();}}}});}
+  }
+catch (err){}
+try{
+  injurypresent=document.getElementsByName('CHOSENINJURY')[0].value;
+  if (injurypresent=='none'){
+  pass=0;
+  mymessage="Please select an injury.";
+  bootbox.dialog({message:mymessage, title:'Oops', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {}}}});;}}
+      catch (err){}
+  if (pass) {document.getElementById("mainform").submit();}
+  }   
+  function submitview() {
+  document.getElementById("viewdata").submit();
+  }
+  base64sToUpload= new Array()
+  function handleFileSelect(uploadevent) {
+    var files = uploadevent.target.files; // FileList object
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+      // Only process image files.
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+      var reader = new FileReader();
+      // if you want to display thumbnail
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // Render thumbnail.
+          var span = document.createElement('span');
+            console.log(e)
+            console.log('base64output:')
+            console.log(e.target.result)
+            base64sToUpload.push(e.target.result);
+            console.log('array:')
+            console.log(base64sToUpload)
+            document.getElementById('uploadedphotos').value=base64sToUpload;
+          span.innerHTML = ['<img class="mythumbnail" src="', e.target.result,
+                            '" title="', escape(theFile.name), '"/>'].join('');
+          document.getElementById('thumbnaildisplay').insertBefore(span, null);
+        };
+      })(f);
+      // Read in the image file as a data URL.
+      base64=reader.readAsDataURL(f);
+    }
+  }
+    try{
+  document.getElementById('fileselector').addEventListener('change', handleFileSelect, false);}
+    catch (err){}
+  </script>
   </body>
   </html>

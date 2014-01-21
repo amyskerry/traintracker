@@ -10,12 +10,14 @@ import random
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as plticker
+import base64
 
 from trainapp.models import Metrics, WorkoutEntries, Usernames, Workouts, WorkoutUIs, PossMetrics, Injuries, PossInjuries
 from trainapp.analyzefunctions import *
 
 global timerange, reprange, cyclerange, routerange, boulderrange, startdatetuple, footertext, headertext
 timerange=[str(x) for x in range(0,4*60,30)]
+timerange.insert(1,'15')
 reprange=[str(x) for x in range(0,50)]
 cyclerange=[str(x) for x in range(0,20)]
 routerange=[]
@@ -47,6 +49,15 @@ def loggedin(request):
         goal=request.POST['goal']
     except:
         pass
+    try:
+        photobase64=request.POST['uploadedphotos']
+        start=photobase64.index('base64,')+len('base64,')
+        photobase64=photobase64[start:]+"=="
+    except:
+        #defaultphoto=STATIC_ROOT+'/trainapp/default.jpeg'
+        defaultphoto='/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/userphotos/default.jpeg'
+    level=request.POST['level']
+    request.session['goalgrades'] = ['5.13a','5.13b','5.13c','5.13d']
     if username=="none":
         username=request.POST['newuser']    
     try: 
@@ -54,23 +65,34 @@ def loggedin(request):
     except:
         u=Usernames(USERID=username)
         u.GOAL=goal
+        u.LEVEL=level
+        #defaultphoto=STATIC_ROOT+'/trainapp/default.jpeg'
+        g = open('/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/userphotos/'+ username+'.jpg', 'w')
+        #g = open(STATIC_ROOT+'/trainapp/'+ username+'.jpg', 'w')
+        g.write(base64.decodestring(photobase64))
+        g.close()
+        print "photo saved"
+        myphoto='trainapp/userphotos/'+username+'.jpg'
+        print myphoto
+        u.PHOTO=myphoto
+        request.session['photo'] = u.PHOTO 
         u.save()
     return HttpResponseRedirect(reverse('trainapp.views.chooseworkout', args=(username,)))
-def homepage(request, username):
-    u=Usernames.objects.get(USERID=username)
-    goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
-    metricreports = Metrics.objects.order_by('USERID')[:5]
-    context ={'metricreports': metricreports, 'userid':username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
-    #return HttpResponse(template.render(context))
-    return render(request, 'trainapp/choose.html', context)
-    
+#def homepage(request, username):
+#    u=Usernames.objects.get(USERID=username)
+#    goal=u.GOAL           
+#    myphoto='trainapp/userphotos/'+username+'.jpg'
+#    metricreports = Metrics.objects.order_by('USERID')[:5]
+#    context ={'metricreports': metricreports, 'userid':username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
+#    #return HttpResponse(template.render(context))
+#    return render(request, 'trainapp/choose.html', context)
+#    
 def chooseworkout(request, username):
     request.session['datachoices'] = []  
     u=Usernames.objects.get(USERID=username)
-    goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
-    context={'userid': username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
+    goal=u.GOAL  
+    myphoto=u.PHOTO
+    context={'userid': username, 'goal': goal,'myphoto':myphoto, 'headertext':headertext, 'footertext':footertext}
     # get wo possibilities
     workouts=Workouts.objects.all()
     context['wooptions']=[workout.WONAME for workout in workouts]
@@ -78,16 +100,17 @@ def chooseworkout(request, username):
 def choosemetric(request, username):
     request.session['datachoices'] = []  
     u=Usernames.objects.get(USERID=username)
-    goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    goal=u.GOAL  
+    myphoto=u.PHOTO         
     # get wo possibilities
     metrics=PossMetrics.objects.all()
-    context={'userid': username, 'metricoptions':[metric.METRIC for metric in metrics], 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
+    context={'userid': username, 'myphoto':myphoto, 'metricoptions':[metric.METRIC for metric in metrics], 'goal': goal,'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/choosemetric.html', context)
 def dataentry(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
+    level=u.LEVEL
     wk=request.POST['wochoice'] # find user choice
     # get parameters and ui specs for that workout
     workout = get_object_or_404(Workouts, WONAME=wk)
@@ -99,7 +122,7 @@ def dataentry(request, username):
     workoutcycles=workoutUI.WOCYCLES[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
     workoutgrades=workoutUI.WOMAXAVG[1:-1].replace("'","").replace("[","").replace("]","").split(",") 
     workoutcleans=workoutUI.CLEANS[1:-1].replace("'","").replace("[","").replace("]","").split(",")
-    context={'userid': username, 'workout':workout, 'workoutui':workoutUI, 'propnames': propnames, 'workouttimes':workouttimes,'workoutreps':workoutreps,'workoutcycles':workoutcycles,'workoutgrades':workoutgrades,'workoutcleans':workoutcleans, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
+    context={'userid': username, 'workout':workout, 'workoutui':workoutUI, 'propnames': propnames, 'workouttimes':workouttimes,'workoutreps':workoutreps,'workoutcycles':workoutcycles,'workoutgrades':workoutgrades,'workoutcleans':workoutcleans, 'goal': goal, 'level':level, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     # still want to provide wo possibilities
     workouts=Workouts.objects.all()
     context['wooptions']=[workout.WONAME for workout in workouts]
@@ -108,7 +131,7 @@ def dataentry(request, username):
 def updated(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     wk=request.POST['WONAME'].encode('ascii','ignore')
     datevar=request.POST['entrydate'].encode('ascii','ignore') # find date
     workout = get_object_or_404(Workouts, WONAME=wk)
@@ -163,7 +186,7 @@ def updated(request, username):
     except:
         pass
     try:
-        entry.WOMAXAVG=request.POST['WOMAXAVG'].encode('ascii','ignore')
+        entry.WOMAXAVG=request.POST['MYWOMAXAVG'].encode('ascii','ignore')
     except:
         pass
     try:
@@ -207,7 +230,8 @@ def metrics(request, username):
     datachoices=[]
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
+    level=u.LEVEL
     metric=request.POST['METRIC'].encode('ascii','ignore')
     metricinfo=PossMetrics.objects.get(METRIC=metric)
     graderange=metricinfo.GRADERANGE[1:-1].replace("'","").replace("[","").replace("]","").split(",")
@@ -215,12 +239,12 @@ def metrics(request, username):
     #metricnames=[mval.name for mval in metricvals]
     metrics=PossMetrics.objects.all()
     metricoptions=[thism.METRIC for thism in metrics]
-    context={'userid': username, 'metric': metric, 'metricoptions': metricoptions, 'graderange':graderange, 'goal': goal, 'myphoto':myphoto, 'metricinfo':metricinfo, 'headertext':headertext, 'footertext':footertext}
+    context={'userid': username, 'metric': metric, 'metricoptions': metricoptions, 'graderange':graderange, 'goal': goal, 'myphoto':myphoto,'level':level, 'metricinfo':metricinfo, 'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/metrics.html', context)
 def report(request,username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     metric=request.POST['METRIC'].encode('ascii','ignore')
     datevar=request.POST['entrydate'].encode('ascii','ignore') # find date
     themetric = get_object_or_404(PossMetrics, METRIC=metric)
@@ -238,7 +262,7 @@ def report(request,username):
     mentry.OUTDOOR=0
     mentry.COMMENTS=''
     try:
-        mentry.GRADE=request.POST['GRADE'].encode('ascii','ignore')
+        mentry.GRADE=request.POST['MYGRADE'].encode('ascii','ignore')
     except:
         pass
     try:
@@ -255,6 +279,8 @@ def report(request,username):
         pass
     try:
         mentry.STATUS=int(request.POST['STATUS'].encode('ascii','ignore'))
+        print 'send:'
+        print mentry.STATUS
     except:
         pass
     try:
@@ -269,7 +295,7 @@ def report(request,username):
 def choosedata(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL         
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     pms=PossMetrics.objects.all()
     pmnames=[pm.METRIC for pm in pms]
     wos=Workouts.objects.all()
@@ -282,7 +308,7 @@ def choosedata(request, username):
 def choosefilters(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     datachoice=request.POST.get('data').encode('ascii','ignore')
     try:    
         chosen=PossMetrics.objects.get(METRIC=datachoice)
@@ -323,7 +349,7 @@ def choosefilters(request, username):
 def viewdata(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto='trainapp/userphotos/'+username+'.jpg'
     #get prior choices
     datachoices = request.session['datachoices']
     #get the datachoice
@@ -345,6 +371,7 @@ def viewdata(request, username):
             objtype='Injuries'
         except:
             pass
+    #get the datatype and create dataview object
     #get the datatype and create dataview object
     try:
         datatype=request.POST.get('countsORavg').encode('ascii','ignore')
@@ -414,7 +441,7 @@ def plotdata(request, username):
     plt.close('all')
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     context ={'userid':username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     datachoices = request.session['datachoices']
     for dc in datachoices:
@@ -596,13 +623,13 @@ def plotdata(request, username):
 def newworkout(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     context={'userid':username, 'goal': goal, 'myphoto':myphoto, 'headertext':headertext, 'footertext':footertext}
     return render(request, 'trainapp/newworkout.html', context)
 def newworkoutupdate(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     inputstyle=0
     inputreps=0
     inputcycles=0
@@ -698,7 +725,7 @@ def injury(request, username):
     request.session['datachoices'] = []  
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     try:
         injury=request.POST['INJURY'].encode('ascii','ignore')
     except:
@@ -722,12 +749,12 @@ def injury(request, username):
 def injuryupdated(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/'+username+'.jpg'
+    myphoto=u.PHOTO
     context={'userid': username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
     ientry=Injuries()
     ientry.USERID=username
     ientry.COMMENTS=''
-    ientry.INJURY=request.POST['INJURY'].encode('ascii','ignore')
+    ientry.INJURY=request.POST['CHOSENINJURY'].encode('ascii','ignore')
     ientry.PAIN=int(request.POST['PAIN'].encode('ascii','ignore'))
     ientry.LIMIT=int(request.POST['LIMIT'].encode('ascii','ignore'))
     ientry.DATE=request.POST['DATE'].encode('ascii','ignore')

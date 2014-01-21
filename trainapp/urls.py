@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     # ex: /polls/5/
     url(r'^loggedin$', views.loggedin, name='loggedin'),
-    url(r'^(?P<username>\w+)/home$', views.homepage, name='homepage'),
+    #url(r'^(?P<username>\w+)/home$', views.homepage, name='homepage'),
     url(r'^(?P<username>\w+)/chooseworkout$', views.chooseworkout, name='chooseworkout'),
     url(r'^(?P<username>\w+)/choosemetric$', views.choosemetric, name='choosemetric'),
     url(r'^(?P<username>\w+)/dataentry$', views.dataentry, name='dataentry'),
