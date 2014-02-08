@@ -19,7 +19,7 @@
 	<form id="loginform" name="loginform" action="{% url 'trainapp.views.loggedin' %}" method="post">{% csrf_token %}
  	<div id="choicebar">
     <div class="styledselect">
- 		<select name="username" class="selectmenu" onchange=submitlogin()>
+ 		<select id="username" name="username" class="selectmenu" onchange=submitlogin()>
   			<option value="none">new user</option>
   			{% for username in usernames%}
       		<option value="{{username}}">{{username}}</option>
@@ -29,7 +29,10 @@
   </div>
   <div id="loginpanel">
     <div id="newuser">
-    <label class="menulabel" for="newuser" >new user:  </label><input class="loginitem" type="text" name="newuser" size=20 placeholder="enter username"><br><br>
+    <label class="menulabel" for="newuser" >new user:  </label>
+    <!--<input class="loginitem" type="text" name="newuser" id="newuserfield" size=20 style="color:darkgray;" value="enter username" onfocus='if(this.value == "enter username") { this.value = ""; this.style="color:black;"}' onblur='if(this.value == "") { this.value = "enter username"; this.style="color:gray;" }' />-->
+        <input class="loginitem" type="text" name="newuser" id="newuserfield" size=20 placeholder="enter username" />
+<br><br>
     <label class="menulabel" for="goal" >climbing goal: </label><input class="loginitem" type="text" name="goal" size=20 placeholder="I want to..."><br><br>
     <label class="menulabel" for="level" >current level: </label>
     <div id="levelselect">

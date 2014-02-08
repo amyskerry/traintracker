@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+  {% load trainapptags %}
+  {% load staticfiles %}
+      <!--for fireworks animation-->
+      <link rel="stylesheet" type="text/css" href="{% static "trainapp/fireworks/style/fireworks.css" %}" media="screen" />
+      <script type="text/javascript" src="{% static "trainapp/fireworks/script/fireworks.js" %}"></script>
   </head>
   <meta charset="UTF-8">
   <title>traintracker</title>
-  {% load trainapptags %}
-  {% load staticfiles %}
-  <!--<link rel="stylesheet" href="{% static "trainapp/basics.css" %}">-->
-  <!--<link rel="stylesheet" href="{% static "trainapp/content.css" %}">-->
 <!--JQUERY-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <!--my less-->
@@ -20,8 +21,15 @@
 <!--prettier dialogs!-->
 <script src="{% static "trainapp/bootbox.min.js" %}" type="text/javascript"></script>
   </head>
-  <body>
-  <div class="pagecontainer">
+  <body>   
+  <div class="pagecontainer" id="pagecontainer">
+<!--for fireworks-->
+<div id="fireworks-template">
+ <div id="fw" class="firework"></div>
+ <div id="fp" class="fireworkParticle"><img src="{% static "trainapp/fireworks/image/particles.gif" %}" alt="" /></div>
+</div>
+<div id="fireContainer"></div>
+<!--end of fireworks-->
 <div class="rightpage">
   {% block mainnavbar%}
   <div class="navbar">
@@ -52,7 +60,7 @@
     <div id="loginsection">
     <div id="userphoto">
     {%if myphoto != 'default' %}
-    <img id="facephoto" src="{% static myphoto %}" alt="">
+    <img id="facephoto" src="{{myphoto}}" alt="">
     {%else%}
     <img id="facephoto" src="{%  static 'trainapp/default.jpeg' %}" alt="">
     {%endif%}
@@ -74,12 +82,21 @@
   </footer>
 <script>
   function submitlogin() {
-  document.getElementById("loginform").submit();
+  console.log('submitting login')
+  console.log($('#username').val())
+  pass=0;
+  if ($('#newuserfield').val()=="" && $('#username').val()=="none") {pass=0;console.log('submission rejected');}
+  else {pass=1}
+  if (pass){
+  document.getElementById("loginform").submit();}
+  else {
+  mymessage="Please enter a username."
+  bootbox.dialog({message:mymessage, title:'Oops', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {}}}});}
   }
   function submitchoice() {
   document.getElementById("choiceform").submit();
   }
-  function submitmainNOCHECKS() {document.getElementById("choiceform").submit();}    
+  function submitmainNOCHECKS() {try {document.getElementById("choiceform").submit();} catch (err) {} try {document.getElementById("mainform").submit();} catch (err) {}}    
   function submitmain() {
   pass=1;
   try{
@@ -92,7 +109,13 @@
   bootbox.dialog({message:mymessage, title:'Oops', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {}}}});}
   else if ($.inArray(gradepresent, congratslist) > -1 && $('[name="STATUS"]').attr('checked')){mymessage="Good job.";
   pass=0;
-  bootbox.dialog({message:mymessage, title:'Congrats!', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {document.getElementById("mainform").submit();}}}});}
+  console.log('creating firework')                                                                          
+  createFirework(36,200,8,5,42,90,42,34,true,true);  
+  setTimeout(function () {
+  document.getElementById("mainform").submit();      
+  /*bootbox.dialog({message:mymessage, title:'Congrats!', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {document.getElementById("mainform").submit();}}}}); */       
+    }, 1000);                                                                                             
+  }
   }
       catch (err){}
   try{
@@ -105,7 +128,12 @@
   bootbox.dialog({message:mymessage, title:'Oops', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {}}}});}
   else if ($.inArray(maxavgpresent, congratslist) > -1 && document.getElementsByName('CLEANS')[0].value>0){mymessage="Good job.";
   pass=0;
-  bootbox.dialog({message:mymessage, title:'Congrats!', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {document.getElementById("mainform").submit();}}}});}
+  console.log('creating firework')                                                                              
+  createFirework(36,200,8,5,42,90,42,34,true,true);                                                             
+  setTimeout(function () {
+  document.getElementById("mainform").submit();
+  /*bootbox.dialog({message:mymessage, title:'Congrats!', show: true, backdrop: true, closeButton: false, animate: true, className: "myalert", buttons: {ok: {label: "OK", className: "btn-cont", callback: function() {document.getElementById("mainform").submit();}}}}); */       
+    }, 1000); }
   }
 catch (err){}
 try{
@@ -143,7 +171,8 @@ try{
             base64sToUpload.push(e.target.result);
             console.log('array:')
             console.log(base64sToUpload)
-            document.getElementById('uploadedphotos').value=base64sToUpload;
+            //document.getElementById('uploadedphotos').value=base64sToUpload;
+            document.getElementById('uploadedphotos').value=e.target.result;
           span.innerHTML = ['<img class="mythumbnail" src="', e.target.result,
                             '" title="', escape(theFile.name), '"/>'].join('');
           document.getElementById('thumbnaildisplay').insertBefore(span, null);

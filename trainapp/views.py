@@ -48,14 +48,12 @@ def loggedin(request):
     try:
         goal=request.POST['goal']
     except:
-        pass
-    try:
-        photobase64=request.POST['uploadedphotos']
-        start=photobase64.index('base64,')+len('base64,')
-        photobase64=photobase64[start:]+"=="
-    except:
+        pass   
+    myphoto=request.POST['uploadedphotos']
+    if not myphoto:
         #defaultphoto=STATIC_ROOT+'/trainapp/default.jpeg'
-        defaultphoto='/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/userphotos/default.jpeg'
+        defaultphoto='/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/default.jpeg'
+        myphoto= 'data:image/jpeg;base64,'+base64.encodestring(open(defaultphoto,"rb").read())
     level=request.POST['level']
     request.session['goalgrades'] = ['5.13a','5.13b','5.13c','5.13d']
     if username=="none":
@@ -66,26 +64,9 @@ def loggedin(request):
         u=Usernames(USERID=username)
         u.GOAL=goal
         u.LEVEL=level
-        #defaultphoto=STATIC_ROOT+'/trainapp/default.jpeg'
-        g = open('/Users/amyskerry/Documents/projects/traintracker/trainapp/static/trainapp/userphotos/'+ username+'.jpg', 'w')
-        #g = open(STATIC_ROOT+'/trainapp/'+ username+'.jpg', 'w')
-        g.write(base64.decodestring(photobase64))
-        g.close()
-        print "photo saved"
-        myphoto='trainapp/userphotos/'+username+'.jpg'
-        print myphoto
         u.PHOTO=myphoto
-        request.session['photo'] = u.PHOTO 
         u.save()
     return HttpResponseRedirect(reverse('trainapp.views.chooseworkout', args=(username,)))
-#def homepage(request, username):
-#    u=Usernames.objects.get(USERID=username)
-#    goal=u.GOAL           
-#    myphoto='trainapp/userphotos/'+username+'.jpg'
-#    metricreports = Metrics.objects.order_by('USERID')[:5]
-#    context ={'metricreports': metricreports, 'userid':username, 'goal': goal, 'myphoto':myphoto,'headertext':headertext, 'footertext':footertext}
-#    #return HttpResponse(template.render(context))
-#    return render(request, 'trainapp/choose.html', context)
 #    
 def chooseworkout(request, username):
     request.session['datachoices'] = []  
@@ -349,7 +330,7 @@ def choosefilters(request, username):
 def viewdata(request, username):
     u=Usernames.objects.get(USERID=username)
     goal=u.GOAL           
-    myphoto='trainapp/userphotos/'+username+'.jpg'
+    myphoto=u.PHOTO
     #get prior choices
     datachoices = request.session['datachoices']
     #get the datachoice
